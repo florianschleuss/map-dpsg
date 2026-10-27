@@ -3,6 +3,15 @@ updates:
   - package-ecosystem: pip
     directory: /
     schedule: {interval: weekly}
+    # Keep automated updates inside the explicitly supported runtime ranges.
+    # Review framework/runtime upgrades separately with dependency_checks.py.
+    ignore:
+      - dependency-name: django
+        versions: [">=5.3"]
+      - dependency-name: gunicorn
+        versions: [">=27"]
+      - dependency-name: cryptography
+        versions: [">=51"]
   - package-ecosystem: docker
     directory: /
     schedule: {interval: weekly}
