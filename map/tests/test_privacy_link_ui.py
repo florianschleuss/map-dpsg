@@ -24,3 +24,19 @@ class PrivacyAndMailUiTests(SimpleTestCase):
         self.assertNotIn('>https://',rendered)
     def test_malformed_link_does_not_break_mail_rendering(self):
         self.assertIn('Link öffnen',html_message('https://[invalid'))
+
+    def test_shared_css_does_not_render_as_visible_text(self):
+        from pathlib import Path
+        from django.conf import settings
+        from html.parser import HTMLParser
+        class StyleDocument(HTMLParser):
+            def __init__(self):super().__init__();self.inside=False;self.outside=[];self.css=[]
+            def handle_starttag(self,tag,attrs):
+                if tag=='style':self.inside=True
+            def handle_endtag(self,tag):
+                if tag=='style':self.inside=False
+            def handle_data(self,data):
+                (self.css if self.inside else self.outside).append(data)
+        parser=StyleDocument();parser.feed((Path(settings.BASE_DIR)/'templates/map_ui/style.html').read_text(encoding='utf-8'))
+        self.assertFalse(''.join(parser.outside).strip())
+        self.assertIn('.map-medical-notice{',''.join(parser.css))
