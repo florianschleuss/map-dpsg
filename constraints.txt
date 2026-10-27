@@ -1,0 +1,16 @@
+# Validated Linux/Python 3.12 dependency set; regenerate and audit deliberately.
+asgiref==3.13.0
+cffi==2.1.1
+colorama==0.4.6
+cryptography==50.0.2
+Django==5.2.18
+gunicorn==26.2.0
+psycopg==3.3.6
+psycopg-binary==3.3.6
+pycparser==3.12
+pypng==0.20220715.0
+qrcode==8.2
+sqlparse==0.6.0
+typing_extensions==4.16.0
+tzdata==2026.5
+whitenoise==6.12.0

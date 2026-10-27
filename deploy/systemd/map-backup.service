@@ -1,0 +1,10 @@
+[Unit]
+Description=MAP database and configuration backup
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/map
+ExecStart=/bin/sh /opt/map/scripts/backup.sh
+UMask=0077

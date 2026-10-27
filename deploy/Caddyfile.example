@@ -1,0 +1,7 @@
+# Add to your existing Caddyfile; do not replace other sites.
+map.example.org {
+    encode zstd gzip
+    reverse_proxy map-production:8000
+}
+# Match the upstream alias to MAP_PROXY_ALIAS. Both containers need the same
+# Docker network. Only web joins it; db and worker remain on the app network.

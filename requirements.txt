@@ -1,0 +1,7 @@
+-c constraints.txt
+Django>=5.2.18,<5.3
+psycopg[binary]>=3.2.6,<4
+gunicorn==26.2.0
+whitenoise>=6.9.0,<7
+qrcode[png]==8.2
+cryptography>=50.0.0,<51

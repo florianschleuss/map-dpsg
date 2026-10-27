@@ -1,0 +1,11 @@
+{% extends 'admin/base.html' %}{% load static %}
+{% block title %}{{ title }} · {{ map_site.organization }}{% endblock %}
+{% block bodyclass %}{{ block.super }} map-admin{% endblock %}
+{% block extrastyle %}{{ block.super }}{% include 'map_ui/style.html' %}{% endblock %}
+{% block branding %}{% include 'map_ui/header.html' %}{% include 'map_ui/breadcrumbs.html' %}{% endblock %}
+{% block usertools %}{% endblock %}
+{% block nav-global %}{% endblock %}
+
+{% block footer %}{% include 'map_ui/footer.html' %}{% endblock %}{% block extrahead %}{{ block.super }}<link rel="icon" href="{% static map_site.favicon_path %}"><script src="{% static 'map/validation.js' %}" defer></script><script src="{% static 'map/ui.js' %}" defer></script><script src="{% static 'map/costs.js' %}" defer></script><script src="{% static 'map/builder.js' %}" defer></script>{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}

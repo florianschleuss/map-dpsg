@@ -1,0 +1,18 @@
+# Existing reverse proxy only. This stack does not bind public host ports.
+services:
+  web:
+    environment:
+      DEBUG: "0"
+      HTTPS: "1"
+      MAP_PRODUCTION: "1"
+    volumes:
+      - ./operator-assets:/app/operator-assets:ro
+    networks:
+      default:
+      proxy:
+        aliases:
+          - ${MAP_PROXY_ALIAS:?Set a unique MAP_PROXY_ALIAS}
+networks:
+  proxy:
+    external: true
+    name: ${PROXY_NETWORK:?Set PROXY_NETWORK}

@@ -1,0 +1,25 @@
+name: Tests
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  postgres-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - name: Generate isolated test configuration
+        run: python3 scripts/init-env.py
+      - name: Inspect public source
+        run: |
+          python3 tools/check_public_release.py
+          python3 tools/test_deployment.py
+      - name: Build Linux image and run PostgreSQL suite
+        run: docker compose -f compose.yaml --profile tools run --build --rm -T test
+      - name: Remove isolated CI services
+        if: always()
+        run: docker compose -f compose.yaml --profile tools down -v

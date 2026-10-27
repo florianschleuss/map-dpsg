@@ -1,0 +1,32 @@
+[
+  {
+    "page": "dashboard",
+    "desktopOverflow": false,
+    "mobileOverflow": false,
+    "scriptErrors": []
+  },
+  {
+    "page": "anmeldungen",
+    "desktopOverflow": false,
+    "mobileOverflow": false,
+    "scriptErrors": []
+  },
+  {
+    "page": "statistik",
+    "desktopOverflow": false,
+    "mobileOverflow": false,
+    "scriptErrors": []
+  },
+  {
+    "page": "formularbaukasten",
+    "desktopOverflow": false,
+    "mobileOverflow": false,
+    "scriptErrors": []
+  },
+  {
+    "page": "elternformular",
+    "desktopOverflow": false,
+    "mobileOverflow": false,
+    "scriptErrors": []
+  }
+]

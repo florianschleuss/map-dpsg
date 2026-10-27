@@ -1,0 +1,1 @@
+{% if not event.published %}<form method="post" action="{% url 'publish_event' event.pk %}" class="map-inline-form">{% csrf_token %}<input type="hidden" name="return_to" value="{{ publish_return|default:'event' }}"><button type="submit" class="map-button">Veröffentlichen</button></form>{% endif %}
