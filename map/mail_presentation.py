@@ -21,9 +21,31 @@ def with_footer(message):
     return message.rstrip() if message.rstrip().endswith(FOOTER) else message.rstrip()+'\n\n'+FOOTER
 
 def html_message(message):
-    text=with_footer(message)
+    """Use structural HTML breaks; mail clients may discard white-space CSS."""
+    text=with_footer(message).replace('\r\n','\n').replace('\r','\n')
     content=text[:-len(FOOTER)].rstrip()
-    # No user HTML is trusted. Link only explicit HTTP(S) URLs after escaping.
-    content=escape(content)
-    content=re.sub(r'https?://[^\s<>]+',lambda m:'<a href="'+m.group(0)+'" style="color:#174d68;overflow-wrap:anywhere">'+m.group(0)+'</a>',content)
-    return '<!doctype html><html lang="de"><body style="font-family:Arial,sans-serif;color:#213d4b;background:#f2f5f7;padding:24px"><main style="max-width:640px;margin:auto;background:white;padding:28px;border-radius:12px"><p style="font-size:14px;color:#4c6572">'+escape(sender_name())+'</p><div style="white-space:pre-wrap;font-size:16px;line-height:1.65">'+content+'</div><hr style="border:0;border-top:1px solid #d4dfe4;margin:28px 0"><p style="font-size:12px;line-height:1.5;color:#526570">'+escape(FOOTER)+'</p></main></body></html>'
+    def linked_line(line):
+        parts=[];position=0
+        for match in re.finditer(r"https?://[^\s<>\"']+",line):
+            if match.end()<len(line) and line[match.end()] in "\"'":
+                continue
+            url=match.group(0)
+            parts.append(escape(line[position:match.start()]))
+            safe=escape(url,quote=True)
+            parts.append('<a href="'+safe+'" style="color:#174d68;text-decoration:underline;word-break:break-all;overflow-wrap:anywhere">'+safe+'</a>')
+            position=match.end()
+        parts.append(escape(line[position:]))
+        return ''.join(parts)
+    paragraphs=[]
+    for paragraph in re.split(r'\n{2,}',content):
+        if paragraph:
+            paragraphs.append('<p style="margin:0 0 18px;font-size:16px;line-height:26px;mso-line-height-rule:at-least;color:#213d4b">'+'<br>'.join(linked_line(line) for line in paragraph.split('\n'))+'</p>')
+    return ('<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>'
+        '<body style="margin:0;padding:0;background-color:#f2f5f7;font-family:Arial,sans-serif">'
+        '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#f2f5f7"><tr><td align="center" style="padding:24px 12px">'
+        '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff" style="max-width:640px;background-color:#ffffff"><tr><td style="padding:28px;font-family:Arial,sans-serif;color:#213d4b">'
+        '<p style="margin:0 0 24px;font-size:14px;line-height:21px;color:#4c6572">'+escape(sender_name())+'</p>'
+        +''.join(paragraphs)+
+        '<hr style="border:0;border-top:1px solid #d4dfe4;margin:28px 0">'
+        '<p style="margin:0;font-size:12px;line-height:18px;color:#526570">'+escape(FOOTER)+'</p>'
+        '</td></tr></table></td></tr></table></body></html>')

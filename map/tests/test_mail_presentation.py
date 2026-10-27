@@ -57,3 +57,30 @@ class MailPresentationTests(unittest.TestCase):
         self.assertIn('Warteliste',body);self.assertTrue(body.endswith(FOOTER))
 
 if __name__=='__main__':unittest.main()
+
+class MailHtmlLayoutTests(unittest.TestCase):
+    def test_paragraphs_and_lines_do_not_depend_on_whitespace_css(self):
+        result=html_message('Hallo,\n\nVeranstaltung: Lager\nKind: Beispiel\n\nDanke!')
+        self.assertIn('Veranstaltung: Lager<br>Kind: Beispiel',result)
+        self.assertIn('Hallo,</p><p ',result)
+        self.assertNotIn('white-space:',result)
+    def test_windows_and_mac_line_breaks_are_preserved(self):
+        for newline in ['\r\n','\r','\n']:
+            result=html_message('Erste'+newline+'Zweite'+newline+newline+'Dritte')
+            self.assertIn('Erste<br>Zweite</p>',result)
+            self.assertIn('Dritte</p>',result)
+    def test_links_and_user_input_remain_escaped(self):
+        result=html_message('<img src=x onerror="alert(1)">\nhttps://example.org/manage/token/?a=1&b=2')
+        self.assertNotIn('<img ',result)
+        self.assertIn('&lt;img',result)
+        self.assertIn('href="https://example.org/manage/token/?a=1&amp;b=2"',result)
+    def test_all_system_templates_have_structural_paragraphs(self):
+        for key in TEMPLATES:
+            subject,body=render_content(*default_content(key),key,example_context(key))
+            result=html_message(body)
+            self.assertGreaterEqual(result.count('<p '),3)
+            self.assertEqual(result.count(FOOTER),1)
+    def test_footer_is_outside_body_paragraphs_and_smaller(self):
+        result=html_message('Text')
+        self.assertLess(result.index('Text</p>'),result.index('<hr '))
+        self.assertIn('font-size:12px;line-height:18px',result)
