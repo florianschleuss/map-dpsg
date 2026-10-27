@@ -124,16 +124,19 @@ def event_admin(request, pk):
     event = get_object_or_404(Event, pk=pk)
     svc.require_permission(request.user, event)
     from django.core.paginator import Paginator
-    page=Paginator(event.registrations.select_related('event_group__group').order_by('created_at','pk'),50).get_page(request.GET.get('page'))
-    rows = list(page.object_list)
-    for row in rows:
-        labels = {field['key']: field['label'] for module in row.schema_snapshot for field in module.get('fields', [])}
-        row.display_answers = [{'label': question_label(labels.get(key, 'Weitere Angabe')), 'value': 'Ja' if value is True else 'Nein' if value is False else value} for key, value in row.answers.items()]
+    registrations=event.registrations.select_related('event_group__group').order_by('created_at','pk')
+    page=Paginator(registrations.exclude(status='cancelled'),50).get_page(request.GET.get('page'))
+    cancelled_page=Paginator(registrations.filter(status='cancelled'),50).get_page(request.GET.get('cancelled_page'))
+    rows=list(page.object_list);cancelled_rows=list(cancelled_page.object_list)
+    from .registration_presentation import answer_sections
+    for row in rows+cancelled_rows:
+        row.answer_sections=answer_sections(row)
+        row.display_answers=[answer for section in row.answer_sections for answer in section['answers']]
     from .sharing import registration_url
     event.registration_url=registration_url(event)
     from .roles import can_delete_event
     from .payment_rules import cost_label
-    return render(request, 'event_admin.html', {'event': event, 'rows': rows,'page_obj':page,'registration_count':page.paginator.count, 'can_edit': svc.permitted(request.user, event, True),'can_delete':can_delete_event(request.user,event),'cost_label':cost_label(event)})
+    return render(request, 'event_admin.html', {'event': event, 'rows': rows,'page_obj':page,'registration_count':page.paginator.count+cancelled_page.paginator.count,'cancelled_rows':cancelled_rows,'cancelled_page_obj':cancelled_page,'cancelled_count':cancelled_page.paginator.count, 'can_edit': svc.permitted(request.user, event, True),'can_delete':can_delete_event(request.user,event),'cost_label':cost_label(event)})
 
 @login_required
 @require_http_methods(['GET', 'POST'])
