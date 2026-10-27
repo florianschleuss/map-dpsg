@@ -614,8 +614,8 @@ textarea[data-autogrow]{resize:none;min-height:42px;overflow:hidden;box-sizing:b
 .map-registration-compact{border-radius:9px;margin:0}
 .map-registration-compact>summary{display:grid;grid-template-columns:minmax(160px,1fr) minmax(140px,1fr) minmax(145px,.8fr) 14px;gap:14px;padding:10px 16px;min-height:56px;align-items:center;cursor:pointer;list-style:none;color:#233f4c;background:#fff}
 .map-registration-compact>summary::-webkit-details-marker{display:none}
-.map-registration-compact>summary::after{content:'⌄';font-size:20px;line-height:1;text-align:center;color:#314e5e}
-.map-registration-compact[open]>summary::after{transform:rotate(180deg)}
+.map-registration-compact>summary::after{content:'';display:block;width:8px;height:8px;border-right:2px solid #314e5e;border-bottom:2px solid #314e5e;transform:rotate(45deg);justify-self:center;align-self:center;margin:0 0 4px;box-sizing:border-box}
+.map-registration-compact[open]>summary::after{transform:rotate(225deg);margin:4px 0 0}
 .map-registration-compact>summary:hover{background:#eef4f7;color:#17384a}
 .map-registration-compact>summary:focus-visible{outline:3px solid #174d68;outline-offset:-3px}
 .map-registration-compact[open]>summary{border-bottom:1px solid #d2dfe5;background:#eef4f7}
@@ -645,3 +645,5 @@ textarea[data-autogrow]{resize:none;min-height:42px;overflow:hidden;box-sizing:b
 @media(max-width:720px){.map-registration-compact>summary{grid-template-columns:minmax(0,1fr) auto 14px;gap:5px 10px;padding:10px 12px}.map-registration-person{grid-column:1;grid-row:1}.map-registration-state{grid-column:2;grid-row:1 / span 2;max-width:145px;justify-content:flex-end}.map-registration-email{grid-column:1;grid-row:2}.map-registration-compact>summary::after{grid-column:3;grid-row:1 / span 2}.map-registration-person{display:block}.map-registration-person small{display:block}.map-registration-compact .map-registration-detail-body{padding:16px}.map-registration-compact .map-answer-list>div{grid-template-columns:1fr;gap:3px}}
 
 </style>
+
+.map-medical-notice{padding:14px 16px;border:1px solid #cfac61;border-left:4px solid #9a6b12;border-radius:8px;background:#fff7e5;color:#59420d;font-size:.9rem;line-height:1.6;margin:16px 0}

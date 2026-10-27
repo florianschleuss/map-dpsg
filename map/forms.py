@@ -46,6 +46,9 @@ class RegistrationForm(forms.Form):
                 elif kind == 'email': field = forms.EmailField(**options)
                 else: field = forms.CharField(max_length=4000, widget=forms.Textarea(attrs={'rows':1,'data-autogrow':''}) if kind == 'textarea' else forms.TextInput, **options)
                 self.fields['answer_' + spec['key']] = field
+        for field in self.fields.values():
+            if isinstance(field.widget, (forms.TextInput, forms.Textarea)) and not isinstance(field.widget, (forms.EmailInput, forms.HiddenInput)):
+                field.help_text = (str(field.help_text) + ' ' if field.help_text else '') + 'Bitte keine medizinischen Daten eingeben (z. B. Diagnosen, Allergien oder Medikamente).'
         self.order_fields(['child_name','email','group_id']+[key for key in self.fields if key.startswith('answer_')]+['consent','website'])
     @property
     def sections(self):
@@ -115,6 +118,9 @@ class EventSettingsForm(CostFieldsMixin,forms.ModelForm):
             from .payment_rules import FROZEN_FIELDS
             for name in FROZEN_FIELDS:self.fields[name].disabled=True
             self.fields['cost_mode'].help_text='Nach der ersten Anmeldung sind Kosten und Bezahlungsvorgang festgelegt. Bankdaten und Zusatzhinweise bleiben korrigierbar.'
+        for field in self.fields.values():
+            if isinstance(field.widget, (forms.TextInput, forms.Textarea)) and not isinstance(field.widget, (forms.EmailInput, forms.HiddenInput)):
+                field.help_text = (str(field.help_text) + ' ' if field.help_text else '') + 'Bitte keine medizinischen Daten eingeben (z. B. Diagnosen, Allergien oder Medikamente).'
         self.order_fields(['title','description']+COST_FIELDS+['confirm_existing_costs','capacity_mode','shared_capacity','group_limits','waitlist_mode','show_availability','starts_at','registration_opens','registration_closes','waitlist_enabled','confirmation_required','confirmation_hours','form_template','viewers','editors','published'])
     def clean_group_limits(self):
         from .group_limits import validate_limits

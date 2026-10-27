@@ -2,6 +2,7 @@
 from email.utils import parseaddr,formataddr
 from html import escape
 import re
+from urllib.parse import urlsplit
 
 SENDER_NAME='Anmeldungsverwaltung'
 
@@ -32,7 +33,10 @@ def html_message(message):
             url=match.group(0)
             parts.append(escape(line[position:match.start()]))
             safe=escape(url,quote=True)
-            parts.append('<a href="'+safe+'" style="color:#174d68;text-decoration:underline;word-break:break-all;overflow-wrap:anywhere">'+safe+'</a>')
+            try:path=urlsplit(url).path
+            except ValueError:path=''
+            label=('E-Mail-Adresse bestätigen' if path.startswith('/confirm/') else 'Anmeldung öffnen und verwalten' if path.startswith('/manage/') else 'Neues Passwort festlegen' if '/passwort/' in path or '/reset/' in path else 'Link öffnen')
+            parts.append('<a href="'+safe+'" style="color:#174d68;text-decoration:underline;word-break:break-all;overflow-wrap:anywhere">'+label+'</a>')
             position=match.end()
         parts.append(escape(line[position:]))
         return ''.join(parts)

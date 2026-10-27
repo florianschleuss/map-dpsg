@@ -36,7 +36,7 @@
         let input;if(item.type==='select'&&item.choices.join('|')==='Ja|Nein'){input=el('span','map-preview-binary');['Ja','Nein'].forEach(answer=>{const label=el('label','',answer),radio=el('input');radio.type='radio';radio.disabled=true;label.prepend(radio);input.append(label);});}else if(item.type==='select'){input=el('select');['Bitte wählen',...item.choices].forEach(value=>{const option=el('option','',value);input.append(option);});}else if(item.type==='textarea'){input=el('textarea');input.rows=1;input.dataset.autogrow='';}else{input=el('input');input.type={integer:'number',checkbox:'checkbox',date:'date',email:'email'}[item.type]||'text';}
         input.disabled=true;
         const wrap=item.type==='select'&&item.choices.join('|')==='Ja|Nein'?el('div','map-builder-label'):labeled(item.label+(item.required?' *':''),input);if(item.type==='select'&&item.choices.join('|')==='Ja|Nein')wrap.append(el('span','',item.label+(item.required?' *':'')),input);if(item.type==='checkbox'){wrap.classList.add('map-preview-check');wrap.prepend(input);}
-        if(item.help)wrap.append(el('small','',item.help));section.append(wrap);
+        if(item.help)wrap.append(el('small','',item.help));if(['text','textarea'].includes(item.type))wrap.append(el('small','', 'Bitte keine medizinischen Daten eingeben (z. B. Diagnosen, Allergien oder Medikamente).'));section.append(wrap);
       });preview.append(section);});
     };
     const render=()=>{
