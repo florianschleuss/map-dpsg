@@ -22,6 +22,7 @@
     ".github/dependabot.yml": [
       null,
       "79f3f606d26702874f6a97559eb3b76e0dda14546335f23174c7bb1db1c81e6b",
+      "8ef980ac4b0f570c450ba98b8289bd2f288cd384a01a3eab8ba2824ff8873db3",
       "f8c0937f56e54e144e1b7db05134fab7de1eab4763097ec30a066b529d6902d1"
     ],
     ".github/workflows/tests.yml": [
@@ -829,6 +830,7 @@
     ],
     "map/tests/test_privacy_link_ui.py": [
       null,
+      "2647af2e57e0c0076fec6e5910f76320dfa478285ecddb20f8208fe7ba759d39",
       "9351a32570e68d84a8e7f6fc1a4bf63dadd0fe4b6e6355209dc64f8df9a47986",
       "aae2eae35e503a174cff6ac98470f5f68bc5bbac769a736876290a3abb3d2df3"
     ],
@@ -1506,6 +1508,9 @@
       "cebb6157dfaf88a6d81c57389b16855b18c4f09855d78cc22de251e9c7a9594c"
     ],
     "tools/test_release_update.py": [
+      null
+    ],
+    "tools/fixtures/production-legacy-preimages.json": [
       null
     ]
   }

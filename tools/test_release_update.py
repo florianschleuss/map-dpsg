@@ -107,6 +107,25 @@ class ReleaseUpdateTests(unittest.TestCase):
             release.write_files(root,values);self.assertFalse((root/'obsolete.html').exists())
             release.write_files(root,{'obsolete.html':b'old view'});self.assertEqual((root/'obsolete.html').read_bytes(),b'old view')
 
+    def test_exact_previously_shipped_preimages_are_accepted_but_edits_are_not(self):
+        project=Path(__file__).resolve().parent.parent
+        fixtures=json.loads((project/'tools/fixtures/production-legacy-preimages.json').read_text(encoding='utf-8'))
+        full_manifest=json.loads((project/'deploy/release-baselines.json').read_text(encoding='utf-8'))
+        for name,fixture in fixtures.items():
+            for windows in [False,True]:
+                with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as directory:
+                    root=Path(directory).resolve();path=root/name;path.parent.mkdir(parents=True,exist_ok=True)
+                    text=fixture['content'];data=(text.replace('\n','\r\n') if windows else text).encode('utf-8')
+                    path.write_bytes(data)
+                    manifest={'paths':{name:full_manifest['paths'][name]}}
+                    target={name:(project/name).read_bytes()}
+                    self.assertEqual(release.preflight(root,target,manifest)[name],data)
+                    self.assertEqual(path.read_bytes(),data)
+                    path.write_bytes(data+b'\nunknown operator edit\n')
+                    with self.assertRaisesRegex(RuntimeError,'Abweichender Prod-Quellstand'):
+                        release.preflight(root,target,manifest)
+                    self.assertTrue(path.read_bytes().endswith(b'unknown operator edit\n'))
+
     def test_manifest_path_escape_is_refused(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as directory:
             source=Path(directory)/'release';source.mkdir();(Path(directory)/'outside').write_text('private')

@@ -7,3 +7,7 @@ Lokale Endprüfung: 555 Anwendungstests, 550 bestanden und fünf PostgreSQL-spez
 Browserprüfungen der Entwicklung umfassten unter anderem 120 Kombinationen aus Ansicht, Bildschirmgröße und Darstellung sowie 16 Account-/Checkbox-Kombinationen. Keine echten Benutzer, Microsoft-Geheimnisse oder Produktionsdaten gehören zu den Testfixtures. Ein echter Login und eine Probeanmeldung müssen nach dem Prod-Update im realen System geprüft werden.
 
 Die Open-Source-Lizenzentscheidung bleibt unverändert offen; siehe LICENSE-NOTICE.md. Dieses Release schreibt keine ungewählte Lizenz fest.
+
+## Prod-Kompatibilitätskorrektur
+
+Die Freigabeliste akzeptiert zusätzlich die exakt bekannten Inhalte von `.github/dependabot.yml` aus Commit `26b495e` und `map/tests/test_privacy_link_ui.py` aus Commit `9a669d4`. Diese Versionen wurden vor dem aktuellen Release ausgeliefert. Es werden keine unbekannten Dateien pauschal freigegeben; Regressionen prüfen alte LF-/CRLF-Dateien sowie weiterhin abgewiesene individuelle Änderungen. Die Anwendung und der eigentliche Deployment-Ablauf bleiben unverändert. Der Release-Installer besitzt nun 18 Tests.
