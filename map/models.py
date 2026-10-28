@@ -254,3 +254,5 @@ class PaymentBatch(models.Model):
     class Meta:
         verbose_name='Zahlungsaufforderung'
         verbose_name_plural='Zahlungsaufforderungen'
+
+from .sso_models import SSOConfiguration, EntraStageMapping, EntraIdentity, SSOAudit

@@ -1,3 +1,4 @@
+from .migration_helpers import migrate_latest
 from datetime import timedelta
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
@@ -14,9 +15,9 @@ class CostMigrationTests(TransactionTestCase):
             event=Event.objects.create(group=stage,form_template=template,title='Altes Lager',slug='alt-kosten10',starts_at=now+timedelta(days=10),registration_opens=now,registration_closes=now+timedelta(days=9))
             row=Registration.objects.create(event=event,child_name='Bestand',email='old@example.org',identity='old-id',status='confirmed',token_nonce='keep-nonce',answers={'note':'behalten'})
             job=Job.objects.create(event=event,recipient='old@example.org',subject='Alte Mail',body='Alter Inhalt',next_attempt=now)
-            MigrationExecutor(connection).migrate([('map','0011_costs_reset')])
+            migrate_latest(connection)
             from map.models import Event as CurrentEvent,Registration as CurrentRegistration,EmailJob
             current=CurrentEvent.objects.get(pk=event.pk);self.assertEqual(current.cost_mode,'free');self.assertEqual(current.payment_method,'none');self.assertFalse(current.costs_configured)
             current_row=CurrentRegistration.objects.get(pk=row.pk);self.assertIsNone(current_row.payment_received_at);self.assertEqual(current_row.token_nonce,'keep-nonce');self.assertEqual(current_row.answers,{'note':'behalten'})
             current_job=EmailJob.objects.get(pk=job.pk);self.assertEqual(current_job.body,'Alter Inhalt');self.assertEqual(current_job.body_encrypted,'');self.assertIsNone(current_job.reset_user_id)
-        finally:MigrationExecutor(connection).migrate([('map','0011_costs_reset')])
+        finally:migrate_latest(connection)

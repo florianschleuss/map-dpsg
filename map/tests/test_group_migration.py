@@ -1,3 +1,4 @@
+from .migration_helpers import migrate_latest
 from datetime import timedelta
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
@@ -22,4 +23,4 @@ class ExistingDataMigrationTests(TransactionTestCase):
             self.assertEqual(slot.group_id,group_id);self.assertEqual(slot.capacity,17);self.assertTrue(slot.enabled)
             self.assertEqual(migrated.event_group_id,slot.pk);self.assertEqual(migrated.token_nonce,'preserve-this-private-nonce');self.assertEqual(migrated.answers,{'phone':'01234'});self.assertEqual(migrated.status,'confirmed')
         finally:
-            MigrationExecutor(connection).migrate([('map','0011_costs_reset')])
+            migrate_latest(connection)

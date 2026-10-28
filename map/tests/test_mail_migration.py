@@ -1,3 +1,4 @@
+from .migration_helpers import migrate_latest
 from datetime import timedelta
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
@@ -14,7 +15,7 @@ class LegacyEmailMigrationTests(TransactionTestCase):
         job_id=EmailJob.objects.get(event=event).pk
         try:
             MigrationExecutor(connection).migrate([('map','0005_role_permissions')])
-            MigrationExecutor(connection).migrate([('map','0011_costs_reset')])
+            migrate_latest(connection)
             self.assertEqual(EmailJob.objects.get(pk=job_id).event_id,event.pk)
         finally:
-            MigrationExecutor(connection).migrate([('map','0011_costs_reset')])
+            migrate_latest(connection)

@@ -1,3 +1,4 @@
+from .migration_helpers import migrate_latest
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase
@@ -16,7 +17,7 @@ class StageRoleMigrationTests(TransactionTestCase):
             profile=Profile.objects.create(user=user,is_leader=True);profile.stages.add(stage)
             unrelated=Group.objects.create(name='Stufe: Bestehende Stufe ['+str(stage.pk)+']');user.groups.add(unrelated)
             job=Job.objects.create(recipient='old@example.org',subject='Bestehender Auftrag',body='Bestehender Text',next_attempt=timezone.now())
-            MigrationExecutor(connection).migrate([('map','0011_costs_reset')])
+            migrate_latest(connection)
             # This is the same receiver invoked after the production migrate command.
             sync_default_roles(apps.get_app_config('map'))
             from map.models import StageRole,LeaderProfile,EmailJob
@@ -27,4 +28,4 @@ class StageRoleMigrationTests(TransactionTestCase):
             self.assertTrue(LeaderProfile.objects.get(user_id=user.pk).stages.filter(pk=stage.pk).exists())
             self.assertEqual(EmailJob.objects.get(pk=job.pk).body,'Bestehender Text')
         finally:
-            MigrationExecutor(connection).migrate([('map','0011_costs_reset')])
+            migrate_latest(connection)

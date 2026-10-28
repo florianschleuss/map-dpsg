@@ -10,9 +10,10 @@ class PrivacyHeadersMiddleware:
         from django.utils import translation
         with translation.override('de'):
             request.LANGUAGE_CODE='de'
-            response = self.get_response(request)
+            from .sso import SSOSessionMiddleware
+            response = SSOSessionMiddleware(self.get_response)(request)
         response['Content-Language']='de'
-        response['Referrer-Policy'] = 'strict-origin' if request.path.startswith(('/manage/','/confirm/','/konto/passwort/')) else 'same-origin'
+        response['Referrer-Policy'] = 'no-referrer' if request.path.startswith('/accounts/microsoft/') else 'strict-origin' if request.path.startswith(('/manage/','/confirm/','/konto/passwort/')) else 'same-origin'
         response['Permissions-Policy']='camera=(), microphone=(), geolocation=()'
         response['Cache-Control'] = 'no-store'
         response['X-Robots-Tag'] = 'noindex, nofollow'

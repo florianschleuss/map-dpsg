@@ -5,3 +5,6 @@ gunicorn==26.2.0
 whitenoise>=6.9.0,<7
 qrcode[png]==8.2
 cryptography>=50.0.0,<51
+
+msal==1.39.0
+PyJWT==2.15.1

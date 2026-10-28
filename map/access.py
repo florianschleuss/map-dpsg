@@ -47,7 +47,8 @@ def stage_ids(user,action='view'):
     actions=list(STAGE_ACTIONS) if action=='view' else [action]
     codes={name for app,name in codes_for(user) if app=='map'}
     explicit={pk for pk in ScoutGroup.objects.values_list('pk',flat=True) if any(stage_code(pk,verb) in codes for verb in actions)}
-    return automatic|explicit
+    from .sso import automatic_stage_ids
+    return automatic|explicit|automatic_stage_ids(user)
 
 def can_users(user):return granted(user,'auth.change_user')
 def can_roles(user):return granted(user,'auth.change_group')

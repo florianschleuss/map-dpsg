@@ -1,3 +1,4 @@
+from .migration_helpers import migrate_latest
 from django.db import connection
 from django.db.migrations.executor import MigrationExecutor
 from django.test import TransactionTestCase
@@ -20,4 +21,4 @@ class LeaderMigrationTests(TransactionTestCase):
             config=NewMail.objects.get(pk=1)
             self.assertEqual(config.provider,'smtp');self.assertEqual(config.host,'smtp.old.example.org');self.assertEqual(config.password_encrypted,'preserve-encrypted-value');self.assertEqual(config.client_secret_encrypted,'')
         finally:
-            MigrationExecutor(connection).migrate([('map','0011_costs_reset')])
+            migrate_latest(connection)

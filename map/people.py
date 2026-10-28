@@ -57,6 +57,9 @@ class PersonForm(PermissionFields,forms.ModelForm):
     def __init__(self,*args,**kwargs):
         self.actor=kwargs.pop('actor',None)
         super().__init__(*args,**kwargs)
+        from django.contrib.auth.validators import UnicodeUsernameValidator
+        from .sso_names import validate_portal_username
+        self.fields['username'].validators=[v for v in self.fields['username'].validators if not isinstance(v,UnicodeUsernameValidator)]+[validate_portal_username]
         from .account_security import technical_admin
         if self.actor and technical_admin(self.actor):
             self.fields['technical_admin']=forms.BooleanField(label='Technisches Admin-Konto',required=False,help_text='Vollständiger technischer Django-Adminzugang. Nur bestehende technische Admins dürfen diesen Status vergeben oder entfernen.')
@@ -70,6 +73,15 @@ class PersonForm(PermissionFields,forms.ModelForm):
         if profile:self.initial.update(is_leader=profile.is_leader,leader_stages=list(profile.stages.values_list('pk',flat=True)))
         self.initial['roles']=list(self.instance.groups.values_list('pk',flat=True)) if self.instance.pk else []
         self.add_permission_fields(list(self.instance.user_permissions.values_list('pk',flat=True)) if self.instance.pk else [])
+    def clean_username(self):
+        value=self.cleaned_data['username']
+        if get_user_model().objects.filter(username__iexact=value).exclude(pk=self.instance.pk).exists():raise ValidationError('Dieser Benutzername wird bereits verwendet.')
+        return value
+    def _get_validation_exclusions(self):
+        exclude=super()._get_validation_exclusions()
+        # Django's stock username regex excludes #; our form validates the controlled #SSO suffix.
+        if self.cleaned_data.get('username','').endswith('#SSO'):exclude.add('username')
+        return exclude
     def clean_new_password(self):
         value=self.cleaned_data.get('new_password','')
         if not self.instance.pk and not value:raise ValidationError('Für ein neues Konto bitte ein Passwort festlegen.')
@@ -117,6 +129,8 @@ class RoleForm(PermissionFields,forms.ModelForm):
 
 def effective_access(user):
     automatic=set(LeaderProfile.objects.filter(user=user,is_leader=True).values_list('stages__pk',flat=True))
+    from .sso import automatic_stage_ids
+    automatic |= automatic_stage_ids(user)
     actions={action:stage_ids(user,action) for action in STAGE_ACTIONS}
     from .access import granted
     rows=[]
