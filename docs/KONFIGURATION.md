@@ -57,3 +57,7 @@ Die gemeinsame Compose-Datei bietet keinen öffentlichen Datenbankport. Nur web 
 SMTP oder Microsoft 365 kann in der UI gespeichert und getestet werden. Die Produktionsdatenbank übernimmt keine Geheimnisse aus der Entwicklung. Bei Microsoft 365 zuerst die Anwendung und Postfachbegrenzung im eigenen Mandanten einrichten; der Zugangstest allein belegt keine Zustellung. Anschließend eine echte Testnachricht an eine kontrollierte Adresse senden und SPF/DKIM/DMARC im eigenen Mailbetrieb prüfen. Keine DNS-Zugangsdaten in MAP hinterlegen.
 
 `python manage.py check_production` prüft Pflichtangaben und wesentliche HTTPS-/Versandeinstellungen. Es versendet keine E-Mail und kann weder Rechtmäßigkeit noch tatsächliche Zustellung bestätigen.
+
+## Neue Modulkonfiguration
+
+Microsoft-Anmeldung und Gruppenmapping werden getrennt vom Mailversand in der UI eingerichtet. Räume, Raum-Mailvorlagen und die opt-in Belegungs-API liegen unter Raumeinstellungen. Optionale Mailtypen werden über ihre Statusfelder geschaltet; wesentliche Konto-/Bestätigungsabläufe bleiben geschützt. Die Einstellungen werden in der jeweiligen Installationsdatenbank gespeichert und nicht automatisch zwischen Dev und Prod synchronisiert.

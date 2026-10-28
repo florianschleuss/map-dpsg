@@ -124,5 +124,15 @@
       "sha256": "fc5e8c572e33ebf24795b47b6a7da8da3c00cff2349f5b04c02f28d0cc5a3cc2"
     }
   ],
-  "findings": []
+  "findings": [],
+  "additional_sso_constraints": {
+    "msal": "1.39.0",
+    "PyJWT": "2.15.1",
+    "requests": "2.34.2",
+    "certifi": "2026.10.23",
+    "charset-normalizer": "3.5.2",
+    "idna": "3.20",
+    "urllib3": "2.8.0"
+  },
+  "additional_validation": "Pinned SSO dependencies used in the isolated application tests; final Linux container validation runs in GitHub Actions and before production migration."
 }

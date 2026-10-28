@@ -17,3 +17,6 @@ operator-assets/*
 instance/
 docs/.rendered/
 node_modules/
+
+.release-update.lock
+.map-release-*

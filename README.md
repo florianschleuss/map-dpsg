@@ -22,9 +22,19 @@ Dazu kommen anpassbare Systemmails, SMTP oder Microsoft 365/Exchange Online übe
 
 ## Raumbuchung
 
-Ein separates Modul organisiert Raum 1–5 und den Garten: Anfragen für einzelne oder alle Räume, mehrtägige und ganztägige Termine, Freigaben durch die manuell vergebene Rolle **Vorstand**, sichtbare Überschneidungen und nachvollziehbare Änderungsanträge. Die genehmigte bisherige Belegung bleibt bis zur Freigabe einer Änderung gültig. Monats-/Wochenkalender, Excel-/iCal-Export, interne Hinweise und getrennte Raumbuchungs-Mailvorlagen gehören dazu. [Einrichtung und Funktionsumfang](docs/RAUMBUCHUNG_DE.md).
+Ein separates Modul organisiert frei verwaltbare Räume und Außenbereiche: Anfragen für einzelne oder alle Räume, mehrtägige und ganztägige Termine, Freigaben durch die manuell vergebene Rolle **Vorstand**, sichtbare Überschneidungen und nachvollziehbare Änderungsanträge. Die genehmigte bisherige Belegung bleibt bis zur Freigabe einer Änderung gültig. Monats-/Wochenkalender, Excel-/iCal-Export, E-Mail-Benachrichtigungen und getrennte Raumbuchungs-Mailvorlagen gehören dazu. [Einrichtung und Funktionsumfang](docs/RAUMBUCHUNG_DE.md).
 
-Die Oberfläche folgt standardmäßig dem hellen oder dunklen Systemdesign. Über „Darstellung“ lässt sich lokal zwischen System, Hell und Dunkel wechseln.
+Admins können Räume anlegen und entfernen; genutzte Räume werden zur Erhaltung der Historie archiviert. Eine optionale öffentliche API liefert nur Tagesabdeckung, Status und betroffene Raumnamen. `full` bedeutet lückenlose Belegung aller aktiven Räume über den gesamten Tag; Teilzeit bleibt `partial`. [API und WordPress-Beispiel](docs/RAUMBELEGUNG_API_DE.md).
+
+![Raumbelegung im Monatskalender](docs/screenshots/raumbuchung.png)
+
+## Microsoft-Anmeldung und Administration
+
+Microsoft Entra SSO akzeptiert ausschließlich den konfigurierten Tenant. Gruppen-IDs ordnen Leitende automatisch einer oder mehreren Stufen zu; Admin, Manager und Vorstand bleiben manuell vergebene MAP-Rollen. Lokale Anmeldung und technische Admins bleiben als unabhängiger Zugang verfügbar. [Entra einrichten](docs/ENTRA_SSO_DE.md).
+
+Optionale Mailtypen lassen sich direkt in den Vorlagenübersichten schalten. Erforderliche Bestätigungs-, Zugangs- und ausdrücklich angeforderte Sicherheitsmails bleiben geschützt. Benutzerkonten können nach Bestätigung gelöscht werden; betriebliche Buchungen bleiben erhalten. Private Formularvorlagen wechseln dabei den Eigentümer, damit sie nicht versehentlich allgemein sichtbar werden.
+
+Die Oberfläche folgt standardmäßig dem hellen oder dunklen Systemdesign. Im Profilmenü unter „Darstellung“ lässt sich lokal zwischen System, Hell und Dunkel wechseln.
 
 ## Ein Blick in die Anwendung
 
@@ -89,3 +99,11 @@ Dies ist ein vorbereiteter **MVP-Releasekandidat**. Den tatsächlichen Prüfumfa
 ## Lizenzstatus
 
 **Die Projektlizenz ist noch nicht festgelegt.** Die Veröffentlichung des Quellcodes allein erteilt keine allgemeine Open-Source-Nutzungslizenz. Bis zur Entscheidung wird MAP deshalb nicht als bereits offen lizenziertes Projekt bezeichnet. Abhängigkeiten behalten ihre eigenen Lizenzen. Siehe [LICENSE-NOTICE.md](LICENSE-NOTICE.md).
+
+## Bestehende Produktion aktualisieren
+
+Dieses Release erweitert das Datenbankschema um SSO, Raumbuchung und Mailrichtlinien. Es ist ein vollständiges Release-Update, kein einzelner CSS-Hotfix. Verwende einen geprüften, unveränderlichen Git-Commit und ein separates Release-Verzeichnis; `scripts/apply_release.py --root /opt/map` verweigert die Ausführung direkt aus dem Zielverzeichnis.
+
+Der Installer prüft bekannte Ausgangsstände, isolierte Tests und bestehende Produktivkonfiguration vor der Wartungsunterbrechung. Er sichert Datenbank, bisherige Quellen und Image-IDs, migriert und startet die Dienste mit Gesundheitsprüfung. `.env`, Reverse Proxy und Betreiberdateien bleiben erhalten. Dev-Daten und Demoanmeldungen werden nicht kopiert. [Prod-Release und Rückfallverfahren](docs/PRODUKTIV_UPDATE.md).
+
+Dummy-Veranstaltungen sind ausschließlich bei `MAP_PRODUCTION=0` verfügbar. In Produktion müssen Microsoft-Konfiguration, Gruppenmapping und die neue Rücksprungadresse separat eingerichtet werden; die öffentliche Raum-API ist zunächst ausgeschaltet.

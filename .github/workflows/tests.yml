@@ -18,6 +18,7 @@ jobs:
         run: |
           python3 tools/check_public_release.py
           python3 tools/test_deployment.py
+          python3 tools/test_release_update.py
       - name: Build Linux image and run PostgreSQL suite
         run: docker compose -f compose.yaml --profile tools run --build --rm -T test
       - name: Remove isolated CI services

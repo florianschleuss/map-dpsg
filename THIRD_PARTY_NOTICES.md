@@ -7,3 +7,5 @@ Docker-Basisimages und deren Systempakete besitzen eigene Bedingungen. Vor Weite
 Es werden keine DPSG-, Kirchen- oder Stammeslogos mitgeliefert. Das neutrale Kompasssymbol ist eine einfache eigens erstellte SVG-Grafik. Wer ein eigenes Verbandslogo hinterlegt, muss die dafür geltenden Nutzungsbedingungen selbst beachten.
 
 Die README-Screenshots wurden aus MAP mit fiktiven Beispieldaten erstellt.
+
+Microsoft-Anmeldung verwendet zusätzlich MSAL und PyJWT sowie deren festgelegte HTTP-Abhängigkeiten. Auch hierfür gelten die Lizenzdateien der jeweiligen konkreten Paketversion; sie werden nicht als eigener MAP-Quellcode ausgegeben.

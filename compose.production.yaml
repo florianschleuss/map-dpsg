@@ -12,6 +12,9 @@ services:
       proxy:
         aliases:
           - ${MAP_PROXY_ALIAS:?Set a unique MAP_PROXY_ALIAS}
+  init:
+    volumes:
+      - ./operator-assets:/app/operator-assets:ro
 networks:
   proxy:
     external: true
