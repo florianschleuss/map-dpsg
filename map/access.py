@@ -3,6 +3,10 @@ from django.contrib.auth.models import Permission
 from django.db.models import Q
 
 GLOBAL_RIGHTS={
+ 'rooms.view_roombooking':('Raumbuchungen lesen','Alle Raumbuchungen einschließlich Kontaktdaten und Exporten lesen.'),
+ 'rooms.add_roombooking':('Raumbuchungen anfragen','Raumbuchungen anlegen und eigene Anfragen bearbeiten oder stornieren. Enthält Leserechte.'),
+ 'rooms.manage_bookings':('Raumbuchungen als Vorstand verwalten','Alle Raumbuchungen bearbeiten, genehmigen, ablehnen und stornieren. Unabhängig von Veranstaltungsrechten.'),
+ 'rooms.configure_rooms':('Raumbuchung konfigurieren','Benachrichtigungsempfänger und eigene Raumbuchungs-Mailvorlagen verwalten.'),
  'map.view_event':('Alle Veranstaltungen lesen','Zeigt alle Veranstaltungen und deren Anmeldungen; erlaubt CSV-Export.'),
  'map.add_event':('Veranstaltungen für beliebige Stufen anlegen','Erlaubt neue Veranstaltungen für alle Stufen. Für selbst angelegte Veranstaltungen erhält die Person Bearbeitungsrechte.'),
  'map.change_event':('Alle Veranstaltungen bearbeiten','Erlaubt Einstellungen, Veröffentlichung und Anmeldungsänderungen bei allen Veranstaltungen. Enthält Leserechte, aber kein Löschrecht.'),
@@ -18,7 +22,7 @@ GLOBAL_RIGHTS={
  'map.change_emailtemplate':('E-Mail-Vorlagen bearbeiten','Erlaubt Betreff und Text der verwendeten Systemmails zu ändern, mit Beispieldaten vorzuschauen und zurückzusetzen.'),
 }
 STAGE_ACTIONS={'view':('Lesen','Veranstaltungen dieser Stufe einschließlich aller Anmeldedaten lesen und exportieren.'),'add':('Anlegen','Neue Veranstaltungen für diese Stufe anlegen. Bei mehreren Stufen wird das Anlegerecht für jede davon benötigt. Für selbst angelegte Veranstaltungen entstehen persönliche Bearbeitungsrechte.'),'change':('Bearbeiten','Einstellungen, Veröffentlichung und Anmeldungen bearbeiten. Bei mehreren Stufen wird das Bearbeitungsrecht für jede davon benötigt.'),'delete':('Löschen','Veranstaltung und zugehörige Daten endgültig löschen. Bei mehreren Stufen wird das Löschrecht für jede davon benötigt.')}
-BUILTIN_ROLES={'Admin':'Fachlicher Vollzugriff auf Veranstaltungen, normale Konten, Rollen, Stufen und E-Mail-Verwaltung. Technische Admin-Konten und deren Status bleiben technischen Admins vorbehalten.','Manager':'Alle Veranstaltungen anlegen, bearbeiten und löschen sowie Formularvorlagen bearbeiten. Keine Konten-, Rollen- oder E-Mail-Verwaltung.','Read-Only':'Alle Veranstaltungen lesen und exportieren. Veranstaltungsänderungen bleiben auch bei zusätzlicher Stufenzuordnung gesperrt; Admin und Manager haben Vorrang.'}
+BUILTIN_ROLES={'Vorstand':'Verwaltet und genehmigt alle Raumbuchungen samt Änderungsanträgen und kann die Raumbuchungs-Einstellungen bearbeiten. Keine automatischen Veranstaltungs- oder technischen Adminrechte.','Admin':'Fachlicher Vollzugriff auf Veranstaltungen, normale Konten, Rollen, Stufen und E-Mail-Verwaltung. Technische Admin-Konten und deren Status bleiben technischen Admins vorbehalten.','Manager':'Alle Veranstaltungen anlegen, bearbeiten und löschen sowie Formularvorlagen bearbeiten. Keine Konten-, Rollen- oder E-Mail-Verwaltung.','Read-Only':'Alle Veranstaltungen lesen und exportieren. Veranstaltungsänderungen bleiben auch bei zusätzlicher Stufenzuordnung gesperrt; Admin und Manager haben Vorrang.'}
 
 def active(user): return bool(user.is_authenticated and user.is_active)
 def codes_for(user):

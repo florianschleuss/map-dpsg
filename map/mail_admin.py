@@ -110,8 +110,11 @@ def mail_settings(request):
     return render(request,'mail_settings.html',{'form':form,'password_saved':bool(config.password_encrypted),'client_secret_saved':bool(config.client_secret_encrypted),'mailpit_mode':not config.enabled,'expiry_days':expiry_days})
 
 
-def filtered_jobs(status):
+def filtered_jobs(status,module='all'):
     jobs=EmailJob.objects.all()
+    if module=='rooms':jobs=jobs.filter(room_booking__isnull=False)
+    elif module=='events':jobs=jobs.filter(event__isnull=False,room_booking__isnull=True)
+    elif module=='system':jobs=jobs.filter(event__isnull=True,room_booking__isnull=True)
     if status=='pending':jobs=jobs.filter(sent_at__isnull=True,attempts__lt=8)
     elif status=='failed':jobs=jobs.filter(sent_at__isnull=True,attempts__gte=8)
     elif status=='sent':jobs=jobs.filter(sent_at__isnull=False)
@@ -125,6 +128,8 @@ def mail_queue(request):
     def reject(text):
         from django.urls import reverse
         return render(request,'message.html',{'title':'Aktion nicht ausgeführt','text':text,'return_url':reverse('mail_queue')},status=400)
+    module=request.GET.get('module','all')
+    if module not in ['all','rooms','events','system']:module='all'
     status=request.GET.get('status','all')
     if status not in ['all','pending','failed','sent']:status='all'
     if request.method=='POST':
@@ -133,7 +138,7 @@ def mail_queue(request):
         if not can_queue(request.user,'change' if action=='retry' else 'delete'):raise PermissionDenied
         if action!='retry' and request.POST.get('confirm_delete')!='yes':return reject('Bitte die endgültige Löschung ausdrücklich bestätigen.')
         with transaction.atomic():
-            jobs=filtered_jobs(status)
+            jobs=filtered_jobs(status,module)
             if action!='delete_filtered':
                 ids=request.POST.getlist('job_ids') or [request.POST.get('job_id','')]
                 from .security_rules import numeric_pk
@@ -148,10 +153,10 @@ def mail_queue(request):
                 count=jobs.count();jobs.delete()
                 messages.success(request,str(count)+' E-Mail-Aufträge wurden endgültig gelöscht. Bereits zugestellte Nachrichten wurden nicht zurückgerufen.')
         from django.urls import reverse
-        return redirect(reverse('mail_queue')+'?status='+status)
-    page=Paginator(filtered_jobs(status).select_related('event').order_by('-pk'),30).get_page(request.GET.get('page'))
+        return redirect(reverse('mail_queue')+'?status='+status+'&module='+module)
+    page=Paginator(filtered_jobs(status,module).select_related('event','room_booking').order_by('-pk'),30).get_page(request.GET.get('page'))
     from .admin_language import german_value
     for job in page.object_list:job.error_display=german_value(job,'last_error')
-    return render(request,'mail_queue.html',{'page_obj':page,'status_filter':status,'filtered_count':page.paginator.count,
+    return render(request,'mail_queue.html',{'page_obj':page,'module_filter':module,'status_filter':status,'filtered_count':page.paginator.count,
         'can_retry':can_queue(request.user,'change'),'can_delete_jobs':can_queue(request.user,'delete'),
-        'pending_count':filtered_jobs('pending').count(),'failed_count':filtered_jobs('failed').count()})
+        'pending_count':filtered_jobs('pending',module).count(),'failed_count':filtered_jobs('failed',module).count()})

@@ -60,9 +60,20 @@ class MailTemplateEditorTests(TestCase):
         self.user=get_user_model().objects.create_user(username='templateuser9')
         self.client.force_login(self.admin);self.url=reverse('email_template_edit',args=['registration'])
         self.subject,self.body=default_content('registration')
-    def test_all_eight_live_templates_are_listed(self):
-        response=self.client.get(reverse('email_templates'))
-        for key,(title,description) in TEMPLATES.items():self.assertContains(response,reverse('email_template_edit',args=[key]))
+    def test_live_templates_are_separated_between_events_and_system(self):
+        self.client.force_login(self.admin)
+        for section in ['events','system']:
+            response=self.client.get(reverse('email_templates'),{'section':section})
+            for key,(title,description) in TEMPLATES.items():
+                if (key in ['password_reset','test'])==(section=='system'):
+                    self.assertContains(response,reverse('email_template_edit',args=[key]))
+                else:self.assertNotContains(response,reverse('email_template_edit',args=[key]))
+
+    def test_system_template_back_link_preserves_the_section(self):
+        response=self.client.get(reverse('email_template_edit',args=['password_reset']))
+        self.assertContains(response,reverse('email_templates')+'?section=system')
+        self.assertNotContains(response,'aria-label="Veranstaltungseinstellungen"')
+
     def test_preview_does_not_save_or_send(self):
         with patch('map.mailer.send_mail') as send:
             response=self.client.post(self.url,{'action':'preview','subject':'Hallo {child_name}','body':self.body})

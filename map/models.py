@@ -149,6 +149,11 @@ class Registration(models.Model):
     def __str__(self): return f'{self.child_name} – {self.event}'
 
 class EmailJob(models.Model):
+    room_booking=models.ForeignKey('rooms.RoomBooking',null=True,blank=True,on_delete=models.CASCADE,related_name='mail_jobs')
+    room_change=models.ForeignKey('rooms.BookingChange',null=True,blank=True,on_delete=models.SET_NULL)
+    room_expected_status=models.CharField(max_length=12,blank=True)
+    room_expected_change_status=models.CharField(max_length=12,blank=True)
+    room_expected_version=models.PositiveIntegerField(null=True,blank=True)
     registration=models.ForeignKey(Registration,null=True,blank=True,on_delete=models.CASCADE,related_name='email_jobs',editable=False)
     payment_request=models.BooleanField(default=False,editable=False)
     payment_fingerprint=models.CharField(max_length=64,blank=True,editable=False)

@@ -5,12 +5,18 @@ def breadcrumbs(request):
         return []
     match=request.resolver_match
     crumbs=[{'label':'MAP','url':reverse('home')},{'label':'Dashboard','url':reverse('dashboard')}]
-    if not match or match.url_name in ['home','dashboard','index']:
+    if not match or match.url_name in ['home','dashboard'] or (match.url_name=='index' and match.namespace!='rooms'):
         crumbs[-1]['url']=''
         return crumbs
     from .models import Event
     from .services import permitted
     name=match.url_name
+    if match.namespace=='rooms':
+        if name in ['settings','catalogue','templates','template_edit']:
+            labels={'settings':'Raumeinstellungen','catalogue':'Räume verwalten','templates':'Mailvorlagen','template_edit':'Mailvorlage bearbeiten'}
+            return [{'label':'MAP','url':reverse('dashboard')},{'label':'Raumeinstellungen','url':reverse('rooms:settings')}]+([{'label':labels[name],'url':''}] if name!='settings' else [])
+        labels={'index':'Buchungsübersicht','new':'Buchung anfragen','edit':'Buchung bearbeiten','detail':'Buchungsdetails','calendar':'Kalender','pending':'Offene Genehmigungen','settings':'Raumbuchungs-Einstellungen','templates':'Raumbuchungs-Mailvorlagen','template_edit':'Mailvorlage bearbeiten','notifications':'Benachrichtigungen'}
+        return [{'label':'MAP','url':reverse('dashboard')},{'label':'Raumbuchung','url':reverse('rooms:index')},{'label':labels.get(name,'Raumbuchung'),'url':''}]
     event=None
     if name in ['event_statistics','export_excel','event_admin','event_settings','event_qr','event_delete','publish_event','request_payments']:
         event=Event.objects.filter(pk=match.kwargs.get('pk')).first()
@@ -19,7 +25,7 @@ def breadcrumbs(request):
     if event and permitted(request.user,event):
         crumbs.append({'label':event.title,'url':reverse('event_admin',args=[event.pk])})
         if name=='event_admin': crumbs[-1]['url']=''
-    labels={'sso_settings':'Microsoft-Anmeldung','sso_link':'Microsoft-Konto verbinden','sso_waiting':'Freigabe ausstehend','event_statistics':'Statistik','export_excel':'Excel-Export','request_payments':'Zahlungsaufforderung','password_reset_confirm':'Passwort zurücksetzen','password_reset_complete':'Passwort geändert','people':'Benutzer','person_new':'Benutzer anlegen','person_edit':'Benutzer bearbeiten','roles':'Rollen und Rechte','role_new':'Rolle anlegen','role_edit':'Rolle bearbeiten','email_templates':'E-Mail-Vorlagen','email_template_edit':'E-Mail-Vorlage bearbeiten','mail_queue':'E-Mail-Warteschlange','mail_settings':'E-Mail-Einstellungen','privacy':'Datenschutz','event_delete':'Veranstaltung löschen','event_settings':'Einstellungen','map_form_builder':'Formularvorlage','map_form_builder_new':'Neue Formularvorlage','map_event_wizard':'Veranstaltung anlegen','auth_user_changelist':'Benutzer','auth_user_add':'Benutzer anlegen','auth_user_change':'Benutzer bearbeiten','auth_group_changelist':'Benutzergruppen','auth_group_add':'Benutzergruppe anlegen','auth_group_change':'Benutzergruppe bearbeiten','map_scoutgroup_changelist':'Stufen','map_scoutgroup_add':'Stufe anlegen','map_scoutgroup_change':'Stufe bearbeiten','map_formtemplate_changelist':'Formularvorlagen'}
+    labels={'module_settings':'Einstellungen','event_module_settings':'Veranstaltungseinstellungen','sso_settings':'Microsoft-Anmeldung','sso_waiting':'Freigabe ausstehend','event_statistics':'Statistik','export_excel':'Excel-Export','request_payments':'Zahlungsaufforderung','password_reset_confirm':'Passwort zurücksetzen','password_reset_complete':'Passwort geändert','people':'Benutzer','person_new':'Benutzer anlegen','person_edit':'Benutzer bearbeiten','roles':'Rollen und Rechte','role_new':'Rolle anlegen','role_edit':'Rolle bearbeiten','email_templates':'E-Mail-Vorlagen','email_template_edit':'E-Mail-Vorlage bearbeiten','mail_queue':'E-Mail-Warteschlange','mail_settings':'E-Mail-Einstellungen','privacy':'Datenschutz','event_delete':'Veranstaltung löschen','event_settings':'Einstellungen','map_form_builder':'Formularvorlage','map_form_builder_new':'Neue Formularvorlage','map_event_wizard':'Veranstaltung anlegen','auth_user_changelist':'Benutzer','auth_user_add':'Benutzer anlegen','auth_user_change':'Benutzer bearbeiten','auth_group_changelist':'Benutzergruppen','auth_group_add':'Benutzergruppe anlegen','auth_group_change':'Benutzergruppe bearbeiten','map_scoutgroup_changelist':'Stufen','map_scoutgroup_add':'Stufe anlegen','map_scoutgroup_change':'Stufe bearbeiten','map_formtemplate_changelist':'Formularvorlagen'}
     if name in labels: crumbs.append({'label':labels[name],'url':''})
     elif not event: crumbs.append({'label':'Verwaltung' if match.app_name=='admin' else 'Anmeldung','url':''})
     return crumbs

@@ -31,20 +31,23 @@ class PermissionFields:
             result=forms.ModelMultipleChoiceField(queryset=Permission.objects.filter(pk__in=ids).select_related('content_type').order_by('codename'),label=label,required=False,widget=forms.CheckboxSelectMultiple,help_text=help_text)
             result.label_from_instance=lambda permission:labels[permission.pk]
             return result
-        global_ids=[p.pk for p in allowed if p.content_type.app_label+'.'+p.codename in GLOBAL_RIGHTS]
+        global_ids=[p.pk for p in allowed if p.content_type.app_label!='rooms' and p.content_type.app_label+'.'+p.codename in GLOBAL_RIGHTS]
         self.fields['global_rights']=field(global_ids,'Übergreifende Rechte','Diese Rechte gelten unabhängig von der Stufenzuordnung. Nicht benötigte Rechte frei lassen.')
         self.initial['global_rights']=list(set(selected)&set(global_ids))
+        room_ids=[p.pk for p in allowed if p.content_type.app_label=='rooms']
+        self.fields['room_rights']=field(room_ids,'Raumbuchung','Eigenständige Rechte für Räume. Sie vergeben keine Veranstaltungs-, Stufen- oder technischen Adminrechte.')
+        self.initial['room_rights']=list(set(selected)&set(room_ids))
         for stage in stages:
             name='stage_'+str(stage.pk);ids=[p.pk for p in allowed if p.content_type.app_label=='map' and p.codename in [stage_code(stage.pk,action) for action in STAGE_ACTIONS]]
             self.fields[name]=field(ids,stage.name,'Zusätzliche Rechte für diese Stufe. Automatische Leitendenrechte müssen hier nicht nochmals gesetzt werden.')
             self.initial[name]=list(set(selected)&set(ids))
     @property
     def permission_sections(self):
-        return [{'title':'Übergreifende Rechte','field':self['global_rights']}]+[{'title':stage.name,'field':self['stage_'+str(stage.pk)]} for stage in self.stage_rows]
+        return [{'title':'Übergreifende Rechte','field':self['global_rights']},{'title':'Raumbuchung','field':self['room_rights']}]+[{'title':stage.name,'field':self['stage_'+str(stage.pk)]} for stage in self.stage_rows]
     def save_permissions(self,relation):
         # Preserve unrelated technical permissions; the editor never silently removes them.
         selected=set(relation.exclude(pk__in=self.supported_ids).values_list('pk',flat=True))
-        for name in ['global_rights']+['stage_'+str(stage.pk) for stage in self.stage_rows]:selected.update(p.pk for p in self.cleaned_data[name])
+        for name in ['global_rights','room_rights']+['stage_'+str(stage.pk) for stage in self.stage_rows]:selected.update(p.pk for p in self.cleaned_data[name])
         relation.set(selected)
 
 class PersonForm(PermissionFields,forms.ModelForm):

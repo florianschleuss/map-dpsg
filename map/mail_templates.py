@@ -36,8 +36,11 @@ def email_templates(request):
     if not can_mail_templates(request.user):raise PermissionDenied
     custom={saved.key for saved in EmailTemplate.objects.all() if saved.key in TEMPLATES and effective_content(saved.key,saved)!=default_content(saved.key)}
     from .account_security import technical_admin
-    rows=[{'key':key,'title':title,'description':description,'custom':key in custom,'can_edit':key!='password_reset' or technical_admin(request.user)} for key,(title,description) in TEMPLATES.items()]
-    return render(request,'email_templates.html',{'templates':rows})
+    rows=[{'settings_area':'system' if key in ['password_reset','test'] else 'events','key':key,'title':title,'description':description,'custom':key in custom,'section':'Konten und System' if key in ['password_reset','test'] else 'Veranstaltungsanmeldungen','can_edit':key!='password_reset' or technical_admin(request.user)} for key,(title,description) in TEMPLATES.items()]
+    rows.sort(key=lambda row:row['section']!='Veranstaltungsanmeldungen')
+    section=request.GET.get('section','events')
+    rows=[row for row in rows if (row['key'] in ['password_reset','test'])==(section=='system')]
+    return render(request,'email_templates.html',{'templates':rows,'settings_area':'system' if section=='system' else 'events'})
 
 @login_required
 @require_http_methods(['GET','POST'])
@@ -66,4 +69,4 @@ def email_template_edit(request,key):
         except ValueError:
             messages.error(request,'Die gespeicherte Vorlage ist ungültig. Beim Versand wird vorübergehend der Standard verwendet. Bitte korrigieren oder ausdrücklich zurücksetzen.')
             preview=render_content(*default_content(key),key,example_context(key) if key!='test' else {})
-    return render(request,'email_template_edit.html',{'form':form,'key':key,'template_title':TEMPLATES[key][0],'description':TEMPLATES[key][1],'preview':preview,'placeholders':PLACEHOLDERS.items(),'custom':bool(saved and effective_content(key,saved)!=default_content(key))})
+    return render(request,'email_template_edit.html',{'form':form,'settings_area':'system' if key in ['password_reset','test'] else 'events','key':key,'template_title':TEMPLATES[key][0],'description':TEMPLATES[key][1],'preview':preview,'placeholders':PLACEHOLDERS.items(),'custom':bool(saved and effective_content(key,saved)!=default_content(key))})

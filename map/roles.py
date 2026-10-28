@@ -12,9 +12,19 @@ def portal_context(request):
     from .navigation import breadcrumbs
     from .access import can_users,can_roles,can_stages,can_queue,can_mail_settings,can_mail_templates
     user=request.user
-    return {'map_is_admin':is_admin(user),'map_can_manage':can_create_events(user),'map_breadcrumbs':breadcrumbs(request),
+    from rooms.access import can_use,can_request,board,can_configure
+    room_access=can_use(user)
+    pending=getattr(request,'sso_waiting',False)
+    from .demo_events import can_create_dummy
+    import secrets
+    dummy=can_create_dummy(user) and not pending
+    if dummy and not request.session.get('dummy_event_nonce'):request.session['dummy_event_nonce']=secrets.token_hex(16)
+    room_context={'room_can_use':room_access and not pending,'room_can_request':can_request(user),'room_is_board':board(user),'room_can_configure':can_configure(user),
+                  'map_pending_access':pending,'map_can_dummy':dummy,'map_dummy_nonce':request.session.get('dummy_event_nonce',''),
+                  'map_can_settings':not pending and any([is_admin(user),can_configure(user),can_users(user),can_roles(user),can_stages(user),can_mail_settings(user),can_mail_templates(user),can_queue(user)])}
+    return {**room_context,'map_is_admin':is_admin(user),'map_can_manage':can_create_events(user),'map_breadcrumbs':breadcrumbs(request),
             'map_can_users':can_users(user),'map_can_roles':can_roles(user),'map_can_stages':can_stages(user),
-            'map_can_queue':can_queue(user),'map_can_mail_settings':can_mail_settings(user),'map_can_mail_templates':can_mail_templates(user)}
+            'map_can_system_settings':not pending and any([is_admin(user),can_users(user),can_roles(user),can_stages(user),can_queue(user),can_mail_settings(user),can_mail_templates(user)]),'map_can_queue':can_queue(user),'map_can_mail_settings':can_mail_settings(user),'map_can_mail_templates':can_mail_templates(user)}
 
 def is_read_only(user):
     return bool(user.is_authenticated and user.is_active and user.groups.filter(name='Read-Only').exists() and not can_manage(user))

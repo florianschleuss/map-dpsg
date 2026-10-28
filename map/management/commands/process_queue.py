@@ -28,6 +28,10 @@ class Command(BaseCommand):
                     if candidate['event_id']:Event.objects.select_for_update().filter(pk=candidate['event_id']).first()
                     job=EmailJob.objects.select_for_update(skip_locked=True).filter(pk=candidate['pk'],sent_at__isnull=True,attempts__lt=8,next_attempt__lte=timezone.now()).first()
                     if job is None:continue
+                    if job.room_booking_id:
+                        from rooms.notifications import job_current
+                        if not job_current(job):
+                            job.attempts=8;job.last_error='RoomNotificationObsolete';job.body='Diese Raumbuchungsnachricht ist überholt und wurde nicht versendet.';job.save(update_fields=['attempts','last_error','body']);continue
                     if job.payment_request or job.payment_fingerprint:
                         from map.payments import payment_job_is_current
                         if not payment_job_is_current(job):

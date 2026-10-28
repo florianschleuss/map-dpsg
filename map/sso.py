@@ -146,7 +146,7 @@ class SSOSessionMiddleware:
 
     def __call__(self, request):
         from django.urls import reverse
-        if request.path==reverse('logout'):return self.get_response(request)
+        if request.path in [reverse('logout'),reverse('room_occupancy_api')]:return self.get_response(request)
         stamp = request.session.get('map_sso')
         if stamp and request.user.is_authenticated:
             from django.contrib.auth import logout
