@@ -186,7 +186,9 @@ def person_edit(request,pk=None):
             messages.success(request,'Benutzerkonto, Stufenzuordnung und Rechte wurden gespeichert. Änderungen wirken bei der nächsten Anfrage.')
             return redirect('person_edit',pk=saved.pk)
     stored=get_user_model().objects.get(pk=user.pk) if user.pk else user
-    return render(request,'person_edit.html',{'form':form,'person':stored,'effective_rows':effective_access(stored) if stored.pk else [],'is_person':True,'personal_permissions':list(EventPermission.objects.filter(user=stored).select_related('event')) if stored.pk else []})
+    from .user_deletion import deletion_context
+    delete_context=deletion_context(request.user,stored) if stored.pk else {}
+    return render(request,'person_edit.html',{**delete_context,'form':form,'person':stored,'effective_rows':effective_access(stored) if stored.pk else [],'is_person':True,'personal_permissions':list(EventPermission.objects.filter(user=stored).select_related('event')) if stored.pk else []})
 
 @login_required
 @require_http_methods(['GET'])

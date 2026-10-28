@@ -20,6 +20,12 @@ Veranstaltungen planen, Anmeldungen sammeln und im Leitungsteam den Überblick b
 
 Dazu kommen anpassbare Systemmails, SMTP oder Microsoft 365/Exchange Online über OAuth, Passwort-Reset durch die Administration sowie manuelle Zahlungserinnerungen und Zahlungseingänge. MAP führt **keine Zahlungen** aus und prüft keine Bankumsätze.
 
+## Raumbuchung
+
+Ein separates Modul organisiert Raum 1–5 und den Garten: Anfragen für einzelne oder alle Räume, mehrtägige und ganztägige Termine, Freigaben durch die manuell vergebene Rolle **Vorstand**, sichtbare Überschneidungen und nachvollziehbare Änderungsanträge. Die genehmigte bisherige Belegung bleibt bis zur Freigabe einer Änderung gültig. Monats-/Wochenkalender, Excel-/iCal-Export, interne Hinweise und getrennte Raumbuchungs-Mailvorlagen gehören dazu. [Einrichtung und Funktionsumfang](docs/RAUMBUCHUNG_DE.md).
+
+Die Oberfläche folgt standardmäßig dem hellen oder dunklen Systemdesign. Über „Darstellung“ lässt sich lokal zwischen System, Hell und Dunkel wechseln.
+
 ## Ein Blick in die Anwendung
 
 ### Formulare, die zur Veranstaltung passen

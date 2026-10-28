@@ -90,6 +90,6 @@ services:
       MAP_LOGO_PATH: map/logo.svg
       MAP_FAVICON_PATH: map/logo.svg
       EMAIL_BACKEND: django.core.mail.backends.locmem.EmailBackend
-    command: [/bin/sh, -c, 'python -m pip check && python checks/dependency_checks.py && python checks/vulnerability_checks.py && python manage.py check && python manage.py makemigrations --check --dry-run && python manage.py test map --verbosity 2 --noinput']
+    command: [/bin/sh, -c, 'python -m pip check && python checks/dependency_checks.py && python checks/vulnerability_checks.py && python manage.py check && python manage.py makemigrations --check --dry-run && python manage.py test map rooms --verbosity 2 --noinput']
 volumes:
   postgres_data:
