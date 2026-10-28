@@ -251,7 +251,8 @@ def templates(request):
     if not can_configure(request.user):raise PermissionDenied
     from .notifications import EVENTS
     custom=set(RoomEmailTemplate.objects.values_list('key',flat=True))
-    return render(request,'rooms/templates.html',{'rows':[{'key':key,'title':value[0],'description':value[1],'custom':key in custom} for key,value in EVENTS.items()]})
+    from map.mail_policy import state
+    return render(request,'rooms/templates.html',{'rows':[{'key':key,'title':value[0],'description':value[1],'custom':key in custom,'delivery':state('rooms',key)} for key,value in EVENTS.items()]})
 
 
 @login_required

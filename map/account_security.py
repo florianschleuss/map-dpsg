@@ -41,7 +41,7 @@ def send_password_reset(request,pk):
         subject,body=system_content('password_reset',{'account_name':user.get_username(),'reset_url':url,'reset_hours':max(1,settings.PASSWORD_RESET_TIMEOUT//3600)})
         # Replace any still queued reset for this account, including failed requests.
         EmailJob.objects.filter(reset_user=user,sent_at__isnull=True).delete()
-        EmailJob.objects.create(reset_user=user,recipient=user.email,subject=subject,
+        EmailJob.objects.create(template_scope='map',template_key='password_reset',reset_user=user,recipient=user.email,subject=subject,
             body='Vertrauliche Sicherheitsnachricht. Der Inhalt wird nur für den Versand entschlüsselt und hier nicht angezeigt.',
             body_encrypted=encrypt_password(body),reset_token_encrypted=encrypt_password(token),next_attempt=timezone.now())
     messages.success(request,'Der Passwort-Link wurde für '+user.email+' in die E-Mail-Warteschlange gestellt. Die Zustellung hängt vom eingerichteten Versanddienst ab.')

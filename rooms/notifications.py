@@ -69,6 +69,8 @@ def context_for(booking,change=None):
 
 def notify(booking,key,change=None):
     from map.models import EmailJob
+    from map.mail_policy import enabled
+    if not enabled('rooms',key):return
     config=RoomSettings.objects.filter(pk=1).first()
     addresses=set(config.notification_emails.splitlines()) if config else set()
     # Applicants are informed of every transition and cancellations; configured board recipients too.
@@ -76,7 +78,7 @@ def notify(booking,key,change=None):
         if booking.creator.email:addresses.add(booking.creator.email)
     subject,body=content(key,context_for(booking,change))
     for address in sorted(a.strip() for a in addresses if a.strip()):
-        EmailJob.objects.create(room_booking=booking,room_change=change,room_expected_status=booking.status,
+        EmailJob.objects.create(template_scope='rooms',template_key=key,room_booking=booking,room_change=change,room_expected_status=booking.status,
           room_expected_change_status=change.status if change else '',room_expected_version=booking.version,recipient=address,subject=subject,body=body,next_attempt=timezone.now())
 
 

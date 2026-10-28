@@ -94,7 +94,7 @@ def request_payments(request,pk):
             for row in rows:
                 row.event=event
                 subject,body=system_content('payment_request',registration_message_context(row,'Zahlungsaufforderung'))
-                EmailJob.objects.create(event=event,registration=row,payment_request=True,payment_fingerprint=payment_fingerprint(event),recipient=row.email,subject=subject,body=body,next_attempt=timezone.now())
+                EmailJob.objects.create(template_scope='map',template_key='payment_request',event=event,registration=row,payment_request=True,payment_fingerprint=payment_fingerprint(event),recipient=row.email,subject=subject,body=body,next_attempt=timezone.now())
             batch.recipient_count=len(rows);batch.save(update_fields=['recipient_count'])
             AuditLog.objects.create(actor=request.user,event=event,action='Zahlungsaufforderung an '+str(len(rows))+' bestätigte Anmeldungen erzeugt')
         messages.success(request,str(len(rows))+' Zahlungsaufforderungen wurden in die E-Mail-Warteschlange gestellt. Warteliste, unbestätigte und als bezahlt markierte Anmeldungen wurden ausgelassen.')

@@ -83,3 +83,5 @@ html[data-map-theme="dark"] .map-wizard-steps li.is-done{background:#183e2b!impo
 html[data-map-theme="dark"] #id_groups label{background:#2b2b2b!important;color:#ededed!important;border-color:#606060!important}
 
 html[data-map-theme="dark"] :is(.map-main,.map-admin) :is(.map-button-danger,button.danger,.deletelink){background:#872f35!important;color:#fff!important;border-color:#d98d94!important}html[data-map-theme="dark"] :is(.map-main,.map-admin) :is(.map-button-danger,button.danger,.deletelink):hover{background:#682126!important;color:#fff!important}
+
+html[data-map-theme="dark"] .map-entry-count{color:#bdbdbd!important}html[data-map-theme="dark"] .mail-template-state.is-on{background:#183e2b!important;color:#b7edcc!important;border-color:#6f9e7f!important}html[data-map-theme="dark"] .mail-template-state.is-off{background:#383838!important;color:#dedede!important;border-color:#777!important}html[data-map-theme="dark"] .mail-template-state.is-required{background:#293740!important;color:#d4e8f5!important;border-color:#607d8b!important}

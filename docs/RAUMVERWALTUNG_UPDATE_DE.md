@@ -13,7 +13,7 @@ Wie zuvor erlaubt, werden nur ältere Sicherungen der eigenen Dev-Updater (`sso-
 
 ## Räume anlegen, bearbeiten und entfernen
 
-**Profil → Raumeinstellungen → Räume verwalten**, ausschließlich für Admins. Namen und Reihenfolge sind bearbeitbar, weitere Räume können angelegt werden. Unbenutzte Räume werden nach ausdrücklicher Bestätigung endgültig gelöscht. Hat ein Raum bereits Buchungen oder Änderungsanträge, archiviert ihn derselbe Vorgang; seine Historie bleibt erhalten. Archivierte Räume stehen für neue Buchungen nicht zur Auswahl. Bestehende Buchungen bleiben sichtbar. Ein archivierter Raum kann wieder aktiviert werden.
+**Profil → Raumeinstellungen → Räume verwalten**, ausschließlich für Admins. Namen und Reihenfolge sind bearbeitbar, weitere Räume können angelegt werden. Unbenutzte Räume werden nach ausdrücklicher Bestätigung endgültig gelöscht. Hat ein Raum bereits Buchungen oder Änderungsanträge, archiviert ihn derselbe Vorgang; seine Historie bleibt erhalten. Archivierte Räume stehen für neue Buchungen nicht zur Auswahl. Bestehende Buchungen bleiben sichtbar. Archivierte Räume werden nur noch als historische Einträge angezeigt; die eigene Aktivieren-/Archivieren-Aktion entfällt.
 
 Die bisherigen sechs Standardräume sind bei der ersten Einrichtung weiterhin vorhanden. Bewusst gelöschte Räume werden bei künftigen Migrationen nicht automatisch neu angelegt. Die öffentliche Tagesaggregation verwendet ausschließlich aktive Räume.
 
@@ -46,7 +46,7 @@ Die 20 regulären Plätze sind mit bestätigten und vorläufigen Anmeldungen bel
 
 In **Raumeinstellungen** die öffentliche Belegungs-API aktivieren und speichern. Erst danach ist `https://dev.map.example.org/api/v1/rooms/occupancy/` erreichbar. Ohne Aktivierung: HTTP 404.
 
-Die API liefert nur Belegungstage sowie schwebend/genehmigt und teilweise/alle Räume betroffen. Keine Buchungsdetails, Namen, Kontakte oder Uhrzeiten. „Voll“ bedeutet, dass alle aktiven Räume am betreffenden Tag mindestens einmal belegt sind, nicht gleichzeitig oder ganztägig.
+Die API liefert nur Belegungstage sowie schwebend/genehmigt und teilweise/alle Räume betroffen. Keine Personen, Veranstaltungszwecke, Kontakte oder Uhrzeiten; ausschließlich die Raumnamen werden zusätzlich ausgegeben. „Voll“ bedeutet, dass alle aktiven Räume den gesamten lokalen Kalendertag lückenlos belegt sind. Teilzeitbelegungen bleiben teilweise. Die API liefert zusätzlich die Namen der betroffenen Räume.
 
 Die vollständige Beschreibung, Beispielantwort und ein kopierbarer Auftrag für eine spätere WordPress-Umsetzung stehen in `MAP-Raumbelegung-API-DE.md`. Das Beispielplugin `wordpress-map-raumbelegung.php` liefert den Shortcode `[map_raumbelegung]`. Es wird durch den MAP-Update-Befehl **nicht** in WordPress installiert. Dafür die Anleitung in der API-Beschreibung verwenden. Das Beispiel ist noch nicht in eurer echten WordPress-Installation getestet.
 

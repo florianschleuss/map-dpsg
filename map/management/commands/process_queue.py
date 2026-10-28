@@ -28,6 +28,9 @@ class Command(BaseCommand):
                     if candidate['event_id']:Event.objects.select_for_update().filter(pk=candidate['event_id']).first()
                     job=EmailJob.objects.select_for_update(skip_locked=True).filter(pk=candidate['pk'],sent_at__isnull=True,attempts__lt=8,next_attempt__lte=timezone.now()).first()
                     if job is None:continue
+                    from map.mail_policy import enabled
+                    if not enabled(job.template_scope,job.template_key):
+                        job.attempts=8;job.last_error='TemplateDisabled';job.save(update_fields=['attempts','last_error']);continue
                     if job.room_booking_id:
                         from rooms.notifications import job_current
                         if not job_current(job):

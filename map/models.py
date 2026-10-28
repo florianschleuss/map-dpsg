@@ -149,6 +149,8 @@ class Registration(models.Model):
     def __str__(self): return f'{self.child_name} – {self.event}'
 
 class EmailJob(models.Model):
+    template_scope=models.CharField(max_length=12,blank=True,editable=False)
+    template_key=models.SlugField(max_length=40,blank=True,editable=False)
     room_booking=models.ForeignKey('rooms.RoomBooking',null=True,blank=True,on_delete=models.CASCADE,related_name='mail_jobs')
     room_change=models.ForeignKey('rooms.BookingChange',null=True,blank=True,on_delete=models.SET_NULL)
     room_expected_status=models.CharField(max_length=12,blank=True)
@@ -261,3 +263,13 @@ class PaymentBatch(models.Model):
         verbose_name_plural='Zahlungsaufforderungen'
 
 from .sso_models import SSOConfiguration, EntraStageMapping, EntraIdentity, SSOAudit
+
+
+class MailTemplatePolicy(models.Model):
+    scope=models.CharField(max_length=12)
+    key=models.SlugField(max_length=40)
+    enabled=models.BooleanField(default=True)
+    updated_at=models.DateTimeField(auto_now=True)
+    updated_by=models.ForeignKey(settings.AUTH_USER_MODEL,null=True,blank=True,on_delete=models.SET_NULL,related_name='+')
+    class Meta:
+        constraints=[models.UniqueConstraint(fields=['scope','key'],name='unique_mail_template_policy')]

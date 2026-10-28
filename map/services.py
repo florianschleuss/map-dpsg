@@ -53,10 +53,13 @@ def queue_message(registration, subject='Ihre Anmeldung'):
     registration=current;registration.event=event
     from .email_content import NOTIFICATION_KEYS
     from .mail_templates import system_content
-    rendered_subject,body=system_content(NOTIFICATION_KEYS.get(subject,'registration'),registration_message_context(registration,subject))
+    template_key=NOTIFICATION_KEYS.get(subject,'registration')
+    from .mail_policy import enabled
+    if not enabled('map',template_key):return
+    rendered_subject,body=system_content(template_key,registration_message_context(registration,subject))
     from .payment_rules import payment_visible
     from .payments import payment_fingerprint
-    EmailJob.objects.create(event=event,registration=registration,payment_fingerprint=payment_fingerprint(event) if payment_visible(event,registration) else '',recipient=registration.email,subject=rendered_subject,body=body,next_attempt=timezone.now())
+    EmailJob.objects.create(template_scope='map',template_key=template_key,event=event,registration=registration,payment_fingerprint=payment_fingerprint(event) if payment_visible(event,registration) else '',recipient=registration.email,subject=rendered_subject,body=body,next_attempt=timezone.now())
 
 
 def registration_message_context(registration,subject):
