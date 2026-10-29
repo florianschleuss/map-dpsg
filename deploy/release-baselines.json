@@ -53,7 +53,8 @@
     "MANIFEST.sha256": [
       null,
       "821f0530e6e9d40d5c1f88ad6f704ca89a708df2cd7194d6fa610bdb58637ac9",
-      "8e762bc9cdeaa262389145940ae314e8a2b1fde1de9e8518f30c8fb21bca020b"
+      "8e762bc9cdeaa262389145940ae314e8a2b1fde1de9e8518f30c8fb21bca020b",
+      "a8dd22b8f0fb5b27442f7bf4e79530ce9d37ba9c8052cd35eda53d5121407cbb"
     ],
     "README.md": [
       null,
@@ -157,7 +158,8 @@
       "9aadbef7f5e0d5f778d39d4d10c7d88d717a31e30930a5f5a0632776b91f6d8f"
     ],
     "deploy/release-baselines.json": [
-      null
+      null,
+      "96cc16911fb7c0f698c72c8994c641c7a87cc81d3f39c267e0a4b98aaf7cd639"
     ],
     "deploy/systemd/map-backup.service": [
       null,
