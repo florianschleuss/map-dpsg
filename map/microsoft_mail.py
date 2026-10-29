@@ -128,7 +128,7 @@ def send_graph(config,secret,subject,message,recipients):
     from .mail_presentation import html_message,sender_name
     if not config.from_email or not recipients: raise MicrosoftMailError('ms_configuration')
     url='https://graph.microsoft.com/v1.0/users/'+quote(config.from_email,safe='')+'/sendMail'
-    body={'message':{'subject':subject,'from':{'emailAddress':{'address':config.from_email,'name':sender_name()}},'body':{'contentType':'HTML','content':html_message(message)},'toRecipients':[{'emailAddress':{'address':address}} for address in recipients]},'saveToSentItems':True}
+    body={'message':{'subject':subject,'from':{'emailAddress':{'address':config.from_email,'name':sender_name()}},'body':{'contentType':'HTML','content':html_message(message,getattr(config,'mail_color_scheme','blue'))},'toRecipients':[{'emailAddress':{'address':address}} for address in recipients]},'saveToSentItems':True}
     token=access_token(config,secret)
     try: request_json(url,phase='send',body=body,token=token)
     except MicrosoftMailError as error:

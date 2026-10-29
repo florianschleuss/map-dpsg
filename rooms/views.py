@@ -290,7 +290,9 @@ def template_edit(request,key):
             preview=(form.cleaned_data['subject'].format_map(context),form.cleaned_data['body'].format_map(context))
             if request.POST.get('action')=='save':
                 RoomEmailTemplate.objects.update_or_create(key=key,defaults=form.cleaned_data);messages.success(request,'Raumbuchungs-Vorlage gespeichert.');return redirect('rooms:template_edit',key=key)
-    return render(request,'rooms/template_edit.html',{'form':form,'title':EVENTS[key][0],'placeholders':PLACEHOLDERS.items(),'preview':preview,'custom':bool(saved)})
+    from map.mail_presentation import html_message,configured_color_scheme
+    preview_html=html_message(preview[1],configured_color_scheme()) if preview else None
+    return render(request,'rooms/template_edit.html',{'preview_html':preview_html,'form':form,'title':EVENTS[key][0],'placeholders':PLACEHOLDERS.items(),'preview':preview,'custom':bool(saved)})
 
 
 @login_required

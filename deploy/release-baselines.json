@@ -57,7 +57,8 @@
       "a8dd22b8f0fb5b27442f7bf4e79530ce9d37ba9c8052cd35eda53d5121407cbb",
       "e3a2761f754dc9bc98f167faf6b2b9a06f5a86fbd88ecd172ca7c77d35b3d34d",
       "581464d7ab3a6a4dcaf5b20f71dc007b0f768d5a04ff87b9fbc30395f57d565b",
-      "ef21706125aa6a81c87754794229037df01a064223729fe188290f212067ef0f"
+      "ef21706125aa6a81c87754794229037df01a064223729fe188290f212067ef0f",
+      "5b737a3b4c27d120b6d658fb4c1600ee69daaba70807cdd04e050e2028b6c869"
     ],
     "README.md": [
       null,
@@ -165,7 +166,8 @@
       "96cc16911fb7c0f698c72c8994c641c7a87cc81d3f39c267e0a4b98aaf7cd639",
       "b8a21e80505da18f0d337ec0e73ea0c2acf1eaed64930a7591239a4c80586812",
       "bd67b98574d1cc527635b01fa296abaf187ac82fd1582e3e182a83167bf10f0a",
-      "8c820b390bb84215af57d701aac5fae1e0d96c24bc56974cdcf4ee731379f809"
+      "8c820b390bb84215af57d701aac5fae1e0d96c24bc56974cdcf4ee731379f809",
+      "faed7f1f114af17153e543083a80e366adc579ff7632c40a7a793e1b11b09c95"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -402,7 +404,8 @@
       "2b04be06e0e7615806f90e87660ba8e9906dc293db74f0984e07d2698350034c",
       "98188d32d7c5b19389e9ce62ac76332345c07c91fd19faddd29ffcde0f13f926",
       "c7462cafb9a806549767013edb076bd4a27f9ebac6102c20e3e3faa134389dc4",
-      "f4e291bc69335ce001f887bdf3998f13deabeb919d4cbac7dbc2c2c428e8dc59"
+      "f4e291bc69335ce001f887bdf3998f13deabeb919d4cbac7dbc2c2c428e8dc59",
+      "34def1a4e1488c9002cb3e880310cc00c5703d9f7e6054f52ef4b7fcf859fd54"
     ],
     "map/mail_policy.py": [
       null,
@@ -547,7 +550,8 @@
       "894cff24c363d002073982c18f9a94d76caf8468290875c58b976ec09c76247e",
       "8a6ae62d016fed8aa6560618773b857974db6c6550af0a9652d52ac6085ade37",
       "b9213430db50eede7b52ed2367a7e38cd179d75f73b7a47935748c4c1eab784e",
-      "12d1997bc74cd32de2be979d5a2b20719b07ac7ee028c85e12c7f55bfd95a52f"
+      "12d1997bc74cd32de2be979d5a2b20719b07ac7ee028c85e12c7f55bfd95a52f",
+      "584f7ad4560afe6daf1ed42c6822a3b4b76adf0462350574a414580619956475"
     ],
     "map/module_settings.py": [
       null,
@@ -1075,7 +1079,8 @@
     "rooms/templates/rooms/template_edit.html": [
       null,
       "9bc0178def4ea837b72ba12f558505a96013d1d70f90ff889abb9b90367b1389",
-      "a7acbfbba58acf32f7d3a932e8f5e305d7b3d3153dfec4714261492800733f70"
+      "a7acbfbba58acf32f7d3a932e8f5e305d7b3d3153dfec4714261492800733f70",
+      "e089f06aca6e4b5f8d50b6aba5b8985f71bd02db0b71deaac8e90d6d528bb588"
     ],
     "rooms/templates/rooms/templates.html": [
       null,
@@ -1115,7 +1120,8 @@
       "7d1e32610b7bc6e3f1c64eff7d8e593d388f5e508ae9d8619da539bb41db7810",
       "d15ee55a8bdfee8b7b5d4a8296835882a7b446aa93fc06f58a7e7c257542afbd",
       "f1ef7cdba668965d280c4631e6e373b4f934cdd7490de07408b25b4046a719c7",
-      "c1400016d861bdd113b108dad480f6cc8caecfd6e8d6288156f7a07c0c69726a"
+      "c1400016d861bdd113b108dad480f6cc8caecfd6e8d6288156f7a07c0c69726a",
+      "1feefa160bf4f035abe29077aa7171d71a79a695741b974f3fb104679e221e3f"
     ],
     "scripts/apply_release.py": [
       null
@@ -1201,7 +1207,8 @@
       "7cd82ebae2b9a6a636b503e615d216cc3b3e84d3cd36aa1bb8f5f8eaca5764e9",
       "ad0f0d0781accc5392fa3369a410d3bbc64810147573680aca212ac15fa98ecb",
       "b4b2f68c89740192d8d68a90cab046f7049848e9524d4fca43ca5b59c6284eea",
-      "377abf26e5664b5f3e304ce33dabc1975cb019db9a6480cd59f6d19ddb0140bc"
+      "377abf26e5664b5f3e304ce33dabc1975cb019db9a6480cd59f6d19ddb0140bc",
+      "b75390e69b204c43151b55c1667f796e532f81c7b007f7149e31cbb145dec02d"
     ],
     "static/map/theme.js": [
       null,
@@ -1298,7 +1305,8 @@
       "3419ae7a834e56e9574576d2139fc88d60605eec1a5d5cbdf55636dcba9e1759",
       "65c77d45d1578a231bcc26fe81e8f6cd5c00e09dc3867287ed91590944e5d534",
       "bc9d03b405a0ad40b50a054915daa98629cdfc51f7998d545d577bd58bc6cf9f",
-      "c500964b2669651d4b4256ae746c0b298e3402e4036e92f34933ef540728ea8f"
+      "c500964b2669651d4b4256ae746c0b298e3402e4036e92f34933ef540728ea8f",
+      "89206e374ec23c4ca0d92ee942955b17d7e7e9dc136f519f8e48539c2ddc01e7"
     ],
     "templates/email_templates.html": [
       null,
@@ -1354,7 +1362,8 @@
     "templates/mail_settings.html": [
       null,
       "14a9c6c59dc21eaaec8d32b726420ecdc5419dfde04c1dcbc81e1f60e6cf9808",
-      "6979f358a9bf94a03da7060bbec0b44d60b3c098c46594b732dc8849476fab44"
+      "6979f358a9bf94a03da7060bbec0b44d60b3c098c46594b732dc8849476fab44",
+      "feddbb5ac4dd0862dcbdd68f1dc31895f447c1b325f9ad130e004f57c7af7b4a"
     ],
     "templates/manage.html": [
       null,
@@ -1592,6 +1601,15 @@
       null
     ],
     "docs/SSO_NEXT_DE.md": [
+      null
+    ],
+    "map/migrations/0018_mail_color_scheme.py": [
+      null
+    ],
+    "map/tests/test_mail_schemes.py": [
+      null
+    ],
+    "docs/MAIL_COLOR_SCHEMES_DE.md": [
       null
     ]
   }

@@ -8,6 +8,9 @@
       ['host','port','security','username','password','clear_password'].forEach(name=>toggle(name,!graph));
     };
     provider.addEventListener('change',sync);sync();
+    const scheme=form.querySelector('[name=mail_color_scheme]');
+    const preview=()=>document.querySelectorAll('[data-mail-scheme-preview]').forEach(item=>item.hidden=item.dataset.mailSchemePreview!==(scheme.value||'blue'));
+    scheme?.addEventListener('change',preview);if(scheme)preview();
     form.addEventListener('submit',event=>{
       if(form.dataset.busy){event.preventDefault();return;}
       form.dataset.busy='true';form.classList.add('map-form-pending');

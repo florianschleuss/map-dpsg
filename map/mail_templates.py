@@ -71,4 +71,6 @@ def email_template_edit(request,key):
         except ValueError:
             messages.error(request,'Die gespeicherte Vorlage ist ungültig. Beim Versand wird vorübergehend der Standard verwendet. Bitte korrigieren oder ausdrücklich zurücksetzen.')
             preview=render_content(*default_content(key),key,example_context(key) if key!='test' else {})
-    return render(request,'email_template_edit.html',{'form':form,'settings_area':'system' if key in ['password_reset','test'] else 'events','key':key,'template_title':TEMPLATES[key][0],'description':TEMPLATES[key][1],'preview':preview,'placeholders':PLACEHOLDERS.items(),'custom':bool(saved and effective_content(key,saved)!=default_content(key))})
+    from .mail_presentation import html_message,configured_color_scheme
+    preview_html=html_message(preview[1],configured_color_scheme()) if preview else None
+    return render(request,'email_template_edit.html',{'preview_html':preview_html,'form':form,'settings_area':'system' if key in ['password_reset','test'] else 'events','key':key,'template_title':TEMPLATES[key][0],'description':TEMPLATES[key][1],'preview':preview,'placeholders':PLACEHOLDERS.items(),'custom':bool(saved and effective_content(key,saved)!=default_content(key))})

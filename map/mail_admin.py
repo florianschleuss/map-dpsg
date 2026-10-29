@@ -36,15 +36,18 @@ class MailConfigurationForm(forms.ModelForm):
     test_recipient=forms.EmailField(label='Empfängeradresse für die Testmail',required=False)
     class Meta:
         model=MailConfiguration
-        fields=['feedback_email','enabled','provider','from_email','tenant_id','client_id','client_secret_expires_on','host','port','security','username']
+        fields=['mail_color_scheme','feedback_email','enabled','provider','from_email','tenant_id','client_id','client_secret_expires_on','host','port','security','username']
         widgets={'client_secret_expires_on':QuickDateWidget()}
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
+        self.fields['mail_color_scheme'].required=False
         self.fields['enabled'].label='Eigene E-Mail-Einstellungen verwenden'
         self.fields['provider'].required=False;self.fields['port'].required=False;self.fields['security'].required=False
         self.fields['from_email'].label='Absenderpostfach / Absenderadresse'
         self.fields['from_email'].help_text='Für Microsoft 365 die primäre Adresse oder den Benutzeranmeldenamen des freigegebenen Versandpostfachs verwenden.'
-        self.order_fields(['feedback_email','enabled','provider','from_email','tenant_id','client_id','client_secret','clear_client_secret','client_secret_expires_on','host','port','security','username','password','clear_password','test_recipient'])
+        self.order_fields(['mail_color_scheme','feedback_email','enabled','provider','from_email','tenant_id','client_id','client_secret','clear_client_secret','client_secret_expires_on','host','port','security','username','password','clear_password','test_recipient'])
+    def clean_mail_color_scheme(self):
+        return self.cleaned_data.get('mail_color_scheme') or getattr(self.instance,'mail_color_scheme','blue')
     def clean_port(self):
         value=self.cleaned_data.get('port')
         if self.cleaned_data.get('provider')=='microsoft_graph': return value or 587
@@ -108,7 +111,10 @@ def mail_settings(request):
             return redirect('mail_settings')
     expires=config.client_secret_expires_on
     expiry_days=(expires-timezone.localdate()).days if expires else None
-    return render(request,'mail_settings.html',{'form':form,'password_saved':bool(config.password_encrypted),'client_secret_saved':bool(config.client_secret_encrypted),'mailpit_mode':not config.enabled,'expiry_days':expiry_days})
+    from .mail_presentation import html_message
+    sample='Hallo,\n\ndie Teilnahme für Alex Beispiel ist bestätigt. Wir freuen uns auf die gemeinsame Zeit!\n\nVeranstaltung: Beispiel-Sommerlager\n\nAnmeldung ansehen oder Angaben ändern:\nhttps://beispiel.invalid/manage/BEISPIEL/'
+    scheme_previews=[{'key':key,'label':label,'html':html_message(sample,key)} for key,label in MailConfiguration._meta.get_field('mail_color_scheme').choices]
+    return render(request,'mail_settings.html',{'scheme_previews':scheme_previews,'form':form,'password_saved':bool(config.password_encrypted),'client_secret_saved':bool(config.client_secret_encrypted),'mailpit_mode':not config.enabled,'expiry_days':expiry_days})
 
 
 def filtered_jobs(status,module='all'):

@@ -28,15 +28,16 @@ def decrypt_client_secret(encrypted):
 
 def send_mail(subject,message,from_email,recipient_list,fail_silently=False):
     message=with_footer(message)
-    config=MailConfiguration.objects.filter(pk=1,enabled=True).first()
-    if config is None:
-        return django_send_mail(subject,message,sender_address(from_email),recipient_list,fail_silently=fail_silently,html_message=html_message(message))
+    config=MailConfiguration.objects.filter(pk=1).first()
+    scheme=getattr(config,'mail_color_scheme','blue')
+    if config is None or not config.enabled:
+        return django_send_mail(subject,message,sender_address(from_email),recipient_list,fail_silently=fail_silently,html_message=html_message(message,scheme))
     if config.provider=='microsoft_graph':
         from .microsoft_mail import send_graph
         return send_graph(config,decrypt_client_secret(config.client_secret_encrypted),subject,message,recipient_list)
     connection=get_connection('django.core.mail.backends.smtp.EmailBackend',host=config.host,port=config.port,username=config.username,password=decrypt_password(config.password_encrypted),use_tls=config.security=='starttls',use_ssl=config.security=='ssl',timeout=15,fail_silently=fail_silently)
     with connection:
-        return django_send_mail(subject,message,sender_address(config.from_email),recipient_list,connection=connection,fail_silently=fail_silently,html_message=html_message(message))
+        return django_send_mail(subject,message,sender_address(config.from_email),recipient_list,connection=connection,fail_silently=fail_silently,html_message=html_message(message,scheme))
 
 
 def test_credentials(config):
