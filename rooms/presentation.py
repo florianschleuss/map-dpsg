@@ -4,6 +4,9 @@ from django.utils import timezone
 
 def period(item):
     start=timezone.localtime(item.starts_at);end=timezone.localtime(item.ends_at)
+    if getattr(item,'recurring',False):
+        from .recurrence import WEEKDAYS
+        return 'Jeden '+WEEKDAYS[start.weekday()]+' · '+start.strftime('%H:%M')+'–'+end.strftime('%H:%M')+' Uhr · '+start.strftime('%d.%m.%Y')+' – '+end.strftime('%d.%m.%Y')
     if item.all_day:
         last=(end-timedelta(days=1)).date()
         return start.strftime('%d.%m.%Y')+(' – '+last.strftime('%d.%m.%Y') if last!=start.date() else '')+' · Ganztägig'
@@ -18,14 +21,27 @@ def decorate(booking):
 def ical_escape(value):return str(value).replace('\\','\\\\').replace('\r\n','\n').replace('\r','\n').replace('\n','\\n').replace(';','\\;').replace(',','\\,')
 
 
-def ical_bytes(bookings):
+def ical_bytes(bookings,start=None,end=None):
     # Stable UIDs, exclusive all-day end dates, UTC timed values, UTF-8 folding at 75 octets.
     from django.conf import settings
     from hashlib import sha256
     installation=sha256(settings.PUBLIC_URL.rstrip('/').encode()).hexdigest()[:20]
     lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//MAP//Raumbuchung//DE','CALSCALE:GREGORIAN','METHOD:PUBLISH']
-    for row in bookings:
-        lines+=['BEGIN:VEVENT','UID:map-room-'+installation+'-'+str(row.pk)+'@map.invalid','SEQUENCE:'+str(row.version),
+    from copy import copy
+    from .recurrence import intervals
+    def expanded():
+        for row in bookings:
+            if row.recurring:
+                for a,b in intervals(row,start,end):
+                    occurrence=copy(row);occurrence.starts_at=a;occurrence.ends_at=b
+                    occurrence.ical_uid=str(row.pk)+'-'+timezone.localtime(a).strftime('%Y%m%d')
+                    yield occurrence
+            else:yield row
+    for count,row in enumerate(expanded(),1):
+        if count>10000:
+            from django.core.exceptions import ValidationError
+            raise ValidationError('Bitte den iCal-Export durch Zeitraum oder Räume auf höchstens 10.000 Einzeltermine begrenzen.')
+        lines+=['BEGIN:VEVENT','UID:map-room-'+installation+'-'+str(getattr(row,'ical_uid',row.pk))+'@map.invalid','SEQUENCE:'+str(row.version),
           'DTSTAMP:'+row.updated_at.astimezone(utc.utc).strftime('%Y%m%dT%H%M%SZ'),
           'SUMMARY:'+ical_escape(row.purpose),'LOCATION:'+ical_escape(', '.join(r.name for r in row.rooms.all())),
           'DESCRIPTION:'+ical_escape('Gruppierung: '+row.grouping+'\nAnsprechperson: '+row.contact_person+'\nKontakt: '+row.contact+'\nStatus: '+row.get_status_display()),

@@ -37,16 +37,22 @@ def filtered(request):
         if data['status']!='pending':proposed&=Q(pk__isnull=True)
     rows=rows.filter(current|proposed).distinct()
     if request.GET.get('mine')=='1':rows=rows.filter(creator=request.user)
+    if data.get('start') or data.get('end'):
+        ids=[]
+        for row in rows:
+            if entry_matches(row,data) or (row.status=='approved' and any(c.status=='pending' and entry_matches(c,data) for c in row.changes.all())):ids.append(row.pk)
+        rows=rows.filter(pk__in=ids)
     return form,rows
 
 
 def decorate_row(row,user):
     decorate(row);row.can_edit=can_edit(user,row)
     row.pending_change=next((c for c in row.changes.all() if c.status=='pending'),None)
-    row.overlaps=conflicts([r.pk for r in row.rooms.all()],row.starts_at,row.ends_at,row.pk) if row.status in ['pending','approved'] else []
+    row.overlaps=conflicts([r.pk for r in row.rooms.all()],row.starts_at,row.ends_at,row.pk,recurring=row.recurring) if row.status in ['pending','approved'] else []
     if row.pending_change:
         seen={(c['booking'].pk,c['proposal']) for c in row.overlaps}
-        row.overlaps += [c for c in conflicts([r.pk for r in row.pending_change.rooms.all()],row.pending_change.starts_at,row.pending_change.ends_at,row.pk) if (c['booking'].pk,c['proposal']) not in seen]
+        row.overlaps += [c for c in conflicts([r.pk for r in row.pending_change.rooms.all()],row.pending_change.starts_at,row.pending_change.ends_at,row.pk,recurring=row.pending_change.recurring) if (c['booking'].pk,c['proposal']) not in seen]
+    row.decision_token=conflict_token(row.overlaps)
     return row
 
 
@@ -56,6 +62,8 @@ def entry_matches(item,criteria):
     if criteria.get('status') and item.status!=criteria['status']:return False
     if criteria.get('start') and item.ends_at<=local_datetime(criteria['start'],time.min):return False
     if criteria.get('end') and item.starts_at>=local_datetime(criteria['end']+timedelta(days=1),time.min):return False
+    from .recurrence import intervals
+    if (criteria.get('start') or criteria.get('end')) and not any(intervals(item,local_datetime(criteria['start'],time.min) if criteria.get('start') else None,local_datetime(criteria['end']+timedelta(days=1),time.min) if criteria.get('end') else None)):return False
     return True
 
 
@@ -88,7 +96,7 @@ def edit(request,pk=None):
     form=BookingForm(request.POST if request.method=='POST' else None,booking=booking)
     preview=None
     if request.method=='POST' and form.is_valid():
-        preview=conflicts([r.pk for r in form.cleaned_data['rooms']],form.cleaned_data['starts_at'],form.cleaned_data['ends_at'],booking.pk if booking else None)
+        preview=conflicts([r.pk for r in form.cleaned_data['rooms']],form.cleaned_data['starts_at'],form.cleaned_data['ends_at'],booking.pk if booking else None,recurring=form.cleaned_data['recurring'])
         if request.POST.get('action')!='preview':
             try:row=save_booking(request.user,form.cleaned_data,booking.pk if booking else None)
             except ValidationError as error:form.add_error(None,error)
@@ -100,7 +108,7 @@ def edit(request,pk=None):
 
 
 def history_rows(booking):
-    labels={'starts_at':'Beginn','ends_at':'Ende (exklusiv)','all_day':'Ganztägig','rooms':'Räume','grouping':'Gruppierung','purpose':'Veranstaltung / Zweck','status':'Status','contact_person':'Ansprechperson','contact':'Kontakt','version':'Fassung','decision_reason':'Begründung'}
+    labels={'starts_at':'Beginn','ends_at':'Ende (exklusiv)','all_day':'Ganztägig','recurring':'Wöchentlich wiederholen','rooms':'Räume','grouping':'Gruppierung','purpose':'Veranstaltung / Zweck','status':'Status','contact_person':'Ansprechperson','contact':'Kontakt','version':'Fassung','decision_reason':'Begründung'}
     from django.utils.dateparse import parse_datetime
     from .models import STATUSES
     def display(key,value):
@@ -126,8 +134,8 @@ def detail(request,pk):
     booking=get_object_or_404(RoomBooking.objects.select_related('creator','decided_by').prefetch_related('rooms','changes__rooms'),pk=pk)
     proposal=booking.changes.filter(status='pending').prefetch_related('rooms').first()
     target=proposal or booking
-    current_conflicts=conflicts(booking.rooms.values_list('pk',flat=True),booking.starts_at,booking.ends_at,booking.pk) if proposal else []
-    overlaps=conflicts(target.rooms.values_list('pk',flat=True),target.starts_at,target.ends_at,booking.pk) if booking.status in ['pending','approved'] else []
+    current_conflicts=conflicts(booking.rooms.values_list('pk',flat=True),booking.starts_at,booking.ends_at,booking.pk,recurring=booking.recurring) if proposal else []
+    overlaps=conflicts(target.rooms.values_list('pk',flat=True),target.starts_at,target.ends_at,booking.pk,recurring=target.recurring) if booking.status in ['pending','approved'] else []
     decision_form=DecisionForm(initial={'version':booking.version,'conflict_token':conflict_token(overlaps)})
     error=None
     if request.method=='POST':
@@ -190,7 +198,8 @@ def calendar_view(request):
             day_start=local_datetime(day,time.min);day_end=local_datetime(day+timedelta(days=1),time.min)
             items=[]
             for item in entries:
-                if item['entry'].starts_at<day_end and item['entry'].ends_at>day_start:
+                from .recurrence import intervals
+                if any(intervals(item['entry'],day_start,day_end)):
                     copy=dict(item);copy['period']=period(item['entry']);items.append(copy)
             days.append({'date':day,'items':items,'today':day==timezone.localdate(),'outside':day.month!=anchor.month})
         cells.append(days)
@@ -215,7 +224,10 @@ def export(request,kind):
                 grid.append([row.pk,'Änderungsantrag' if isinstance(item,BookingChange) else 'Aktuelle Buchung',period(item),', '.join(r.name for r in item.rooms.all()),item.grouping,item.purpose,row.contact_person,row.contact,item.get_status_display(),row.creator.get_username() if row.creator else 'Gelöschtes Konto'])
         response=HttpResponse(workbook_bytes(grid,sheet_name='Raumbuchungen'),content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');filename='raumbuchungen.xlsx'
     elif kind=='ical':
-        response=HttpResponse(ical_bytes(row for row in rows if entry_matches(row,form.cleaned_data)),content_type='text/calendar; charset=utf-8');filename='raumbuchungen.ics'
+        data=form.cleaned_data
+        try:content=ical_bytes((row for row in rows if entry_matches(row,data)),local_datetime(data['start'],time.min) if data.get('start') else None,local_datetime(data['end']+timedelta(days=1),time.min) if data.get('end') else None)
+        except ValidationError as error:return HttpResponse(' '.join(error.messages),status=400)
+        response=HttpResponse(content,content_type='text/calendar; charset=utf-8');filename='raumbuchungen.ics'
     else:
         from django.http import Http404
         raise Http404
@@ -294,6 +306,6 @@ def live_conflicts(request):
     if not form.is_valid():
         return JsonResponse({'valid':False,'errors':[str(message) for errors in form.errors.values() for message in errors]},status=400)
     data=form.cleaned_data
-    rows=conflicts([r.pk for r in data['rooms']],data['starts_at'],data['ends_at'],booking.pk if booking else None)
+    rows=conflicts([r.pk for r in data['rooms']],data['starts_at'],data['ends_at'],booking.pk if booking else None,recurring=form.cleaned_data['recurring'])
     from django.template.loader import render_to_string
     return JsonResponse({'valid':True,'count':len(rows),'html':render_to_string('rooms/live_conflicts.html',{'conflicts':rows},request=request)})

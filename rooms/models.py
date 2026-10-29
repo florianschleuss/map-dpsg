@@ -17,6 +17,7 @@ class Room(models.Model):
 class Occupancy(models.Model):
     starts_at=models.DateTimeField('Von')
     ends_at=models.DateTimeField('Bis (exklusiv)')
+    recurring=models.BooleanField('Wöchentlich wiederholen',default=False)
     all_day=models.BooleanField('Ganztägig',default=False)
     rooms=models.ManyToManyField(Room,related_name='%(class)s_entries')
     grouping=models.CharField('Gruppierung',max_length=160)

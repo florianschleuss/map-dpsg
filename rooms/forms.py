@@ -19,6 +19,8 @@ def local_datetime(day,clock):
 
 
 class BookingForm(forms.Form):
+    recurring=forms.BooleanField(label='Wiederkehrend · wöchentlich',required=False,widget=forms.CheckboxInput(attrs={'role':'switch'}))
+    weekday=forms.TypedChoiceField(label='Wochentag',choices=[(i,name) for i,name in enumerate(['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'])],coerce=int,required=False,empty_value=None)
     start_date=forms.DateField(label='Von – Datum',widget=forms.DateInput(attrs={'type':'date'},format='%Y-%m-%d'))
     end_date=forms.DateField(label='Bis – Datum (einschließlich bei ganztägig)',widget=forms.DateInput(attrs={'type':'date'},format='%Y-%m-%d'))
     all_day=forms.BooleanField(label='Ganztägig – ohne Uhrzeit',required=False)
@@ -38,7 +40,7 @@ class BookingForm(forms.Form):
         self.fields['rooms'].queryset=Room.objects.filter(allowed).distinct()
         if booking:
             start=timezone.localtime(booking.starts_at);end=timezone.localtime(booking.ends_at)
-            self.initial.update(start_date=start.date(),end_date=(end.date()-timedelta(days=1)) if booking.all_day else end.date(),
+            self.initial.update(recurring=booking.recurring,weekday=start.weekday(),start_date=start.date(),end_date=(end.date()-timedelta(days=1)) if booking.all_day else end.date(),
                 start_time=start.time().replace(tzinfo=None),end_time=end.time().replace(tzinfo=None),all_day=booking.all_day,
                 rooms=list(booking.rooms.values_list('pk',flat=True)),grouping=booking.grouping,purpose=booking.purpose,
                 contact_person=booking.contact_person,contact=booking.contact,version=booking.version)
@@ -51,6 +53,17 @@ class BookingForm(forms.Form):
         if not first or not last:return data
         from datetime import date
         if last==date.max:raise ValidationError('Das Enddatum liegt außerhalb des unterstützten Zeitraums.')
+        if data.get('recurring'):
+            from .recurrence import MAX_WEEKS
+            weekday=data.get('weekday')
+            if weekday is None:raise ValidationError('Bitte einen Wochentag auswählen.')
+            if data.get('all_day'):raise ValidationError('Wiederkehrende Buchungen benötigen eine Start- und Enduhrzeit.')
+            if last<first or (last-first).days>MAX_WEEKS*7:raise ValidationError('Bitte einen gültigen Wiederholungszeitraum von höchstens zehn Jahren auswählen.')
+            first+=timedelta(days=(weekday-first.weekday())%7)
+            last-=timedelta(days=(last.weekday()-weekday)%7)
+            if first>last:raise ValidationError('Im gewählten Zeitraum liegt keiner der ausgewählten Wochentage.')
+            if data.get('start_time') is None or data.get('end_time') is None or data['end_time']<=data['start_time']:
+                raise ValidationError('Bitte Start- und Enduhrzeit am selben Tag angeben; das Ende muss nach dem Beginn liegen.')
         if data.get('all_day'):
             from datetime import time
             start=local_datetime(first,time.min);end=local_datetime(last+timedelta(days=1),time.min)
@@ -58,9 +71,12 @@ class BookingForm(forms.Form):
             raise ValidationError('Bitte beide Uhrzeiten angeben oder „Ganztägig“ auswählen.')
         else:start=local_datetime(first,data['start_time']);end=local_datetime(last,data['end_time'])
         if end<=start:raise ValidationError('Das Ende muss nach dem Beginn liegen.')
-        unchanged=self.booking and start==self.booking.starts_at and end==self.booking.ends_at and data.get('all_day',False)==self.booking.all_day and {r.pk for r in data.get('rooms',[])}==set(self.booking.rooms.values_list('pk',flat=True))
+        unchanged=self.booking and start==self.booking.starts_at and end==self.booking.ends_at and data.get('all_day',False)==self.booking.all_day and data.get('recurring',False)==self.booking.recurring and {r.pk for r in data.get('rooms',[])}==set(self.booking.rooms.values_list('pk',flat=True))
         past=(first<timezone.localdate()) if data.get('all_day') else (start<timezone.now())
         if past and not unchanged:raise ValidationError('Buchungen in der Vergangenheit sind nicht erlaubt.')
+        from types import SimpleNamespace
+        from .recurrence import intervals
+        list(intervals(SimpleNamespace(starts_at=start,ends_at=end,all_day=data.get('all_day',False),recurring=data.get('recurring',False))))
         data.update(starts_at=start,ends_at=end)
         return data
 

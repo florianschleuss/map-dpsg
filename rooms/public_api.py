@@ -38,14 +38,17 @@ def occupancy(request):
     def bounds(day):
         return (local_datetime(day,time.min).astimezone(utc.utc),local_datetime(day+timedelta(days=1),time.min).astimezone(utc.utc))
     def include(query,status):
-        for start,end,room in query.values_list('starts_at','ends_at','rooms__pk').iterator(chunk_size=1000):
-            if room not in rooms:continue
-            day=max(first,timezone.localtime(start).date());stop=min(last,timezone.localtime(end-timedelta(microseconds=1)).date())
-            start=start.astimezone(utc.utc);end=end.astimezone(utc.utc)
-            while day<=stop:
-                low,high=bounds(day)
-                intervals=days.setdefault(day,{'approved':{},'pending':{}})[status].setdefault(room,[])
-                intervals.append((max(start,low),min(end,high)));day+=timedelta(days=1)
+        from .recurrence import intervals
+        for entry in query.distinct().prefetch_related('rooms').iterator(chunk_size=1000):
+            for start,end in intervals(entry,begin,finish):
+                for room in entry.rooms.all():
+                    if room.pk not in rooms:continue
+                    day=max(first,timezone.localtime(start).date());stop=min(last,timezone.localtime(end-timedelta(microseconds=1)).date())
+                    a=start.astimezone(utc.utc);b=end.astimezone(utc.utc)
+                    while day<=stop:
+                        low,high=bounds(day)
+                        intervals_for_room=days.setdefault(day,{'approved':{},'pending':{}})[status].setdefault(room.pk,[])
+                        intervals_for_room.append((max(a,low),min(b,high)));day+=timedelta(days=1)
     include(RoomBooking.objects.filter(status='approved',starts_at__lt=finish,ends_at__gt=begin),'approved')
     include(RoomBooking.objects.filter(status='pending',starts_at__lt=finish,ends_at__gt=begin),'pending')
     include(BookingChange.objects.filter(status='pending',booking__status='approved',starts_at__lt=finish,ends_at__gt=begin),'pending')

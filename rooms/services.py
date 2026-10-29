@@ -6,7 +6,7 @@ from django.utils import timezone
 from .models import Room,RoomBooking,BookingChange,RoomAudit
 from .access import require_user,can_edit,board,can_request
 
-FIELDS=['starts_at','ends_at','all_day','grouping','purpose']
+FIELDS=['starts_at','ends_at','all_day','grouping','purpose','recurring']
 
 
 def lock_schedule():
@@ -26,13 +26,20 @@ def audit(booking,actor,action,before=None,after=None):
     RoomAudit.objects.create(booking=booking,actor=actor,action=action,before=before or {},after=after or snapshot(booking))
 
 
-def conflicts(room_ids,start,end,exclude=None):
+def conflicts(room_ids,start,end,exclude=None,recurring=False):
+    from types import SimpleNamespace
+    from .recurrence import overlaps
+    target=SimpleNamespace(starts_at=start,ends_at=end,all_day=False,recurring=recurring)
     ids=list(room_ids);result=[]
     if not ids:return result
     rows=RoomBooking.objects.filter(status__in=['pending','approved'],starts_at__lt=end,ends_at__gt=start,rooms__pk__in=ids).exclude(pk=exclude).distinct().prefetch_related('rooms')
-    for row in rows:result.append({'booking':row,'entry':row,'proposal':False,'status':row.status,'rooms':[r.name for r in row.rooms.all() if r.pk in ids]})
+    for row in rows:
+        if not overlaps(target,row):continue
+        result.append({'booking':row,'entry':row,'proposal':False,'status':row.status,'rooms':[r.name for r in row.rooms.all() if r.pk in ids]})
     changes=BookingChange.objects.filter(status='pending',booking__status='approved',starts_at__lt=end,ends_at__gt=start,rooms__pk__in=ids).exclude(booking_id=exclude).distinct().select_related('booking').prefetch_related('rooms')
-    for change in changes:result.append({'booking':change.booking,'entry':change,'proposal':True,'status':'pending','rooms':[r.name for r in change.rooms.all() if r.pk in ids]})
+    for change in changes:
+        if not overlaps(target,change):continue
+        result.append({'booking':change.booking,'entry':change,'proposal':True,'status':'pending','rooms':[r.name for r in change.rooms.all() if r.pk in ids]})
     from .presentation import period
     for item in result:item['period']=period(item['entry'])
     return sorted(result,key=lambda c:(c['entry'].starts_at,c['booking'].pk,c['proposal']))
@@ -47,6 +54,8 @@ def future(item):
     past=timezone.localtime(item.starts_at).date()<timezone.localdate() if item.all_day else item.starts_at<timezone.now()
     if past:raise ValidationError('Dieser Zeitraum liegt inzwischen in der Vergangenheit. Bitte die Anfrage bearbeiten oder ablehnen.')
     if item.ends_at<=item.starts_at:raise ValidationError('Das Ende muss nach dem Beginn liegen.')
+    from .recurrence import intervals
+    list(intervals(item))
 
 
 def version_check(booking,version):
@@ -55,6 +64,7 @@ def version_check(booking,version):
 
 @transaction.atomic
 def save_booking(actor,data,booking_id=None):
+    data=dict(data);data.setdefault('recurring',False)
     require_user(actor);lock_schedule()
     if not can_request(actor):raise PermissionDenied
     booking=RoomBooking.objects.select_for_update().get(pk=booking_id) if booking_id else None
@@ -109,7 +119,7 @@ def decide(actor,booking_id,action,version,reason='',confirm=False,token='',chan
     before=snapshot(target)
     if action=='approve':
         future(target)
-        overlaps=conflicts(target.rooms.values_list('pk',flat=True),target.starts_at,target.ends_at,exclude=booking.pk)
+        overlaps=conflicts(target.rooms.values_list('pk',flat=True),target.starts_at,target.ends_at,exclude=booking.pk,recurring=target.recurring)
         if any(c['status']=='approved' for c in overlaps) and (not confirm or token!=conflict_token(overlaps)):
             raise ValidationError('Es gibt genehmigte Überschneidungen. Bitte die aktuelle Konfliktliste prüfen und die zusätzliche Bestätigung setzen.')
     target.status='approved' if action=='approve' else 'rejected'

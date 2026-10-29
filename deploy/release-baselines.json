@@ -1021,7 +1021,8 @@
     "rooms/templates/rooms/edit.html": [
       null,
       "2b1a1e08d96bc95d2be581e6827f41cddd11e40108cee87c2b1d298c59377797",
-      "f058ae67895b8d8704cc63023f0c0f20c0476cab15e5715ade53abfd5f9f24c5"
+      "f058ae67895b8d8704cc63023f0c0f20c0476cab15e5715ade53abfd5f9f24c5",
+      "41d1af97b33307b5e6bbfa2b6b81cfd9a578e48e433f50acc3a03630f3c93465"
     ],
     "rooms/templates/rooms/filter.html": [
       null,
@@ -1030,7 +1031,8 @@
     ],
     "rooms/templates/rooms/index.html": [
       null,
-      "cb6df71fa3f4b88eb8b78b7de3a8c001be7bb2e558536c8b9e744088d99601fe"
+      "cb6df71fa3f4b88eb8b78b7de3a8c001be7bb2e558536c8b9e744088d99601fe",
+      "8b4547a3c031e92dcc74883bdc9c51492a5c652be0fa3f421e5f914e31f969ee"
     ],
     "rooms/templates/rooms/live_conflicts.html": [
       null,
@@ -1161,7 +1163,8 @@
       "3ee1a798cffc04afaaa0860dcf62ab9480a1e125623f21e43afbe611805087de",
       "5f73d74c831c4968a85abcc361072e2b2f12b0fa9a9c1f8df259737f6dc29306",
       "ab4b205960a369163d4021a38f7bc6a787f7b7e3689bd510a3b65866e4c1e3af",
-      "fa55145d2d790ef097472251c6cce3cb7a8cd3ffdb42504f00714bd227277d31"
+      "fa55145d2d790ef097472251c6cce3cb7a8cd3ffdb42504f00714bd227277d31",
+      "006ed8bede4d3b647da8d03a2a61ac8e01d471ca885827954950e780ef36e14c"
     ],
     "static/map/rooms.js": [
       null,
@@ -1511,6 +1514,21 @@
       null
     ],
     "tools/fixtures/production-legacy-preimages.json": [
+      null
+    ],
+    "rooms/recurrence.py": [
+      null,
+      "15497b20e5075c9b237107e46c6013b0b947934b2118c68d99618dd08341f5a9"
+    ],
+    "rooms/migrations/0004_weekly_bookings.py": [
+      null,
+      "16eb57fcd6ba4ebcf696d4f04f6d8b51dd9c5f49c4c01d6f211fdd968859a55a"
+    ],
+    "rooms/tests/test_weekly.py": [
+      null,
+      "06955d3bd53e4b469f307f57923689d3c95ed3ed8e2433cc6c4e8d4249826e53"
+    ],
+    "docs/WEEKLY_ROOM_BOOKINGS_DE.md": [
       null
     ]
   }
