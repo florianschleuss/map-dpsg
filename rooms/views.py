@@ -108,7 +108,7 @@ def edit(request,pk=None):
 
 
 def history_rows(booking):
-    labels={'starts_at':'Beginn','ends_at':'Ende (exklusiv)','all_day':'Ganztägig','recurring':'Wöchentlich wiederholen','rooms':'Räume','grouping':'Gruppierung','purpose':'Veranstaltung / Zweck','status':'Status','contact_person':'Ansprechperson','contact':'Kontakt','version':'Fassung','decision_reason':'Begründung'}
+    labels={'starts_at':'Beginn','ends_at':'Ende (exklusiv)','all_day':'Ganztägig','recurring':'Wöchentlich wiederholen','rooms':'Räume','grouping':'Gruppierung','purpose':'Veranstaltung / Zweck','status':'Status','contact_person':'Ansprechperson','contact':'Kontakt/zusätzliche Angaben','version':'Fassung','decision_reason':'Begründung'}
     from django.utils.dateparse import parse_datetime
     from .models import STATUSES
     def display(key,value):
@@ -217,7 +217,7 @@ def export(request,kind):
     if rows.count()>10000:return HttpResponse('Bitte den Export durch Zeitraum oder Räume auf höchstens 10.000 Buchungen begrenzen.',status=400)
     if kind=='excel':
         from map.excel_export import workbook_bytes
-        grid=[['Buchungsnummer','Fassung','Zeitraum','Räume','Gruppierung','Veranstaltung / Zweck','Ansprechperson','Kontakt','Status','Buchende Person']]
+        grid=[['Buchungsnummer','Fassung','Zeitraum','Räume','Gruppierung','Veranstaltung / Zweck','Ansprechperson','Kontakt/zusätzliche Angaben','Status','Buchende Person']]
         for row in rows:
             for item in [row]+[c for c in row.changes.all() if c.status=='pending']:
                 if not entry_matches(item,form.cleaned_data):continue

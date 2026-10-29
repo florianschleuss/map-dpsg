@@ -23,7 +23,7 @@ class WeeklyBookingTests(RoomBookingTests.__bases__[0]):
         row=save_booking(self.leader,form.cleaned_data);self.assertTrue(row.recurring)
         self.assertEqual(len(list(intervals(row))),4)
         self.client.force_login(self.board)
-        response=self.client.get(reverse('rooms:pending'));self.assertContains(response,'data-room-row=');self.assertContains(response,'room-icon-action');self.assertContains(response,'room-decision-menu')
+        response=self.client.get(reverse('rooms:pending'));self.assertContains(response,'data-room-row=');self.assertContains(response,'room-icon-action');self.assertContains(response,'room-decision-popover')
         self.assertNotContains(response,'Details / Entscheiden')
         self.assertEqual(self.client.post(reverse('rooms:detail',args=[row.pk]),{'action':'approve','version':row.version}).status_code,302)
         row.refresh_from_db();self.assertEqual(row.status,'approved')

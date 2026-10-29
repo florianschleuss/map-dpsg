@@ -74,11 +74,11 @@ class RoomBookingTests(TestCase):
         self.assertEqual(self.client.get(reverse('rooms:new')).status_code,403)
         with self.assertRaises(PermissionDenied):self.booking(self.outsider)
 
-    def test_past_and_negative_times_are_rejected(self):
+    def test_past_times_are_allowed_but_negative_intervals_are_rejected(self):
         form=BookingForm(self.form_data(start_date=str(self.day-timedelta(days=30)),end_date=str(self.day-timedelta(days=30))))
-        self.assertFalse(form.is_valid());self.assertIn('Vergangenheit',str(form.errors))
+        self.assertTrue(form.is_valid(),form.errors)
         self.assertFalse(BookingForm(self.form_data(end_time='08:00')).is_valid())
-        with self.assertRaises(ValidationError):self.booking(starts_at=timezone.now()-timedelta(hours=1))
+        self.booking(starts_at=timezone.now()-timedelta(hours=1))
 
     def test_all_day_multiday_end_is_exclusive_and_no_time_is_required(self):
         form=BookingForm(self.form_data(all_day='on',end_date=str(self.day+timedelta(days=2)),start_time='',end_time=''))

@@ -1,3 +1,4 @@
+from .widgets import QuickDateWidget
 from django.views.decorators.debug import sensitive_post_parameters
 from django import forms
 from django.conf import settings
@@ -36,7 +37,7 @@ class MailConfigurationForm(forms.ModelForm):
     class Meta:
         model=MailConfiguration
         fields=['enabled','provider','from_email','tenant_id','client_id','client_secret_expires_on','host','port','security','username']
-        widgets={'client_secret_expires_on':forms.DateInput(attrs={'type':'date'},format='%Y-%m-%d')}
+        widgets={'client_secret_expires_on':QuickDateWidget()}
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.fields['enabled'].label='Eigene E-Mail-Einstellungen verwenden'

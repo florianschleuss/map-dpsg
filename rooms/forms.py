@@ -1,3 +1,4 @@
+from map.widgets import QuickDateWidget
 from datetime import datetime,timedelta
 from django import forms
 from django.utils import timezone
@@ -21,8 +22,8 @@ def local_datetime(day,clock):
 class BookingForm(forms.Form):
     recurring=forms.BooleanField(label='Wiederkehrend · wöchentlich',required=False,widget=forms.CheckboxInput(attrs={'role':'switch'}))
     weekday=forms.TypedChoiceField(label='Wochentag',choices=[(i,name) for i,name in enumerate(['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'])],coerce=int,required=False,empty_value=None)
-    start_date=forms.DateField(label='Von – Datum',widget=forms.DateInput(attrs={'type':'date'},format='%Y-%m-%d'))
-    end_date=forms.DateField(label='Bis – Datum (einschließlich bei ganztägig)',widget=forms.DateInput(attrs={'type':'date'},format='%Y-%m-%d'))
+    start_date=forms.DateField(label='Von – Datum',widget=QuickDateWidget())
+    end_date=forms.DateField(label='Bis – Datum (einschließlich bei ganztägig)',widget=QuickDateWidget())
     all_day=forms.BooleanField(label='Ganztägig – ohne Uhrzeit',required=False)
     start_time=forms.TimeField(label='Von – Uhrzeit',required=False,widget=forms.TimeInput(attrs={'type':'time'},format='%H:%M'))
     end_time=forms.TimeField(label='Bis – Uhrzeit',required=False,widget=forms.TimeInput(attrs={'type':'time'},format='%H:%M'))
@@ -30,7 +31,7 @@ class BookingForm(forms.Form):
     grouping=forms.CharField(label='Gruppierung',max_length=160,help_text='Zum Beispiel Wölflinge oder eine externe Gruppierung.')
     purpose=forms.CharField(label='Veranstaltung / Zweck',max_length=250)
     contact_person=forms.CharField(label='Ansprechperson',max_length=160)
-    contact=forms.CharField(label='Kontakt',max_length=500,widget=forms.Textarea(attrs={'rows':2}),help_text='Freitext, z. B. Telefon oder E-Mail einer externen Person. Bitte keine medizinischen Daten eintragen.')
+    contact=forms.CharField(label='Kontakt/zusätzliche Angaben',max_length=500,required=False,widget=forms.Textarea(attrs={'rows':2}),help_text='Freitext, z. B. Telefon oder E-Mail einer externen Person. Bitte keine medizinischen Daten eintragen.')
     version=forms.IntegerField(widget=forms.HiddenInput,required=False,min_value=1)
     def __init__(self,*args,booking=None,**kwargs):
         self.booking=booking;super().__init__(*args,**kwargs)
@@ -71,9 +72,7 @@ class BookingForm(forms.Form):
             raise ValidationError('Bitte beide Uhrzeiten angeben oder „Ganztägig“ auswählen.')
         else:start=local_datetime(first,data['start_time']);end=local_datetime(last,data['end_time'])
         if end<=start:raise ValidationError('Das Ende muss nach dem Beginn liegen.')
-        unchanged=self.booking and start==self.booking.starts_at and end==self.booking.ends_at and data.get('all_day',False)==self.booking.all_day and data.get('recurring',False)==self.booking.recurring and {r.pk for r in data.get('rooms',[])}==set(self.booking.rooms.values_list('pk',flat=True))
-        past=(first<timezone.localdate()) if data.get('all_day') else (start<timezone.now())
-        if past and not unchanged:raise ValidationError('Buchungen in der Vergangenheit sind nicht erlaubt.')
+        # Historic bookings are allowed; interval ordering and DST remain validated.
         from types import SimpleNamespace
         from .recurrence import intervals
         list(intervals(SimpleNamespace(starts_at=start,ends_at=end,all_day=data.get('all_day',False),recurring=data.get('recurring',False))))
@@ -88,8 +87,8 @@ class ConflictForm(BookingForm):
 
 
 class FilterForm(forms.Form):
-    start=forms.DateField(label='Ab',required=False,widget=forms.DateInput(attrs={'type':'date'},format='%Y-%m-%d'))
-    end=forms.DateField(label='Bis',required=False,widget=forms.DateInput(attrs={'type':'date'},format='%Y-%m-%d'))
+    start=forms.DateField(label='Ab',required=False,widget=QuickDateWidget())
+    end=forms.DateField(label='Bis',required=False,widget=QuickDateWidget())
     rooms=forms.ModelMultipleChoiceField(label='Räume',queryset=Room.objects.all(),required=False,widget=forms.CheckboxSelectMultiple)
     grouping=forms.CharField(label='Gruppierung',required=False,max_length=160)
     status=forms.ChoiceField(label='Status',required=False,choices=[('','Alle Status'),('pending','Schwebend'),('approved','Genehmigt'),('rejected','Abgelehnt'),('cancelled','Storniert')])

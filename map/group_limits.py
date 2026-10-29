@@ -4,7 +4,7 @@ from .models import Event, EventGroup
 ACTIVE = ['pending', 'confirmed', 'waitlisted']
 
 def validate_limits(event, limits, pooled=None):
-    pooled=(getattr(event,'capacity_mode','per_group')=='shared') if pooled is None else pooled
+    pooled=(getattr(event,'capacity_mode','per_group') in ['shared','unlimited']) if pooled is None else pooled
     if not limits: raise ValidationError('Bitte mindestens eine Gruppe mit einem Platzlimit auswählen.')
     for key, capacity in limits.items():
         if isinstance(capacity, bool) or not isinstance(capacity, int) or capacity < 1 or capacity > 2147483647:

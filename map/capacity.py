@@ -7,7 +7,7 @@ def choose_promotions(mode,total_capacity,limits,occupied,waiting,total_occupied
         if slot_id not in limits: continue
         if mode=='shared':
             if used>=total_capacity: break
-        elif counts.get(slot_id,0)>=limits[slot_id]: continue
+        elif mode!='unlimited' and counts.get(slot_id,0)>=limits[slot_id]: continue
         selected.append(registration_id)
         counts[slot_id]=counts.get(slot_id,0)+1;used+=1
     return selected

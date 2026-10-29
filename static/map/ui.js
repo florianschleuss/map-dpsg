@@ -7,18 +7,30 @@
     const parts = Object.fromEntries(new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
     return {date:`${parts.year}-${parts.month}-${parts.day}`,time:`${parts.hour}:${parts.minute}`};
   };
+  const initDatePickers=()=>{
+  document.querySelectorAll('input[type="date"]').forEach(input=>{
+    if(input.closest('[data-map-datetime]')||input.disabled)return;
+    const root=el('div','map-datetime');root.dataset.mapDatetime='';root.dataset.dateOnly='true';
+    root.innerHTML='<div class="map-date-controls" hidden><div class="map-date-column"><button type="button" class="map-date-open" aria-haspopup="dialog" aria-expanded="false">Datum auswählen</button><button type="button" data-time="now">Heute</button></div><div class="map-time-column"><input type="time" class="map-time-input" aria-label="Uhrzeit"></div></div><div class="map-calendar" role="dialog" aria-label="Datum auswählen" hidden></div>';
+    input.replaceWith(root);root.prepend(input);
+  });
   document.querySelectorAll('[data-map-datetime]').forEach(root=>{
-    const source=root.querySelector('input[name]');
-    if(!source || source.disabled)return;
+    if(root.dataset.dateReady)return;
+
+    const source=root.querySelector('input:not(.map-time-input)');
+    if(!source || source.disabled)return;root.dataset.dateReady='true';
     const controls=root.querySelector('.map-date-controls'),open=root.querySelector('.map-date-open'),time=root.querySelector('.map-time-input'),calendar=root.querySelector('.map-calendar');
+    const dateOnly=root.dataset.dateOnly==='true';
+    if(dateOnly){root.querySelector('.map-time-column').hidden=true;root.querySelector('[data-time=now]').textContent='Heute';}
     let selected=(source.value||'').replace(' ','T').slice(0,10);
     if(!/^\d{4}-\d{2}-\d{2}$/.test(selected))selected='';
     time.value=(source.value||'').replace(' ','T').slice(11,16)||'09:00';
     let [year,month]=(selected||berlinNow().date).split('-').map(Number);month--;
     source.type='hidden';controls.hidden=false;
     const sync=()=>{
-      source.value=selected&&time.value?`${selected}T${time.value}`:'';
+      source.value=dateOnly?selected:(selected&&time.value?`${selected}T${time.value}`:'');
       open.textContent=selected?new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'long',year:'numeric'}).format(new Date(selected+'T12:00:00')):'Datum auswählen';
+      const clear=root.querySelector('.map-date-clear');if(clear)clear.hidden=!selected;
       source.dispatchEvent(new Event('change',{bubbles:true}));
     };
     const close=()=>{calendar.hidden=true;open.setAttribute('aria-expanded','false');};
@@ -46,11 +58,15 @@
     };
     open.addEventListener('click',()=>{const show=calendar.hidden;calendar.hidden=!show;open.setAttribute('aria-expanded',String(show));if(show){draw();calendar.querySelector('.is-selected')?.focus();}});
     root.addEventListener('keydown',e=>{if(e.key==='Escape'){close();open.focus();}});
-    document.addEventListener('click',e=>{if(!e.composedPath().includes(root))close();});
+    root.mapCloseDate=close;
     time.addEventListener('input',sync);
     root.querySelectorAll('[data-time]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.time==='now'){const now=berlinNow();selected=now.date;time.value=now.time;}else{selected=selected||berlinNow().date;time.value=b.dataset.time;}[year,month]=selected.split('-').map(Number);month--;sync();}));
+    if(!source.required){const clear=button('×','Datum löschen',()=>{selected='';sync();close();open.focus();});clear.className='map-date-clear';clear.title='Datum löschen';controls.append(clear);}
     sync();
   });
+  };initDatePickers();
+  document.addEventListener('click',event=>document.querySelectorAll('[data-map-datetime]').forEach(root=>{if(!event.composedPath().includes(root))root.mapCloseDate?.();}));
+  new MutationObserver(records=>{if(records.some(record=>record.addedNodes.length))initDatePickers();}).observe(document.body,{childList:true,subtree:true});
   const rights=[...document.querySelectorAll('input[type="checkbox"][name="viewers"],input[type="checkbox"][name="editors"]')];
   const syncRights=()=>rights.forEach(box=>{
     const opposite=rights.some(other=>other.name!==box.name && other.value===box.value && other.checked);
@@ -122,11 +138,14 @@
   document.querySelectorAll('select[name="capacity_mode"]').forEach(mode=>{
     const form=mode.closest('form'),shared=form.querySelector('[name="shared_capacity"]'),waiting=form.querySelector('[name="waitlist_mode"]');
     const sync=()=>{
-      const pooled=mode.value==='shared';
-      if(shared){shared.closest('.map-field,.form-row')?.toggleAttribute('hidden',!pooled);shared.required=pooled;}
-      form.querySelectorAll('input[name="capacity"],input[name^="capacity_"]').forEach(input=>input.closest('.map-field,.form-row')?.toggleAttribute('hidden',pooled));
-      form.querySelectorAll('[data-limit-for]').forEach(input=>input.parentElement.hidden=pooled);
+      const pooled=mode.value==='shared',unlimited=mode.value==='unlimited';
+      if(shared){shared.disabled=unlimited;shared.closest('.map-field,.form-row')?.toggleAttribute('hidden',!pooled);shared.required=pooled;}
+      form.querySelectorAll('input[name="capacity"],input[name^="capacity_"]').forEach(input=>input.closest('.map-field,.form-row')?.toggleAttribute('hidden',pooled||unlimited));
+      form.querySelectorAll('[data-limit-for]').forEach(input=>input.parentElement.hidden=pooled||unlimited);
       if(pooled&&waiting)waiting.value='shared';
+      if(waiting)waiting.closest('.map-field,.form-row')?.toggleAttribute('hidden',unlimited);
+      const waitlist=form.querySelector('[name=waitlist_enabled]');if(waitlist){waitlist.closest('.map-field,.form-row')?.toggleAttribute('hidden',unlimited);if(unlimited)waitlist.checked=false;}
+      form.querySelectorAll('input[name=capacity],input[name^=capacity_]').forEach(input=>input.disabled=unlimited);
     };
     mode.addEventListener('change',sync);sync();
   });

@@ -50,9 +50,8 @@ def conflict_token(rows):
     return hashlib.sha256(json.dumps(items).encode()).hexdigest()
 
 
-def future(item):
-    past=timezone.localtime(item.starts_at).date()<timezone.localdate() if item.all_day else item.starts_at<timezone.now()
-    if past:raise ValidationError('Dieser Zeitraum liegt inzwischen in der Vergangenheit. Bitte die Anfrage bearbeiten oder ablehnen.')
+def validate_period(item):
+    # Historic bookings can be entered and approved using the same workflow.
     if item.ends_at<=item.starts_at:raise ValidationError('Das Ende muss nach dem Beginn liegen.')
     from .recurrence import intervals
     list(intervals(item))
@@ -78,7 +77,7 @@ def save_booking(actor,data,booking_id=None):
     if booking:
         version_check(booking,data.get('version'));before=snapshot(booking)
         changed=any(getattr(booking,name)!=data[name] for name in FIELDS) or room_ids!=set(booking.rooms.values_list('pk',flat=True))
-        if changed:future(candidate)
+        if changed:validate_period(candidate)
         contacts_changed=booking.contact_person!=data['contact_person'] or booking.contact!=data['contact']
         booking.contact_person=data['contact_person'];booking.contact=data['contact']
         if booking.status=='approved' and changed:
@@ -101,7 +100,7 @@ def save_booking(actor,data,booking_id=None):
         from .notifications import notify
         notify(booking,'request' if booking.status=='pending' else 'contact_updated')
         return booking
-    future(candidate)
+    validate_period(candidate)
     booking=RoomBooking.objects.create(creator=actor,contact_person=data['contact_person'],contact=data['contact'],**{name:data[name] for name in FIELDS})
     booking.rooms.set(room_ids);audit(booking,actor,'Buchungsanfrage eingereicht')
     from .notifications import notify
@@ -118,7 +117,7 @@ def decide(actor,booking_id,action,version,reason='',confirm=False,token='',chan
     if target.status!='pending' or (change_id and booking.status!='approved'):raise ValidationError('Diese Anfrage ist nicht mehr offen. Bitte neu laden.')
     before=snapshot(target)
     if action=='approve':
-        future(target)
+        validate_period(target)
         overlaps=conflicts(target.rooms.values_list('pk',flat=True),target.starts_at,target.ends_at,exclude=booking.pk,recurring=target.recurring)
         if any(c['status']=='approved' for c in overlaps) and (not confirm or token!=conflict_token(overlaps)):
             raise ValidationError('Es gibt genehmigte Überschneidungen. Bitte die aktuelle Konfliktliste prüfen und die zusätzliche Bestätigung setzen.')

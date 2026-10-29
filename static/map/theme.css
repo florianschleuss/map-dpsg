@@ -85,3 +85,18 @@ html[data-map-theme="dark"] #id_groups label{background:#2b2b2b!important;color:
 html[data-map-theme="dark"] :is(.map-main,.map-admin) :is(.map-button-danger,button.danger,.deletelink){background:#872f35!important;color:#fff!important;border-color:#d98d94!important}html[data-map-theme="dark"] :is(.map-main,.map-admin) :is(.map-button-danger,button.danger,.deletelink):hover{background:#682126!important;color:#fff!important}
 
 html[data-map-theme="dark"] .map-entry-count{color:#bdbdbd!important}html[data-map-theme="dark"] .mail-template-state.is-on{background:#183e2b!important;color:#b7edcc!important;border-color:#6f9e7f!important}html[data-map-theme="dark"] .mail-template-state.is-off{background:#383838!important;color:#dedede!important;border-color:#777!important}html[data-map-theme="dark"] .mail-template-state.is-required{background:#293740!important;color:#d4e8f5!important;border-color:#607d8b!important}
+
+html[data-map-theme="dark"] .map-calendar{background:#262626!important;color:#edf2f5!important;border-color:#686868!important;box-shadow:0 12px 36px #0008!important}
+html[data-map-theme="dark"] .map-calendar-heading,html[data-map-theme="dark"] .map-calendar-heading strong{color:#edf2f5!important}
+html[data-map-theme="dark"] .map-calendar-weekday{color:#c0c9ce!important}
+html[data-map-theme="dark"] :is(.map-public,.map-admin) .map-calendar button{background:#323232!important;color:#edf2f5!important;border:1px solid transparent!important}
+html[data-map-theme="dark"] :is(.map-public,.map-admin) .map-calendar button:hover{background:#484848!important;color:#fff!important}
+html[data-map-theme="dark"] :is(.map-public,.map-admin) .map-calendar .is-selected{background:#246e9a!important;color:white!important}
+html[data-map-theme="dark"] .map-calendar .is-today{box-shadow:inset 0 0 0 1px #9ed4ef}
+html[data-map-theme="dark"] .map-calendar button:focus-visible{outline:2px solid #9ed4ef;outline-offset:2px}
+.map-datetime[data-date-only] .map-time-column{display:none!important}
+
+.map-group-limit>div[hidden],.map-field[hidden],.form-row[hidden]{display:none!important}
+
+
+.map-datetime[data-date-only] .map-date-controls{display:flex;align-items:flex-start;gap:6px}.map-datetime[data-date-only] .map-date-column{flex:1;min-width:0;gap:4px}.map-datetime[data-date-only] .map-date-open{font-size:.85rem;min-height:40px;padding:9px 10px}.map-datetime[data-date-only] [data-time=now]{align-self:flex-start;font-size:.75rem;min-height:26px;padding:4px 8px}.map-date-clear{flex:0 0 30px!important;min-width:30px!important;min-height:30px!important;width:30px!important;height:30px;padding:0!important;line-height:1;font-size:20px!important;margin-top:5px}.map-date-clear[hidden]{display:none!important}

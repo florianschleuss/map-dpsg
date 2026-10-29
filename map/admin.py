@@ -3,7 +3,7 @@ from django import forms
 from django.db import models
 from django.shortcuts import redirect
 from .forms import EventSettingsForm
-from .widgets import QuickDateTimeWidget
+from .widgets import QuickDateTimeWidget,QuickDateWidget
 from .admin_language import label_form, GermanInline, add_displays
 from django.contrib import admin
 from django.db import transaction
@@ -14,6 +14,7 @@ class LocalAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         if isinstance(db_field, models.DateTimeField):
             return db_field.formfield(widget=QuickDateTimeWidget())
+        if isinstance(db_field, models.DateField):return db_field.formfield(widget=QuickDateWidget())
         return super().formfield_for_dbfield(db_field, request, **kwargs)
     def get_form(self, request, obj=None, **kwargs):
         result=label_form(super().get_form(request, obj, **kwargs))

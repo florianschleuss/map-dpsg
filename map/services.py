@@ -106,7 +106,7 @@ def _rebalance(event):
         row.status = 'expired'
         row.save(update_fields=['status', 'updated_at'])
         queue_message(row, 'Bestätigungsfrist abgelaufen')
-    if event.capacity_mode == 'shared' or event.waitlist_mode == 'shared':
+    if event.capacity_mode in ['shared','unlimited'] or event.waitlist_mode == 'shared':
         active_slots={slot.pk:slot for slot in slots if slot.enabled}
         occupied_total=event.registrations.filter(status__in=['pending','confirmed']).count()
         occupied_by={pk:slot.registrations.filter(status__in=['pending','confirmed']).count() for pk,slot in active_slots.items()}
@@ -151,7 +151,7 @@ def register(event_id, name, email, answers, schema=None, group_id=None):
     else:
         slot = next((item for item in slots if str(item.group_id) == str(group_id)), None)
         if slot is None: raise ValidationError('Diese Gruppe nimmt an der Veranstaltung nicht teil.')
-    full = (event.registrations.filter(status__in=['pending','confirmed']).count() >= event.capacity) if event.capacity_mode=='shared' else (slot.registrations.filter(status__in=['pending', 'confirmed']).count() >= slot.capacity)
+    full = False if event.capacity_mode=='unlimited' else (event.registrations.filter(status__in=['pending','confirmed']).count() >= event.capacity) if event.capacity_mode=='shared' else (slot.registrations.filter(status__in=['pending', 'confirmed']).count() >= slot.capacity)
     if full and not event.waitlist_enabled: raise ValidationError('Alle Plätze sind belegt.' if event.capacity_mode=='shared' else 'Alle Plätze dieser Gruppe sind belegt.')
     row = Registration.objects.create(event=event, event_group=slot, child_name=name.strip(), email=email.strip().lower(), identity=key,
           answers=answers, schema_snapshot=template_schema(event.form_template) if schema is None else schema, email_verified=not event.confirmation_required,

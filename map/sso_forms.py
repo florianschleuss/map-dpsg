@@ -1,3 +1,4 @@
+from .widgets import QuickDateWidget
 import uuid
 from django import forms
 from django.utils import timezone
@@ -14,7 +15,7 @@ class SSOSettingsForm(forms.ModelForm):
     class Meta:
         model = SSOConfiguration
         fields = ['enabled', 'tenant_id', 'client_id', 'secret_expires_on', 'notification_email']
-        widgets = {'secret_expires_on': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')}
+        widgets = {'secret_expires_on': QuickDateWidget()}
 
     def clean(self):
         data = super().clean()

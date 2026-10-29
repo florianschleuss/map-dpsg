@@ -19,7 +19,7 @@ EVENTS={
  'contact_updated':('Kontaktdaten aktualisiert','Ansprechperson oder Kontakt einer Raumbuchung wurden aktualisiert. Die Belegungsdaten und ihr bisheriger Status bleiben unverändert.'),
 }
 PLACEHOLDERS={'purpose':'Veranstaltung / Zweck','grouping':'Gruppierung','rooms':'Räume','period':'Zeitraum','status':'Aktueller Buchungsstatus',
- 'contact_person':'Ansprechperson','contact':'Kontakt','reason':'Begründung der Entscheidung','booking_url':'Link zu den Buchungsdetails','creator':'Buchende Person',
+ 'contact_person':'Ansprechperson','contact':'Kontakt/zusätzliche Angaben','reason':'Begründung der Entscheidung','booking_url':'Link zu den Buchungsdetails','creator':'Buchende Person',
  'change_status':'Status des Änderungsantrags','current_period':'Zeitraum der aktuell gültigen Buchungsfassung','current_rooms':'Räume der aktuell gültigen Buchungsfassung','current_purpose':'Zweck der aktuell gültigen Buchungsfassung'}
 
 
@@ -28,7 +28,7 @@ def defaults(key):
     details='Veranstaltung: {purpose}\nGruppierung: {grouping}\nRäume: {rooms}\nZeitraum: {period}\nStatus der Buchung: {status}\n'
     if key.startswith('change_'):
         details='Änderungsantrag:\nVeranstaltung: {purpose}\nGruppierung: {grouping}\nVorgeschlagene Räume: {rooms}\nVorgeschlagener Zeitraum: {period}\nStatus des Änderungsantrags: {change_status}\n\nAktuelle Buchungsfassung:\nVeranstaltung: {current_purpose}\nRäume: {current_rooms}\nZeitraum: {current_period}\nStatus der Buchung: {status}\n'
-    return title+' – {purpose}', 'Hallo,\n\n'+intro+'\n\n'+details+'\nAnsprechperson: {contact_person}\nKontakt: {contact}\nBuchende Person: {creator}\n\nHinweis / Begründung: {reason}\n\nBuchung und gegebenenfalls Änderungsantrag ansehen:\n{booking_url}\n\nBei Rückfragen wende dich bitte an den Vorstand.\n'
+    return title+' – {purpose}', 'Hallo,\n\n'+intro+'\n\n'+details+'\nAnsprechperson: {contact_person}\nKontakt/zusätzliche Angaben: {contact}\nBuchende Person: {creator}\n\nHinweis / Begründung: {reason}\n\nBuchung und gegebenenfalls Änderungsantrag ansehen:\n{booking_url}\n\nBei Rückfragen wende dich bitte an den Vorstand.\n'
 
 
 def validate_template(subject,body):

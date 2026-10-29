@@ -1,3 +1,4 @@
+from .widgets import QuickDateWidget
 from .text_labels import question_label
 from .roles import is_admin
 from django import forms
@@ -42,7 +43,7 @@ class RegistrationForm(forms.Form):
                     field = forms.ChoiceField(choices=[(x,x) for x in spec['choices']] if binary else [('', 'Bitte wählen')] + [(x,x) for x in spec['choices']],widget=forms.RadioSelect if binary else forms.Select, **options)
                 elif kind == 'checkbox': field = forms.BooleanField(**options)
                 elif kind == 'integer': field = forms.IntegerField(**options)
-                elif kind == 'date': field = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'), **options)
+                elif kind == 'date': field = forms.DateField(widget=QuickDateWidget(), **options)
                 elif kind == 'email': field = forms.EmailField(**options)
                 else: field = forms.CharField(max_length=4000, widget=forms.Textarea(attrs={'rows':1,'data-autogrow':''}) if kind == 'textarea' else forms.TextInput, **options)
                 self.fields['answer_' + spec['key']] = field
@@ -134,7 +135,9 @@ class EventSettingsForm(CostFieldsMixin,forms.ModelForm):
         limits={str(int(key)):value for key,value in limits.items()}
         if self.allowed_stage_ids is not None and not {group.pk for group in self.selected_groups}.issubset(self.allowed_stage_ids):
             raise forms.ValidationError('Du kannst hier nur bisherige oder dir zugeordnete Stufen auswählen.')
-        validate_limits(self.instance,limits,pooled=self.cleaned_data.get('capacity_mode')=='shared')
+        unlimited=self.cleaned_data.get('capacity_mode')=='unlimited'
+        if unlimited:limits={key:20 for key in limits}
+        validate_limits(self.instance,limits,pooled=self.cleaned_data.get('capacity_mode') in ['shared','unlimited'])
         return limits
     def clean(self):
         data=self.clean_costs(super().clean())
@@ -146,6 +149,7 @@ class EventSettingsForm(CostFieldsMixin,forms.ModelForm):
         if 'cost_mode' in self.data and (data.get('cost_mode')!='free' or not self.instance.pk or not self.instance.registrations.exists()):self.instance.costs_configured=True
         data['capacity_mode']=data.get('capacity_mode') or 'per_group'
         data['waitlist_mode']=data.get('waitlist_mode') or 'per_group'
+        if data['capacity_mode']=='unlimited':data['waitlist_enabled']=False
         if data['capacity_mode']=='shared' and not data.get('shared_capacity'):
             self.add_error('shared_capacity','Bitte die Gesamtzahl der Plätze eintragen.')
         if 'viewers' in self.fields and data.get('viewers') is not None and data.get('editors') is not None:

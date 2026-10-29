@@ -28,7 +28,7 @@ class Occupancy(models.Model):
 class RoomBooking(Occupancy):
     creator=models.ForeignKey(settings.AUTH_USER_MODEL,null=True,on_delete=models.SET_NULL,related_name='room_bookings')
     contact_person=models.CharField('Ansprechperson',max_length=160)
-    contact=models.CharField('Kontakt',max_length=500)
+    contact=models.CharField('Kontakt/zusätzliche Angaben',max_length=500,blank=True)
     status=models.CharField('Status',max_length=12,choices=STATUSES,default='pending')
     version=models.PositiveIntegerField(default=1)
     decision_reason=models.TextField('Begründung',blank=True,max_length=2000)

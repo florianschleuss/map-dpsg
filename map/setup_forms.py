@@ -56,7 +56,7 @@ class DatesForm(forms.Form):
         return data
 
 class CapacityForm(forms.Form):
-    capacity_mode=forms.ChoiceField(label='Platzverteilung',choices=[('per_group','Eigene Plätze je Stufe'),('shared','Gemeinsamer Gesamtpool')],required=False,initial='per_group')
+    capacity_mode=forms.ChoiceField(label='Platzverteilung',choices=[('per_group','Eigene Plätze je Stufe'),('shared','Gemeinsamer Gesamtpool'),('unlimited','Ohne Limit')],required=False,initial='per_group')
     shared_capacity=forms.IntegerField(label='Plätze im gemeinsamen Gesamtpool',min_value=1,max_value=2147483647,required=False)
     waitlist_mode=forms.ChoiceField(label='Wartelistenverteilung',choices=[('per_group','Warteliste je Stufe'),('shared','Gemeinsame Warteliste')],required=False,initial='per_group',help_text='Gemeinsame Warteliste: Nachrücken nach Anmeldezeitpunkt, bei Stufenkontingenten nur auf einen freien Platz der eigenen Stufe.')
     show_availability=forms.BooleanField(label='Verfügbare Plätze in der Anmeldung anzeigen',required=False,initial=True)
@@ -81,12 +81,13 @@ class CapacityForm(forms.Form):
         data=super().clean()
         data['capacity_mode']=data.get('capacity_mode') or 'per_group'
         data['waitlist_mode']=data.get('waitlist_mode') or 'per_group'
+        if data['capacity_mode']=='unlimited':data['waitlist_enabled']=False
         if data['capacity_mode']=='shared' and not data.get('shared_capacity'):
             self.add_error('shared_capacity','Bitte die Gesamtzahl der Plätze eintragen.')
         for name in self.fields:
             if name=='capacity' or name.startswith('capacity_') and name!='capacity_mode':
                 if not data.get(name):
-                    if data['capacity_mode']=='shared': data[name]=20
+                    if data['capacity_mode'] in ['shared','unlimited']: data[name]=20
                     elif name not in self.errors: self.add_error(name,'Bitte ein Platzlimit ab 1 eintragen.')
         return data
 

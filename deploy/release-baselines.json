@@ -54,7 +54,8 @@
       null,
       "821f0530e6e9d40d5c1f88ad6f704ca89a708df2cd7194d6fa610bdb58637ac9",
       "8e762bc9cdeaa262389145940ae314e8a2b1fde1de9e8518f30c8fb21bca020b",
-      "a8dd22b8f0fb5b27442f7bf4e79530ce9d37ba9c8052cd35eda53d5121407cbb"
+      "a8dd22b8f0fb5b27442f7bf4e79530ce9d37ba9c8052cd35eda53d5121407cbb",
+      "e3a2761f754dc9bc98f167faf6b2b9a06f5a86fbd88ecd172ca7c77d35b3d34d"
     ],
     "README.md": [
       null,
@@ -159,7 +160,8 @@
     ],
     "deploy/release-baselines.json": [
       null,
-      "96cc16911fb7c0f698c72c8994c641c7a87cc81d3f39c267e0a4b98aaf7cd639"
+      "96cc16911fb7c0f698c72c8994c641c7a87cc81d3f39c267e0a4b98aaf7cd639",
+      "b8a21e80505da18f0d337ec0e73ea0c2acf1eaed64930a7591239a4c80586812"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -648,7 +650,8 @@
     "map/sso_forms.py": [
       null,
       "2acd8894e329a2740978b5decbd732a08cd7643217055ad748215bb12abc1033",
-      "87958fb367c68fb95406c3959c9833c81da906e0b57f6c4649482ab18e266270"
+      "87958fb367c68fb95406c3959c9833c81da906e0b57f6c4649482ab18e266270",
+      "890e0131b5340832d537abcebd80cb7cdce73fa9f9527cc2091950eafffc2884"
     ],
     "map/sso_models.py": [
       null,
@@ -681,7 +684,8 @@
     ],
     "map/templates/map/widgets/datetime.html": [
       null,
-      "6b5c042c0fdf7b4b5b1e8cf9e1c90cb7c6acbcd76c5067f7e97a50de08278128"
+      "6b5c042c0fdf7b4b5b1e8cf9e1c90cb7c6acbcd76c5067f7e97a50de08278128",
+      "d4874bb84c6b4907ce215da4b98c8cc7afe6906e70c034cab8753f3de6ddc21c"
     ],
     "map/templates/map/widgets/group_limits.html": [
       null,
@@ -948,7 +952,8 @@
       null,
       "5dfcc523ddea8e2e9826b416d905a541797ffba774729b13357c665d65a96a18",
       "689f1407604743fdf8120fdc9de9648709a29bbc4702d9c4a2a43cc15b783656",
-      "b972cd5dcd8fc2a159d1846d6989c5d29a8037243d5d6ca170bb351969b2ff81"
+      "b972cd5dcd8fc2a159d1846d6989c5d29a8037243d5d6ca170bb351969b2ff81",
+      "9cdf92148e6dc99f0aa3f90db2312233040b579547abc8c047c90ccfe97bf095"
     ],
     "rooms/migrations/0001_initial.py": [
       null,
@@ -970,7 +975,8 @@
       null,
       "1fa34eba60618ffa0d2c885c15eb1a29239f9a51af654b719b4ffe566f9cd33c",
       "a9fed73c3f90a30266bc4d5b0e6db849b32dfc42eeff1be12c08e4fe5ab52dfa",
-      "e5d2503e23c6e83466c8abb1f91e6541085302cba8b39fb5fa6f6e9bca9a02f6"
+      "e5d2503e23c6e83466c8abb1f91e6541085302cba8b39fb5fa6f6e9bca9a02f6",
+      "0fafd5b89d9328ec4c9b16d9ab1e6ae13a778bf1d55cd8ebaf5dc614547d3fb2"
     ],
     "rooms/notifications.py": [
       null,
@@ -995,7 +1001,8 @@
     "rooms/services.py": [
       null,
       "575dcdffb47784c82ca9950e47a3a633d25b1b80f8f9b8c21981c3ad082da9d3",
-      "c1a14a125fad92e5d77b904fcc65e19c1879901c4dcd54625c6b567e14294e9d"
+      "c1a14a125fad92e5d77b904fcc65e19c1879901c4dcd54625c6b567e14294e9d",
+      "6ecc12bcf1cabb43a020a4f8d45873b07923158040d16d78a28d9f87edb19d70"
     ],
     "rooms/templates/rooms/base.html": [
       null,
@@ -1018,7 +1025,8 @@
     ],
     "rooms/templates/rooms/detail.html": [
       null,
-      "1677c8f4f69b89c5a85a000297b2867adc93c9a43ff731e169716a9eae08128b"
+      "1677c8f4f69b89c5a85a000297b2867adc93c9a43ff731e169716a9eae08128b",
+      "a420374d0ea00fd280e157340a361eddce4c4203f28f478e4155bfc9da37585e"
     ],
     "rooms/templates/rooms/edit.html": [
       null,
@@ -1034,7 +1042,8 @@
     "rooms/templates/rooms/index.html": [
       null,
       "cb6df71fa3f4b88eb8b78b7de3a8c001be7bb2e558536c8b9e744088d99601fe",
-      "8b4547a3c031e92dcc74883bdc9c51492a5c652be0fa3f421e5f914e31f969ee"
+      "8b4547a3c031e92dcc74883bdc9c51492a5c652be0fa3f421e5f914e31f969ee",
+      "1c7ea2f3221058ab9e21b8292b33314e12ffaa9b820892a27da21d8e370c848c"
     ],
     "rooms/templates/rooms/live_conflicts.html": [
       null,
@@ -1096,7 +1105,8 @@
       null,
       "7cadbb170139443d73bf326757801be193590b8a347b46bb7bf5f120dd88d29b",
       "7d1e32610b7bc6e3f1c64eff7d8e593d388f5e508ae9d8619da539bb41db7810",
-      "d15ee55a8bdfee8b7b5d4a8296835882a7b446aa93fc06f58a7e7c257542afbd"
+      "d15ee55a8bdfee8b7b5d4a8296835882a7b446aa93fc06f58a7e7c257542afbd",
+      "f1ef7cdba668965d280c4631e6e373b4f934cdd7490de07408b25b4046a719c7"
     ],
     "scripts/apply_release.py": [
       null
@@ -1166,12 +1176,14 @@
       "5f73d74c831c4968a85abcc361072e2b2f12b0fa9a9c1f8df259737f6dc29306",
       "ab4b205960a369163d4021a38f7bc6a787f7b7e3689bd510a3b65866e4c1e3af",
       "fa55145d2d790ef097472251c6cce3cb7a8cd3ffdb42504f00714bd227277d31",
-      "006ed8bede4d3b647da8d03a2a61ac8e01d471ca885827954950e780ef36e14c"
+      "006ed8bede4d3b647da8d03a2a61ac8e01d471ca885827954950e780ef36e14c",
+      "6c1afb3251a0b68536bfe85916b89001be54814a87e64751c46ca833818889c7"
     ],
     "static/map/rooms.js": [
       null,
       "b839fce308b0eee4db3ce67e1db210f30df9603204ddedc6c00f01731c3cd612",
-      "c38703d3f2bf4d5795009e362521d90dd83e4dfa983c242c7c21e78b2a9bea67"
+      "c38703d3f2bf4d5795009e362521d90dd83e4dfa983c242c7c21e78b2a9bea67",
+      "a04c85ee078e169277d8e7f2c5b3118fb5022c8903b8c1dbd21d9ffc7d1e658c"
     ],
     "static/map/theme.css": [
       null,
@@ -1266,7 +1278,8 @@
     ],
     "templates/dashboard.html": [
       null,
-      "ac7c0eb8ea05223e5c1cce4f353cc603359472cfb293501199157524cb5cc1a1"
+      "ac7c0eb8ea05223e5c1cce4f353cc603359472cfb293501199157524cb5cc1a1",
+      "d48e4326965f9ff6528b53016cab6d9f00bde0bab0a490dd20285f628f81613e"
     ],
     "templates/email_template_edit.html": [
       null,
@@ -1528,9 +1541,25 @@
     ],
     "rooms/tests/test_weekly.py": [
       null,
-      "06955d3bd53e4b469f307f57923689d3c95ed3ed8e2433cc6c4e8d4249826e53"
+      "06955d3bd53e4b469f307f57923689d3c95ed3ed8e2433cc6c4e8d4249826e53",
+      "4f0836594d1d370ba6aecbcc25a17581485dad29cc8cdf30d913d3f830f83839"
     ],
     "docs/WEEKLY_ROOM_BOOKINGS_DE.md": [
+      null
+    ],
+    "map/migrations/0016_unlimited_events.py": [
+      null
+    ],
+    "map/tests/test_unlimited_and_dates.py": [
+      null
+    ],
+    "rooms/migrations/0005_optional_contact.py": [
+      null
+    ],
+    "rooms/tests/test_followup_ui.py": [
+      null
+    ],
+    "docs/CALENDAR_UNLIMITED_ROOMS_DE.md": [
       null
     ]
   }

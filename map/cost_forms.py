@@ -1,3 +1,4 @@
+from .widgets import QuickDateWidget
 from decimal import Decimal
 from django import forms
 from .payment_rules import COST_FIELDS,normalized_costs
@@ -13,7 +14,7 @@ class CostFieldsMixin:
             'bank_iban':forms.CharField(label='IBAN',required=False,max_length=50,help_text='Leerzeichen sind erlaubt und werden beim Speichern entfernt. Die Prüfung bestätigt keine tatsächliche Kontoinhaberschaft.'),
             'bank_bic':forms.CharField(label='BIC',required=False,max_length=11,help_text='Für Konten im Europäischen Wirtschaftsraum meist nicht erforderlich; außerhalb bitte angeben.'),
             'payment_note':forms.CharField(label='Zusätzlicher Zahlungshinweis',required=False,max_length=2000,widget=forms.Textarea(attrs={'rows':3})),
-            'payment_due':forms.DateField(label='Zahlbar bis (optional)',required=False,widget=forms.DateInput(attrs={'type':'date'},format='%Y-%m-%d')),
+            'payment_due':forms.DateField(label='Zahlbar bis (optional)',required=False,widget=QuickDateWidget()),
         }
         self.fields.update(fields)
         if initial:self.initial.update(initial)

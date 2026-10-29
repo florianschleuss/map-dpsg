@@ -80,7 +80,7 @@ class Event(models.Model):
     capacity = models.PositiveIntegerField('Plätze', default=20)
     published = models.BooleanField('Veröffentlicht', default=False)
     waitlist_enabled = models.BooleanField('Warteliste erlauben', default=True)
-    capacity_mode = models.CharField('Platzverteilung', max_length=12, choices=[('per_group','Eigene Plätze je Stufe'),('shared','Gemeinsamer Gesamtpool')], default='per_group')
+    capacity_mode = models.CharField('Platzverteilung', max_length=12, choices=[('per_group','Eigene Plätze je Stufe'),('shared','Gemeinsamer Gesamtpool'),('unlimited','Ohne Limit')], default='per_group')
     waitlist_mode = models.CharField('Wartelistenverteilung', max_length=12, choices=[('per_group','Warteliste je Stufe'),('shared','Gemeinsame Warteliste')], default='per_group')
     show_availability = models.BooleanField('Verfügbare Plätze in der Anmeldung anzeigen', default=True)
     confirmation_required = models.BooleanField('E-Mail-Bestätigung erforderlich', default=True)
@@ -102,7 +102,7 @@ class Event(models.Model):
         if self.confirmation_hours is not None and not 1<=self.confirmation_hours<=8760: raise ValidationError({'confirmation_hours':'Die Bestätigungsfrist muss zwischen 1 und 8760 Stunden liegen.'})
         if self.registration_closes and self.starts_at and self.registration_closes>self.starts_at:
             raise ValidationError({'registration_closes':'Die Anmeldung muss spätestens zum Veranstaltungsbeginn enden.'})
-        if self.pk and self.capacity is not None and self.capacity < self.registrations.filter(status__in=['pending', 'confirmed']).count():
+        if self.pk and self.capacity_mode!='unlimited' and self.capacity is not None and self.capacity < self.registrations.filter(status__in=['pending', 'confirmed']).count():
             raise ValidationError('Kapazität darf nicht unter die belegten Plätze sinken.')
     @property
     def group_names(self):

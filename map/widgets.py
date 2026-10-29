@@ -8,6 +8,15 @@ class QuickDateTimeWidget(forms.DateTimeInput):
     def __init__(self, attrs=None):
         super().__init__(attrs=attrs,format='%Y-%m-%dT%H:%M')
 
+class QuickDateWidget(forms.DateInput):
+    input_type='date'
+    template_name='map/widgets/datetime.html'
+    def __init__(self,attrs=None):super().__init__(attrs=attrs,format='%Y-%m-%d')
+    def get_context(self,name,value,attrs):
+        context=super().get_context(name,value,attrs)
+        context['widget']['date_only']=True
+        return context
+
 class GroupLimitsWidget(forms.Widget):
     template_name = 'map/widgets/group_limits.html'
     def get_context(self,name,value,attrs):
