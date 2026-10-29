@@ -50,10 +50,11 @@ def discover(root):
         if path.resolve().parent!=root or not path.is_file():raise RuntimeError('Compose-Konfigurationspfad ist nicht eindeutig innerhalb der Prod-Installation.')
         files.append(path.name)
     if not files:raise RuntimeError('Die laufende Compose-Auswahl fehlt.')
-    config=json.loads(compose(root,files,project,['config','--format','json'],text=True,stdout=subprocess.PIPE).stdout)
+    config=json.loads(compose(root,files,project,['--profile','tools','config','--format','json'],text=True,stdout=subprocess.PIPE).stdout)
     env=config['services']['web'].get('environment',{})
     if str(env.get('MAP_PRODUCTION','0')).lower() not in ['1','true'] or str(env.get('DEBUG','1')).lower() not in ['0','false']:
         raise RuntimeError('Keine abgesicherte Produktionskonfiguration erkannt. Nichts geändert.')
+    if 'init' not in config['services']:raise RuntimeError('Der Prod-Konfiguration fehlt der Dienst init auch mit aktiviertem Profil tools. Nichts geändert.')
     images={config['services'][service].get('image') for service in ['web','worker','init']}
     if len(images)!=1 or None in images:raise RuntimeError('Prod benötigt einen gemeinsamen expliziten Image-Tag für web, worker und init.')
     image=images.pop()
@@ -131,7 +132,7 @@ def apply(root,source):
         # Build and test the downloaded source without replacing live source or stopping Prod.
         fd=os.open(source/'.env',os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600);env_created=True
         with os.fdopen(fd,'wb') as stream:stream.write((root/'.env').read_bytes())
-        candidate=json.loads(compose(source,['compose.yaml'],check_project,['config','--format','json'],text=True,stdout=subprocess.PIPE).stdout)
+        candidate=json.loads(compose(source,['compose.yaml'],check_project,['--profile','tools','config','--format','json'],text=True,stdout=subprocess.PIPE).stdout)
         test=candidate['services']['test'].get('environment',{})
         if test.get('POSTGRES_HOST')!='test-db' or test.get('EMAIL_BACKEND')!='django.core.mail.backends.locmem.EmailBackend':raise RuntimeError('Testdatenbank oder Mail-Isolierung ist nicht gewährleistet.')
         if set(candidate['services']['test'].get('depends_on',{}))!={'test-db'} or candidate['services']['test-db'].get('volumes') or candidate['services']['test-db'].get('ports'):

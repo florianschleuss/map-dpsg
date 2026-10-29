@@ -31,7 +31,8 @@ class ReleaseUpdateTests(unittest.TestCase):
                     override=json.loads(Path(files[-1]).read_text())
                     self.assertEqual(override['services']['init']['volumes'][0]['source'],str(root/'operator-assets'))
                     self.assertTrue(override['services']['init']['volumes'][0]['read_only']);asset_checks.append(True)
-                if args[0]=='config':
+                if args[-3:]==['config','--format','json']:
+                    self.assertEqual(args[:2],['--profile','tools'])
                     return SimpleNamespace(stdout=json.dumps({'services':{'web':{'image':'map-prod:latest'},'test':{'environment':{'POSTGRES_HOST':'db' if failure=='test_isolation' else 'test-db','EMAIL_BACKEND':'django.core.mail.backends.locmem.EmailBackend'},'depends_on':{'test-db':{}}},'test-db':{}},'networks':{'default':{'name':project+'_default'}}}))
                 if failure=='build' and args[0]=='build':raise RuntimeError('build failed')
                 if args[-1]=='test':
@@ -98,6 +99,19 @@ class ReleaseUpdateTests(unittest.TestCase):
             records.append({'Config':{'Image':'map-prod:latest','Labels':{}}})
             with patch.object(release,'command',return_value=SimpleNamespace(stdout='ids')),patch.object(release,'docker_json',return_value=records),patch.object(release,'compose',return_value=SimpleNamespace(stdout=json.dumps(config))):
                 with self.assertRaisesRegex(RuntimeError,'anderen Stack'):release.discover(root)
+
+    def test_discovery_enables_tools_before_reading_profiled_init(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as directory:
+            root=Path(directory);(root/'compose.yaml').write_text('fixture')
+            records=[{'Config':{'Image':'map-prod:latest','Labels':{'com.docker.compose.project.working_dir':str(root),'com.docker.compose.service':service,'com.docker.compose.project':'map-prod','com.docker.compose.project.config_files':str(root/'compose.yaml')}}} for service in ['web','worker','db']]
+            config={'services':{s:{'image':'map-prod:latest','environment':{'MAP_PRODUCTION':'1','DEBUG':'0'}} for s in ['web','worker','init']}}
+            def compose(where,files,project,args,**kwargs):
+                selected=config if args[:2]==['--profile','tools'] else {'services':{k:v for k,v in config['services'].items() if k!='init'}}
+                return SimpleNamespace(stdout=json.dumps(selected))
+            with patch.object(release,'command',return_value=SimpleNamespace(stdout='ids')),patch.object(release,'docker_json',return_value=records),patch.object(release,'compose',side_effect=compose):
+                self.assertEqual(release.discover(root)[-1],'map-prod:latest')
+                del config['services']['init']
+                with self.assertRaisesRegex(RuntimeError,'Dienst init'):release.discover(root)
 
     def test_explicit_obsolete_source_is_removed_and_can_be_restored(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as directory:
