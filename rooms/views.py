@@ -32,10 +32,11 @@ def filtered(request):
         end=local_datetime(data['end']+timedelta(days=1),time.min);current&=Q(starts_at__lt=end);proposed&=Q(changes__starts_at__lt=end)
     if data.get('rooms'):current&=Q(rooms__in=data['rooms']);proposed&=Q(changes__rooms__in=data['rooms'])
     if data.get('grouping'):current&=Q(grouping__icontains=data['grouping']);proposed&=Q(changes__grouping__icontains=data['grouping'])
-    if data.get('status'):
+    if data.get('status') and data['status']!='all':
         current&=Q(status=data['status'])
         if data['status']!='pending':proposed&=Q(pk__isnull=True)
     rows=rows.filter(current|proposed).distinct()
+    if not data.get('status'):rows=rows.exclude(status='cancelled')
     if request.GET.get('mine')=='1':rows=rows.filter(creator=request.user)
     if data.get('start') or data.get('end'):
         ids=[]
@@ -59,7 +60,7 @@ def decorate_row(row,user):
 def entry_matches(item,criteria):
     if criteria.get('rooms') and not {r.pk for r in item.rooms.all()}&{r.pk for r in criteria['rooms']}:return False
     if criteria.get('grouping') and criteria['grouping'].casefold() not in item.grouping.casefold():return False
-    if criteria.get('status') and item.status!=criteria['status']:return False
+    if criteria.get('status') and criteria['status']!='all' and item.status!=criteria['status']:return False
     if criteria.get('start') and item.ends_at<=local_datetime(criteria['start'],time.min):return False
     if criteria.get('end') and item.starts_at>=local_datetime(criteria['end']+timedelta(days=1),time.min):return False
     from .recurrence import intervals
@@ -186,7 +187,7 @@ def calendar_view(request):
     criteria=form.cleaned_data if form.is_valid() else {}
     def matches(item):return entry_matches(item,criteria)
     for row in candidates:
-        if matches(row) and (row.status in ['pending','approved'] or request.GET.get('status') in ['rejected','cancelled']):
+        if matches(row) and (row.status in ['pending','approved'] or request.GET.get('status') in ['rejected','cancelled','all']):
             entries.append({'booking':row,'entry':row,'proposal':False})
         if row.status=='approved':
             for change in row.changes.all():

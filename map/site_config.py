@@ -1,4 +1,4 @@
-"""Deployment-owned identity; no database or external requests needed."""
+"""Operator identity and the independently configured public feedback address."""
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.validators import validate_email, URLValidator
@@ -14,7 +14,11 @@ def local_asset(value):
 
 
 def site_context(request=None):
+    from .models import MailConfiguration
+    from urllib.parse import quote
+    feedback=MailConfiguration.objects.filter(pk=1).values_list('feedback_email',flat=True).first() or ''
     return {'map_site': {
+        'feedback_mailto': 'mailto:'+quote(feedback,safe='@.') if feedback else '',
         'organization': settings.MAP_ORGANIZATION,
         'title': settings.MAP_SITE_TITLE,
         'contact_email': settings.MAP_CONTACT_EMAIL,
@@ -55,6 +59,6 @@ def validate_operator():
     if not settings.MAP_TRUSTED_PROXY_HOSTS and not settings.MAP_TRUSTED_PROXY_NETWORKS: errors.append('Vertrauenswürdiger Reverse Proxy ist nicht konfiguriert.')
     if not settings.EMAIL_USE_TLS and not settings.EMAIL_USE_SSL:
         from .models import MailConfiguration
-        config = MailConfiguration.objects.first()
+        config = MailConfiguration.objects.only('enabled','provider','security').first()
         if not config or not config.enabled or (config.provider == 'smtp' and config.security == 'plain'): errors.append('Produktivversand benötigt SMTP mit TLS oder Microsoft 365; in der UI einrichten.')
     return errors

@@ -220,6 +220,7 @@ class MailConfiguration(models.Model):
     password_encrypted=models.TextField(blank=True,editable=False)
     security=models.CharField('Verschlüsselung',max_length=12,choices=[('starttls','STARTTLS (meist Port 587)'),('ssl','SSL/TLS (meist Port 465)'),('plain','Unverschlüsselt (nur lokaler Testbetrieb)')],default='starttls')
     from_email=models.EmailField('Absenderadresse',blank=True)
+    feedback_email=models.EmailField('Feedback-Adresse für die Website',blank=True,help_text='Wird öffentlich im Footer als Mailto-Link angezeigt. Leer lassen, um den Feedback-Link auszublenden. Unabhängig vom Versandpostfach.')
     updated_at=models.DateTimeField(auto_now=True)
     class Meta:
         verbose_name='SMTP-Einstellung'

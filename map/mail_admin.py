@@ -36,7 +36,7 @@ class MailConfigurationForm(forms.ModelForm):
     test_recipient=forms.EmailField(label='Empfängeradresse für die Testmail',required=False)
     class Meta:
         model=MailConfiguration
-        fields=['enabled','provider','from_email','tenant_id','client_id','client_secret_expires_on','host','port','security','username']
+        fields=['feedback_email','enabled','provider','from_email','tenant_id','client_id','client_secret_expires_on','host','port','security','username']
         widgets={'client_secret_expires_on':QuickDateWidget()}
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
@@ -44,7 +44,7 @@ class MailConfigurationForm(forms.ModelForm):
         self.fields['provider'].required=False;self.fields['port'].required=False;self.fields['security'].required=False
         self.fields['from_email'].label='Absenderpostfach / Absenderadresse'
         self.fields['from_email'].help_text='Für Microsoft 365 die primäre Adresse oder den Benutzeranmeldenamen des freigegebenen Versandpostfachs verwenden.'
-        self.order_fields(['enabled','provider','from_email','tenant_id','client_id','client_secret','clear_client_secret','client_secret_expires_on','host','port','security','username','password','clear_password','test_recipient'])
+        self.order_fields(['feedback_email','enabled','provider','from_email','tenant_id','client_id','client_secret','clear_client_secret','client_secret_expires_on','host','port','security','username','password','clear_password','test_recipient'])
     def clean_port(self):
         value=self.cleaned_data.get('port')
         if self.cleaned_data.get('provider')=='microsoft_graph': return value or 587

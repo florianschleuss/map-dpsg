@@ -55,7 +55,8 @@
       "821f0530e6e9d40d5c1f88ad6f704ca89a708df2cd7194d6fa610bdb58637ac9",
       "8e762bc9cdeaa262389145940ae314e8a2b1fde1de9e8518f30c8fb21bca020b",
       "a8dd22b8f0fb5b27442f7bf4e79530ce9d37ba9c8052cd35eda53d5121407cbb",
-      "e3a2761f754dc9bc98f167faf6b2b9a06f5a86fbd88ecd172ca7c77d35b3d34d"
+      "e3a2761f754dc9bc98f167faf6b2b9a06f5a86fbd88ecd172ca7c77d35b3d34d",
+      "581464d7ab3a6a4dcaf5b20f71dc007b0f768d5a04ff87b9fbc30395f57d565b"
     ],
     "README.md": [
       null,
@@ -161,7 +162,8 @@
     "deploy/release-baselines.json": [
       null,
       "96cc16911fb7c0f698c72c8994c641c7a87cc81d3f39c267e0a4b98aaf7cd639",
-      "b8a21e80505da18f0d337ec0e73ea0c2acf1eaed64930a7591239a4c80586812"
+      "b8a21e80505da18f0d337ec0e73ea0c2acf1eaed64930a7591239a4c80586812",
+      "bd67b98574d1cc527635b01fa296abaf187ac82fd1582e3e182a83167bf10f0a"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -397,7 +399,8 @@
       null,
       "2b04be06e0e7615806f90e87660ba8e9906dc293db74f0984e07d2698350034c",
       "98188d32d7c5b19389e9ce62ac76332345c07c91fd19faddd29ffcde0f13f926",
-      "c7462cafb9a806549767013edb076bd4a27f9ebac6102c20e3e3faa134389dc4"
+      "c7462cafb9a806549767013edb076bd4a27f9ebac6102c20e3e3faa134389dc4",
+      "f4e291bc69335ce001f887bdf3998f13deabeb919d4cbac7dbc2c2c428e8dc59"
     ],
     "map/mail_policy.py": [
       null,
@@ -541,7 +544,8 @@
       "71e7ce64f0183b9e8b3bb211d5c823ad11d37773c36f7182423015fa574e6758",
       "894cff24c363d002073982c18f9a94d76caf8468290875c58b976ec09c76247e",
       "8a6ae62d016fed8aa6560618773b857974db6c6550af0a9652d52ac6085ade37",
-      "b9213430db50eede7b52ed2367a7e38cd179d75f73b7a47935748c4c1eab784e"
+      "b9213430db50eede7b52ed2367a7e38cd179d75f73b7a47935748c4c1eab784e",
+      "12d1997bc74cd32de2be979d5a2b20719b07ac7ee028c85e12c7f55bfd95a52f"
     ],
     "map/module_settings.py": [
       null,
@@ -953,7 +957,8 @@
       "5dfcc523ddea8e2e9826b416d905a541797ffba774729b13357c665d65a96a18",
       "689f1407604743fdf8120fdc9de9648709a29bbc4702d9c4a2a43cc15b783656",
       "b972cd5dcd8fc2a159d1846d6989c5d29a8037243d5d6ca170bb351969b2ff81",
-      "9cdf92148e6dc99f0aa3f90db2312233040b579547abc8c047c90ccfe97bf095"
+      "9cdf92148e6dc99f0aa3f90db2312233040b579547abc8c047c90ccfe97bf095",
+      "71c8db87dadcd60f26ce32e38de45853219047d0cd7d678c5a7b9e3877b08ab8"
     ],
     "rooms/migrations/0001_initial.py": [
       null,
@@ -1037,7 +1042,8 @@
     "rooms/templates/rooms/filter.html": [
       null,
       "70c19eb8b08cfe1b975ed5bf751fe1ab8072773bf85410f5b927f3f33fdbc374",
-      "e82878255ca9e479b1f58eafbc27624a28b4ae74a12f90d4477e40cf188dddaa"
+      "e82878255ca9e479b1f58eafbc27624a28b4ae74a12f90d4477e40cf188dddaa",
+      "9c03ff4ffb47765aca8bcc365f3c2e0998f380b8ba58652e4d721e30a3b9350e"
     ],
     "rooms/templates/rooms/index.html": [
       null,
@@ -1106,7 +1112,8 @@
       "7cadbb170139443d73bf326757801be193590b8a347b46bb7bf5f120dd88d29b",
       "7d1e32610b7bc6e3f1c64eff7d8e593d388f5e508ae9d8619da539bb41db7810",
       "d15ee55a8bdfee8b7b5d4a8296835882a7b446aa93fc06f58a7e7c257542afbd",
-      "f1ef7cdba668965d280c4631e6e373b4f934cdd7490de07408b25b4046a719c7"
+      "f1ef7cdba668965d280c4631e6e373b4f934cdd7490de07408b25b4046a719c7",
+      "c1400016d861bdd113b108dad480f6cc8caecfd6e8d6288156f7a07c0c69726a"
     ],
     "scripts/apply_release.py": [
       null
@@ -1177,7 +1184,8 @@
       "ab4b205960a369163d4021a38f7bc6a787f7b7e3689bd510a3b65866e4c1e3af",
       "fa55145d2d790ef097472251c6cce3cb7a8cd3ffdb42504f00714bd227277d31",
       "006ed8bede4d3b647da8d03a2a61ac8e01d471ca885827954950e780ef36e14c",
-      "6c1afb3251a0b68536bfe85916b89001be54814a87e64751c46ca833818889c7"
+      "6c1afb3251a0b68536bfe85916b89001be54814a87e64751c46ca833818889c7",
+      "9d5301005f814fe4c72c82fb53dcc0421493646a788ff69405c809b2e77584fb"
     ],
     "static/map/rooms.js": [
       null,
@@ -1190,7 +1198,8 @@
       "1c4a07ace05cc3cebbd3871e230393bf23e5e4bf4321fb38e275bb7fb483ac47",
       "7cd82ebae2b9a6a636b503e615d216cc3b3e84d3cd36aa1bb8f5f8eaca5764e9",
       "ad0f0d0781accc5392fa3369a410d3bbc64810147573680aca212ac15fa98ecb",
-      "b4b2f68c89740192d8d68a90cab046f7049848e9524d4fca43ca5b59c6284eea"
+      "b4b2f68c89740192d8d68a90cab046f7049848e9524d4fca43ca5b59c6284eea",
+      "377abf26e5664b5f3e304ce33dabc1975cb019db9a6480cd59f6d19ddb0140bc"
     ],
     "static/map/theme.js": [
       null,
@@ -1279,7 +1288,8 @@
     "templates/dashboard.html": [
       null,
       "ac7c0eb8ea05223e5c1cce4f353cc603359472cfb293501199157524cb5cc1a1",
-      "d48e4326965f9ff6528b53016cab6d9f00bde0bab0a490dd20285f628f81613e"
+      "d48e4326965f9ff6528b53016cab6d9f00bde0bab0a490dd20285f628f81613e",
+      "bc8f53d6a955658965c8e00ed51a37dcc03e2bb0087aafb1a5772a23819d50ef"
     ],
     "templates/email_template_edit.html": [
       null,
@@ -1371,7 +1381,8 @@
     ],
     "templates/map_ui/footer.html": [
       null,
-      "e26437f3b32705ee60a96bd031b614366feefea69175c3f6cf5de8d4c062c709"
+      "e26437f3b32705ee60a96bd031b614366feefea69175c3f6cf5de8d4c062c709",
+      "0401b94262df312ba588083a8a0d04429c2c9e346bb839d78a2a60b7f4302c3c"
     ],
     "templates/map_ui/form_fields.html": [
       null,
@@ -1560,6 +1571,18 @@
       null
     ],
     "docs/CALENDAR_UNLIMITED_ROOMS_DE.md": [
+      null
+    ],
+    "rooms/tests/test_filters_feedback.py": [
+      null
+    ],
+    "map/migrations/0017_feedback_email.py": [
+      null
+    ],
+    "map/tests/test_feedback_footer.py": [
+      null
+    ],
+    "docs/FEEDBACK_FILTERS_DE.md": [
       null
     ]
   }

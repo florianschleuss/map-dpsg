@@ -91,7 +91,7 @@ class FilterForm(forms.Form):
     end=forms.DateField(label='Bis',required=False,widget=QuickDateWidget())
     rooms=forms.ModelMultipleChoiceField(label='Räume',queryset=Room.objects.all(),required=False,widget=forms.CheckboxSelectMultiple)
     grouping=forms.CharField(label='Gruppierung',required=False,max_length=160)
-    status=forms.ChoiceField(label='Status',required=False,choices=[('','Alle Status'),('pending','Schwebend'),('approved','Genehmigt'),('rejected','Abgelehnt'),('cancelled','Storniert')])
+    status=forms.ChoiceField(label='Status',required=False,choices=[('','Nicht storniert'),('all','Alle Status'),('pending','Schwebend'),('approved','Genehmigt'),('rejected','Abgelehnt'),('cancelled','Storniert')])
     def clean(self):
         data=super().clean()
         from datetime import date
