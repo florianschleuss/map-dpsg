@@ -56,7 +56,8 @@
       "8e762bc9cdeaa262389145940ae314e8a2b1fde1de9e8518f30c8fb21bca020b",
       "a8dd22b8f0fb5b27442f7bf4e79530ce9d37ba9c8052cd35eda53d5121407cbb",
       "e3a2761f754dc9bc98f167faf6b2b9a06f5a86fbd88ecd172ca7c77d35b3d34d",
-      "581464d7ab3a6a4dcaf5b20f71dc007b0f768d5a04ff87b9fbc30395f57d565b"
+      "581464d7ab3a6a4dcaf5b20f71dc007b0f768d5a04ff87b9fbc30395f57d565b",
+      "ef21706125aa6a81c87754794229037df01a064223729fe188290f212067ef0f"
     ],
     "README.md": [
       null,
@@ -163,7 +164,8 @@
       null,
       "96cc16911fb7c0f698c72c8994c641c7a87cc81d3f39c267e0a4b98aaf7cd639",
       "b8a21e80505da18f0d337ec0e73ea0c2acf1eaed64930a7591239a4c80586812",
-      "bd67b98574d1cc527635b01fa296abaf187ac82fd1582e3e182a83167bf10f0a"
+      "bd67b98574d1cc527635b01fa296abaf187ac82fd1582e3e182a83167bf10f0a",
+      "8c820b390bb84215af57d701aac5fae1e0d96c24bc56974cdcf4ee731379f809"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -1476,7 +1478,8 @@
     "templates/registration/login.html": [
       null,
       "d921824516f14cad0239f7f75a00ab7270820cc8e966e9ece8a42b94cc0da80f",
-      "ed900f393dfb71f05422dc0dfca597f794f9ec496dd3a7ff6c7c4965e4138e0f"
+      "ed900f393dfb71f05422dc0dfca597f794f9ec496dd3a7ff6c7c4965e4138e0f",
+      "758e30a9856a187aad168f46df479ddeeb9ed35a446ffbb46b9ac82171b0852e"
     ],
     "templates/registration/logout_confirm.html": [
       null,
@@ -1583,6 +1586,12 @@
       null
     ],
     "docs/FEEDBACK_FILTERS_DE.md": [
+      null
+    ],
+    "map/tests/test_sso_next.py": [
+      null
+    ],
+    "docs/SSO_NEXT_DE.md": [
       null
     ]
   }

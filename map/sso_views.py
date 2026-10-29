@@ -20,6 +20,13 @@ def failed(request, text, status=400):
     return render(request, 'sso_waiting.html', {'error': text}, status=status)
 
 
+def safe_next(value):
+    """Only local absolute paths; never redirect to a provider-supplied URL."""
+    from django.utils.http import url_has_allowed_host_and_scheme
+    value=value.strip() if isinstance(value,str) else ''
+    return value if len(value)<=2048 and value.startswith('/') and url_has_allowed_host_and_scheme(value,allowed_hosts=set(),require_https=True) else ''
+
+
 def begin(request, mode='login'):
     from .request_security import client_address
     from .services import throttle
@@ -32,7 +39,7 @@ def begin(request, mode='login'):
         if not flow.get('auth_uri') or not flow.get('state') or not flow.get('nonce'):
             raise SSOError('Microsoft konnte keine Anmeldung starten. Bitte die App-Konfiguration prüfen.')
         request.session['entra_flow'] = {'flow': flow, 'at': time.time(), 'revision': str(config.revision),
-                                         'mode': mode, 'user': request.user.pk if request.user.is_authenticated else None}
+                                         'mode': mode, 'next': safe_next(request.POST.get('next')) if mode=='login' else '', 'user': request.user.pk if request.user.is_authenticated else None}
         return redirect(flow['auth_uri'])
     except SSOError as error: return failed(request, str(error))
     except Exception:
@@ -42,7 +49,7 @@ def begin(request, mode='login'):
 
 @require_POST
 def sso_start(request):
-    if request.user.is_authenticated: return redirect('dashboard')
+    if request.user.is_authenticated: return redirect(safe_next(request.POST.get('next')) or 'dashboard')
     return begin(request)
 
 
@@ -86,7 +93,7 @@ def sso_callback(request):
         login(request, identity.user, backend='map.auth_backend.RoleBackend')
         request.session['map_sso'] = {'identity': identity.pk, 'at': time.time(), 'revision': str(config.revision)}
         request.session.set_expiry(900)
-        return redirect('dashboard' if can_enter(identity) else 'sso_waiting')
+        return redirect((safe_next(saved.get('next')) or 'dashboard') if can_enter(identity) else 'sso_waiting')
     except SSOError as error: return failed(request, str(error))
     except IntegrityError: return failed(request, 'Das Microsoft-Konto wurde gleichzeitig angelegt oder geändert. Bitte erneut anmelden oder die Administration kontaktieren.')
     except Exception:
