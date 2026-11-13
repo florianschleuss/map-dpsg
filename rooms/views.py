@@ -37,6 +37,8 @@ def filtered(request):
         if data['status']!='pending':proposed&=Q(pk__isnull=True)
     rows=rows.filter(current|proposed).distinct()
     if not data.get('status'):rows=rows.exclude(status='cancelled')
+    explicit_period=data.get('start') or data.get('end') or (request.resolver_match.url_name=='calendar' and request.GET.get('date'))
+    if not data.get('include_past') and not explicit_period:rows=rows.filter(ends_at__gt=timezone.now())
     if request.GET.get('mine')=='1':rows=rows.filter(creator=request.user)
     if data.get('start') or data.get('end'):
         ids=[]

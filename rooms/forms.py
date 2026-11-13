@@ -87,6 +87,7 @@ class ConflictForm(BookingForm):
 
 
 class FilterForm(forms.Form):
+    include_past=forms.BooleanField(label='Vergangene anzeigen',required=False)
     start=forms.DateField(label='Ab',required=False,widget=QuickDateWidget())
     end=forms.DateField(label='Bis',required=False,widget=QuickDateWidget())
     rooms=forms.ModelMultipleChoiceField(label='Räume',queryset=Room.objects.all(),required=False,widget=forms.CheckboxSelectMultiple)

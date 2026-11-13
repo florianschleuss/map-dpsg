@@ -35,3 +35,28 @@ class RoomFilterTests(RoomBookingTests.__bases__[0]):
         self.assertContains(self.client.get(reverse('rooms:index'),{'mine':'1'}),'name="mine" value="1"')
         response=self.client.get(reverse('rooms:index'),{'status':'invalid'})
         self.assertEqual(response.context['page'].paginator.count,0)
+
+    def test_past_is_hidden_but_ongoing_and_future_remain_visible(self):
+        from django.utils import timezone
+        now=timezone.now()
+        past=save_booking(self.leader,self.payload(starts_at=now-timedelta(days=3),ends_at=now-timedelta(days=2)))
+        ongoing=save_booking(self.leader,self.payload(starts_at=now-timedelta(hours=1),ends_at=now+timedelta(hours=1)))
+        future=save_booking(self.leader,self.payload())
+        self.client.force_login(self.leader)
+        def ids(params):return {row.pk for row in self.client.get(reverse('rooms:index'),params).context['page']}
+        self.assertEqual(ids({}),{ongoing.pk,future.pk})
+        self.assertEqual(ids({'include_past':'on'}),{past.pk,ongoing.pk,future.pk})
+        day=(now-timedelta(days=3)).date()
+        self.assertIn(past.pk,ids({'start':str(day),'end':str(day+timedelta(days=1))}))
+        self.assertTrue(RoomBooking.objects.filter(pk=past.pk).exists())
+
+    def test_explicit_historical_calendar_and_exports_can_include_past(self):
+        from django.utils import timezone
+        now=timezone.now();past=save_booking(self.leader,self.payload(starts_at=now-timedelta(days=3),ends_at=now-timedelta(days=2)))
+        self.client.force_login(self.leader)
+        default=self.client.get(reverse('rooms:export',args=['ical']))
+        self.assertNotIn(b'BEGIN:VEVENT',default.content)
+        history=self.client.get(reverse('rooms:export',args=['ical']),{'include_past':'on'})
+        self.assertIn(b'BEGIN:VEVENT',history.content)
+        response=self.client.get(reverse('rooms:calendar'),{'date':str((now-timedelta(days=3)).date())})
+        self.assertTrue(any(item['booking'].pk==past.pk for week in response.context['weeks'] for day in week for item in day['items']))

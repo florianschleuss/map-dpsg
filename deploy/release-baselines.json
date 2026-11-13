@@ -59,7 +59,8 @@
       "581464d7ab3a6a4dcaf5b20f71dc007b0f768d5a04ff87b9fbc30395f57d565b",
       "ef21706125aa6a81c87754794229037df01a064223729fe188290f212067ef0f",
       "5b737a3b4c27d120b6d658fb4c1600ee69daaba70807cdd04e050e2028b6c869",
-      "175e326c76a58674acb230a1114d7bc40f06b34e8ca70b9cfd6063d9f5db6957"
+      "175e326c76a58674acb230a1114d7bc40f06b34e8ca70b9cfd6063d9f5db6957",
+      "3cb40ab2673443e8cc5eb448a9645c7cf32adbe50907a8a179b7d9bd9e03af3e"
     ],
     "README.md": [
       null,
@@ -169,7 +170,8 @@
       "bd67b98574d1cc527635b01fa296abaf187ac82fd1582e3e182a83167bf10f0a",
       "8c820b390bb84215af57d701aac5fae1e0d96c24bc56974cdcf4ee731379f809",
       "faed7f1f114af17153e543083a80e366adc579ff7632c40a7a793e1b11b09c95",
-      "5d24d716461be4dfb863f87bb177ceffe3b664570c67b24ea167fc908392b37d"
+      "5d24d716461be4dfb863f87bb177ceffe3b664570c67b24ea167fc908392b37d",
+      "39e3a97042c4ddcc78a79fce414a046740bdfa43912297714226f88c2a196275"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -966,7 +968,8 @@
       "689f1407604743fdf8120fdc9de9648709a29bbc4702d9c4a2a43cc15b783656",
       "b972cd5dcd8fc2a159d1846d6989c5d29a8037243d5d6ca170bb351969b2ff81",
       "9cdf92148e6dc99f0aa3f90db2312233040b579547abc8c047c90ccfe97bf095",
-      "71c8db87dadcd60f26ce32e38de45853219047d0cd7d678c5a7b9e3877b08ab8"
+      "71c8db87dadcd60f26ce32e38de45853219047d0cd7d678c5a7b9e3877b08ab8",
+      "0fc13ed890427577249ac902a5f145f6c4941a910fd7eedefc608c2834bd338a"
     ],
     "rooms/migrations/0001_initial.py": [
       null,
@@ -1051,7 +1054,8 @@
       null,
       "70c19eb8b08cfe1b975ed5bf751fe1ab8072773bf85410f5b927f3f33fdbc374",
       "e82878255ca9e479b1f58eafbc27624a28b4ae74a12f90d4477e40cf188dddaa",
-      "9c03ff4ffb47765aca8bcc365f3c2e0998f380b8ba58652e4d721e30a3b9350e"
+      "9c03ff4ffb47765aca8bcc365f3c2e0998f380b8ba58652e4d721e30a3b9350e",
+      "0f99d86766a1809f134c4994abb6d34cdbc7cc77249d26c5f7e7c8c456308d5b"
     ],
     "rooms/templates/rooms/index.html": [
       null,
@@ -1123,7 +1127,8 @@
       "d15ee55a8bdfee8b7b5d4a8296835882a7b446aa93fc06f58a7e7c257542afbd",
       "f1ef7cdba668965d280c4631e6e373b4f934cdd7490de07408b25b4046a719c7",
       "c1400016d861bdd113b108dad480f6cc8caecfd6e8d6288156f7a07c0c69726a",
-      "1feefa160bf4f035abe29077aa7171d71a79a695741b974f3fb104679e221e3f"
+      "1feefa160bf4f035abe29077aa7171d71a79a695741b974f3fb104679e221e3f",
+      "402969c1a5b279108120157b7dff22499d03b2cc67b8e8a351ab6ce308c992ea"
     ],
     "scripts/apply_release.py": [
       null
@@ -1195,7 +1200,8 @@
       "fa55145d2d790ef097472251c6cce3cb7a8cd3ffdb42504f00714bd227277d31",
       "006ed8bede4d3b647da8d03a2a61ac8e01d471ca885827954950e780ef36e14c",
       "6c1afb3251a0b68536bfe85916b89001be54814a87e64751c46ca833818889c7",
-      "9d5301005f814fe4c72c82fb53dcc0421493646a788ff69405c809b2e77584fb"
+      "9d5301005f814fe4c72c82fb53dcc0421493646a788ff69405c809b2e77584fb",
+      "3604f76553d3f711d6ddadfa6c10c01b3aea4739826b49b13e45933b39835e5f"
     ],
     "static/map/rooms.js": [
       null,
@@ -1590,7 +1596,8 @@
       null
     ],
     "rooms/tests/test_filters_feedback.py": [
-      null
+      null,
+      "ccf5137c29ffe16b21a1d1854a0dab87d31f725bc9786bad4d1185afb6a863d4"
     ],
     "map/migrations/0017_feedback_email.py": [
       null
@@ -1617,7 +1624,8 @@
       null
     ],
     "docs/ROOM_DATE_SYNC_DE.md": [
-      null
+      null,
+      "2f938001bfa450ebee536b9d06020a3049b5da30a0a83feb578c9bf9222e8f4e"
     ]
   }
 }
