@@ -40,10 +40,10 @@ class NavigationSharingTests(TestCase):
         response=self.client.get('/admin/formularbaukasten/'+str(self.template.pk)+'/?event='+str(self.event.pk))
         self.assertContains(response,'Formularvorlage')
         self.assertContains(response,'Test SoLA')
-    def test_tab_title_contains_no_map(self):
+    def test_tab_title_starts_with_map(self):
         response=self.client.get('/accounts/login/')
         title=response.content.decode().split('<title>')[1].split('</title>')[0]
-        self.assertNotIn('MAP',title)
+        self.assertTrue(title.startswith('MAP · '),title)
     def test_manager_cannot_create_groups_via_wizard(self):
         form=BasicsForm({'title':'Lager','new_group_name':'Unbefugt','groups':[str(self.group.pk)]})
         self.assertFalse(form.is_valid())
