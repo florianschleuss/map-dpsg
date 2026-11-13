@@ -60,7 +60,8 @@
       "ef21706125aa6a81c87754794229037df01a064223729fe188290f212067ef0f",
       "5b737a3b4c27d120b6d658fb4c1600ee69daaba70807cdd04e050e2028b6c869",
       "175e326c76a58674acb230a1114d7bc40f06b34e8ca70b9cfd6063d9f5db6957",
-      "3cb40ab2673443e8cc5eb448a9645c7cf32adbe50907a8a179b7d9bd9e03af3e"
+      "3cb40ab2673443e8cc5eb448a9645c7cf32adbe50907a8a179b7d9bd9e03af3e",
+      "ec868b6e33cdffbc2b5cb30e966ec9c16d10bd265d0c26883f49461ee8d100ae"
     ],
     "README.md": [
       null,
@@ -171,7 +172,8 @@
       "8c820b390bb84215af57d701aac5fae1e0d96c24bc56974cdcf4ee731379f809",
       "faed7f1f114af17153e543083a80e366adc579ff7632c40a7a793e1b11b09c95",
       "5d24d716461be4dfb863f87bb177ceffe3b664570c67b24ea167fc908392b37d",
-      "39e3a97042c4ddcc78a79fce414a046740bdfa43912297714226f88c2a196275"
+      "39e3a97042c4ddcc78a79fce414a046740bdfa43912297714226f88c2a196275",
+      "4fc245170796f7eaa108cafcecc617b3fb565112774982332f344a8f27c8c032"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -1626,6 +1628,9 @@
     "docs/ROOM_DATE_SYNC_DE.md": [
       null,
       "2f938001bfa450ebee536b9d06020a3049b5da30a0a83feb578c9bf9222e8f4e"
+    ],
+    "docs/BROWSER_TAB_TITLES_DE.md": [
+      null
     ]
   }
 }
