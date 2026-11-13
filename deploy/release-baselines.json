@@ -58,7 +58,8 @@
       "e3a2761f754dc9bc98f167faf6b2b9a06f5a86fbd88ecd172ca7c77d35b3d34d",
       "581464d7ab3a6a4dcaf5b20f71dc007b0f768d5a04ff87b9fbc30395f57d565b",
       "ef21706125aa6a81c87754794229037df01a064223729fe188290f212067ef0f",
-      "5b737a3b4c27d120b6d658fb4c1600ee69daaba70807cdd04e050e2028b6c869"
+      "5b737a3b4c27d120b6d658fb4c1600ee69daaba70807cdd04e050e2028b6c869",
+      "175e326c76a58674acb230a1114d7bc40f06b34e8ca70b9cfd6063d9f5db6957"
     ],
     "README.md": [
       null,
@@ -167,7 +168,8 @@
       "b8a21e80505da18f0d337ec0e73ea0c2acf1eaed64930a7591239a4c80586812",
       "bd67b98574d1cc527635b01fa296abaf187ac82fd1582e3e182a83167bf10f0a",
       "8c820b390bb84215af57d701aac5fae1e0d96c24bc56974cdcf4ee731379f809",
-      "faed7f1f114af17153e543083a80e366adc579ff7632c40a7a793e1b11b09c95"
+      "faed7f1f114af17153e543083a80e366adc579ff7632c40a7a793e1b11b09c95",
+      "5d24d716461be4dfb863f87bb177ceffe3b664570c67b24ea167fc908392b37d"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -1199,7 +1201,8 @@
       null,
       "b839fce308b0eee4db3ce67e1db210f30df9603204ddedc6c00f01731c3cd612",
       "c38703d3f2bf4d5795009e362521d90dd83e4dfa983c242c7c21e78b2a9bea67",
-      "a04c85ee078e169277d8e7f2c5b3118fb5022c8903b8c1dbd21d9ffc7d1e658c"
+      "a04c85ee078e169277d8e7f2c5b3118fb5022c8903b8c1dbd21d9ffc7d1e658c",
+      "d59876a54f6ce62b11bb37a23b1a720a98d77a84d0810e266c1918f036acfb57"
     ],
     "static/map/theme.css": [
       null,
@@ -1218,7 +1221,8 @@
     "static/map/ui.js": [
       null,
       "0f6c8f13471e669ac3ba4df85e645518e7449bfbc05f53fb4168aba4180faabb",
-      "1ba35dac9188673f9e936b117a08eeebb22aa5b10fcdba7fb7e9e9758250bb41"
+      "1ba35dac9188673f9e936b117a08eeebb22aa5b10fcdba7fb7e9e9758250bb41",
+      "fffc11802316648c565853a8c31b4a57da7ac365e489ceb37c233d56a42d8586"
     ],
     "static/map/validation.js": [
       null,
@@ -1610,6 +1614,9 @@
       null
     ],
     "docs/MAIL_COLOR_SCHEMES_DE.md": [
+      null
+    ],
+    "docs/ROOM_DATE_SYNC_DE.md": [
       null
     ]
   }

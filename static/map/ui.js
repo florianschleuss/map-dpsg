@@ -59,6 +59,11 @@
     open.addEventListener('click',()=>{const show=calendar.hidden;calendar.hidden=!show;open.setAttribute('aria-expanded',String(show));if(show){draw();calendar.querySelector('.is-selected')?.focus();}});
     root.addEventListener('keydown',e=>{if(e.key==='Escape'){close();open.focus();}});
     root.mapCloseDate=close;
+    root.mapSetDate=value=>{
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+      selected=value;[year,month]=selected.split('-').map(Number);month--;
+      sync();if(!calendar.hidden)draw();return true;
+    };
     time.addEventListener('input',sync);
     root.querySelectorAll('[data-time]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.time==='now'){const now=berlinNow();selected=now.date;time.value=now.time;}else{selected=selected||berlinNow().date;time.value=b.dataset.time;}[year,month]=selected.split('-').map(Number);month--;sync();}));
     if(!source.required){const clear=button('×','Datum löschen',()=>{selected='';sync();close();open.focus();});clear.className='map-date-clear';clear.title='Datum löschen';controls.append(clear);}
