@@ -20,6 +20,7 @@ def site_context(request=None):
     return {'map_site': {
         'feedback_mailto': 'mailto:'+quote(feedback,safe='@.') if feedback else '',
         'organization': settings.MAP_ORGANIZATION,
+        'brand_organization': settings.MAP_BRAND_ORGANIZATION.strip() or settings.MAP_ORGANIZATION,
         'title': settings.MAP_SITE_TITLE,
         'contact_email': settings.MAP_CONTACT_EMAIL,
         'responsible_name': settings.MAP_RESPONSIBLE_NAME,

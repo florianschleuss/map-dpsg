@@ -57,3 +57,12 @@ html[data-map-theme="dark"] .room-table tbody tr:hover>td{background:#343434!imp
 @media(max-width:650px){.map-layout-wide .map-main{padding-inline:16px}.map-layout-wide .map-breadcrumbs,.map-layout-wide .map-topbar{padding-inline:16px!important}.map-layout-wide .map-table-wrap th,.map-layout-wide .map-table-wrap td{padding:11px 12px}.map-layout-wide .map-section-head{gap:16px}}
 
 .map-layout-wide .map-table-wrap:focus-visible{outline:3px solid #246e9a;outline-offset:3px}.map-layout-wide .room-calendar-entry{font-size:.82rem;line-height:1.5;padding:9px}
+
+/* Product wordmark with a descriptive second line and optional operator short name. */
+.map-topbar .map-brand{flex:0 1 auto;gap:14px;min-width:0}
+.map-topbar .map-brand>span{min-width:0;gap:5px}
+.map-topbar .map-brand strong{font-size:30px;font-weight:750;line-height:1.05;letter-spacing:-.5px}
+.map-topbar .map-brand small{display:block;max-width:none;margin:0;font-size:12px;line-height:1.45;white-space:normal;overflow-wrap:break-word}
+.map-topbar .map-brand img{width:56px!important;height:56px!important;flex:0 0 56px}
+.map-topbar .map-profile{flex:0 0 auto;margin-left:auto}
+@media(max-width:760px){.map-topbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px}.map-topbar .map-brand{flex-basis:230px;gap:11px}.map-topbar .map-brand img{width:44px!important;height:44px!important;flex-basis:44px}.map-topbar .map-brand strong{font-size:26px}.map-topbar .map-brand small{font-size:11px}.map-topbar .map-brand>span{gap:4px}}

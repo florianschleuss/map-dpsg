@@ -28,7 +28,8 @@
     ".github/workflows/tests.yml": [
       null,
       "c62e652cdb56e0703e88f5a7a00de1d0c1730afe085da61e77d4b46d216ccc16",
-      "f0fbe77c6bf90d4ac812b953c064a64a0a12016406c663f8312109d8e69e5da8"
+      "f0fbe77c6bf90d4ac812b953c064a64a0a12016406c663f8312109d8e69e5da8",
+      "8dc0fc652684a728a1fd4f32df0da91d3a17529db7be7cef19b89a0882219bee"
     ],
     ".gitignore": [
       null,
@@ -63,7 +64,8 @@
       "3cb40ab2673443e8cc5eb448a9645c7cf32adbe50907a8a179b7d9bd9e03af3e",
       "ec868b6e33cdffbc2b5cb30e966ec9c16d10bd265d0c26883f49461ee8d100ae",
       "9e77b146120c4d3260268eb7915356ed2ee6a27371544cbeeff2078360cb5934",
-      "7a5921240fbee0fd1af955413ce84f743c385a2f8f664ece145bf5c06ed12e10"
+      "7a5921240fbee0fd1af955413ce84f743c385a2f8f664ece145bf5c06ed12e10",
+      "ae3d9de6c7784748df01b511755711ba0ff51e9e1542f0cf6ae5053b04b21bad"
     ],
     "README.md": [
       null,
@@ -177,7 +179,8 @@
       "39e3a97042c4ddcc78a79fce414a046740bdfa43912297714226f88c2a196275",
       "4fc245170796f7eaa108cafcecc617b3fb565112774982332f344a8f27c8c032",
       "f4714a4af46b868f97fc32a28b9440d597b0cec0dcf94288995cabe41d496a58",
-      "b35be89c0441f0603f4889fb1e6969f725f1a2af591d6c9bf41f56a312a4004e"
+      "b35be89c0441f0603f4889fb1e6969f725f1a2af591d6c9bf41f56a312a4004e",
+      "87c49149f7c361c244ded6df1d61d1ad44f81a203a8eb768a640051a65920564"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -659,7 +662,8 @@
     "map/site_config.py": [
       null,
       "16c05c537d2e4f39204a47410c07a2e61465f9792d01e7ac96c032dc3f299934",
-      "d6d2362cafc56d37f86d289decfe45af2b008bd72bbd6cc8c10b160b08820ac2"
+      "d6d2362cafc56d37f86d289decfe45af2b008bd72bbd6cc8c10b160b08820ac2",
+      "2352f3bd70028d6462f0855fd96b36f8021c8c7edab56b84d2ec9bcc3dcbbfaa"
     ],
     "map/sso.py": [
       null,
@@ -1210,7 +1214,8 @@
       "6c1afb3251a0b68536bfe85916b89001be54814a87e64751c46ca833818889c7",
       "9d5301005f814fe4c72c82fb53dcc0421493646a788ff69405c809b2e77584fb",
       "3604f76553d3f711d6ddadfa6c10c01b3aea4739826b49b13e45933b39835e5f",
-      "7f094c68bd3a70c434f0ea49d6d9300af8647c6d828dc634239013a754e5211a"
+      "7f094c68bd3a70c434f0ea49d6d9300af8647c6d828dc634239013a754e5211a",
+      "627e9024bf3e6fae97ee77b6432be2ae615ecc91cde0040ea5af710772a15dfb"
     ],
     "static/map/rooms.js": [
       null,
@@ -1427,7 +1432,8 @@
       "15bf328e7226c58b82a9eecfcefff409ecd811678d0dacb1b99ccfec2c1a193f",
       "d376db8ce500814a3ecac0a6a8431bf152ecf351d0edff3a1692ea290d008297",
       "dc82bc1b52bbc36a7ba065689eb236cccb0563f43c980f77d8580452c192b7ee",
-      "e8059b4385f1feef61963ef1c7d1b985e1529c2a7691abbc259a608aea0c0ec3"
+      "e8059b4385f1feef61963ef1c7d1b985e1529c2a7691abbc259a608aea0c0ec3",
+      "0b3e5f623bc4919ab49fa9f20cba72f80eb06ffd84f1a04104cf7a3031a2c09c"
     ],
     "templates/map_ui/mail_template_state.html": [
       null,
@@ -1643,6 +1649,15 @@
       null
     ],
     "docs/WIDE_OVERVIEW_TABLES_DE.md": [
+      null
+    ],
+    "scripts/configure_brand.py": [
+      null
+    ],
+    "tools/test_brand_configuration.py": [
+      null
+    ],
+    "docs/BRAND_HEADER_DE.md": [
       null
     ]
   }
