@@ -77,7 +77,6 @@ if 'map.roles.portal_context' not in TEMPLATES[0]['OPTIONS']['context_processors
 
 # Operator identity is deployment configuration, never embedded in public source.
 MAP_ORGANIZATION = os.environ.get('MAP_ORGANIZATION', 'Dein Pfadfinderstamm')
-MAP_BRAND_ORGANIZATION = os.environ.get('MAP_BRAND_ORGANIZATION', '')
 MAP_SITE_TITLE = os.environ.get('MAP_SITE_TITLE', 'Veranstaltungsanmeldungen')
 MAP_MAIL_SENDER_NAME = os.environ.get('MAP_MAIL_SENDER_NAME', 'Anmeldungsverwaltung')
 MAP_CONTACT_EMAIL = os.environ.get('MAP_CONTACT_EMAIL', '')

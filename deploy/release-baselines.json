@@ -3,7 +3,9 @@
   "base_commit": "4aabc18",
   "remove": [
     "templates/sso_link.html",
-    "rooms/templates/rooms/notifications.html"
+    "rooms/templates/rooms/notifications.html",
+    "scripts/configure_brand.py",
+    "tools/test_brand_configuration.py"
   ],
   "paths": {
     ".dockerignore": [
@@ -14,7 +16,8 @@
     ".env.example": [
       null,
       "4c664dffcec368054217c92e1b77a9f2b62c99d38ad56db5c906c9443b30767b",
-      "784ee2ce98570717adf2804da9599708a58090e67f400eadcc8080bb93b2c726"
+      "784ee2ce98570717adf2804da9599708a58090e67f400eadcc8080bb93b2c726",
+      "361238fefba74aad409b98287ffb76aba265ed5fb90b5b61643d10cae16392a5"
     ],
     ".gitattributes": [
       null
@@ -29,7 +32,8 @@
       null,
       "c62e652cdb56e0703e88f5a7a00de1d0c1730afe085da61e77d4b46d216ccc16",
       "f0fbe77c6bf90d4ac812b953c064a64a0a12016406c663f8312109d8e69e5da8",
-      "8dc0fc652684a728a1fd4f32df0da91d3a17529db7be7cef19b89a0882219bee"
+      "8dc0fc652684a728a1fd4f32df0da91d3a17529db7be7cef19b89a0882219bee",
+      "5a89f276a8a3f16be6a85f2fd9944c29a0943ea084d6bf6030b512e5efe1efaf"
     ],
     ".gitignore": [
       null,
@@ -65,7 +69,8 @@
       "ec868b6e33cdffbc2b5cb30e966ec9c16d10bd265d0c26883f49461ee8d100ae",
       "9e77b146120c4d3260268eb7915356ed2ee6a27371544cbeeff2078360cb5934",
       "7a5921240fbee0fd1af955413ce84f743c385a2f8f664ece145bf5c06ed12e10",
-      "ae3d9de6c7784748df01b511755711ba0ff51e9e1542f0cf6ae5053b04b21bad"
+      "ae3d9de6c7784748df01b511755711ba0ff51e9e1542f0cf6ae5053b04b21bad",
+      "957d029facd39fdac3e64e261429adc5ea00fcb05caa310d67d405195f3d41bd"
     ],
     "README.md": [
       null,
@@ -132,7 +137,8 @@
       null,
       "16a670a99083db443e2e1b3f0bc99ab42384029a61a2adab1334fb4a0f43d753",
       "1d59be60c729d9aa448ffbbc30da21d1d5069c5d4c915b9a79323b2dbf7baab3",
-      "ebfdfac6166c8192e2c914d6c6d5880f4de13bb44fa49d88d91154e23a2db243"
+      "ebfdfac6166c8192e2c914d6c6d5880f4de13bb44fa49d88d91154e23a2db243",
+      "dcdf73035fa7e3839b0a31f6045c1513c2c32e0ad5c6d8391e50dc0ed9514946"
     ],
     "config/__init__.py": [
       null,
@@ -142,7 +148,8 @@
       null,
       "2902a6c0adfdb68233a0e38ef30b135af7831817d903eead1595a6b00f15fa2d",
       "90aa052f6822f222359f19b4eb2a278b39a001618ac89438e94739b44bd4b6fa",
-      "d64f4a9536d48cd088a86d01da269f1be2ec0b3d31aff01b33b894bf9ea583e9"
+      "d64f4a9536d48cd088a86d01da269f1be2ec0b3d31aff01b33b894bf9ea583e9",
+      "ae99c953fbe01044d5ad863816f3133a92b4b10c288fd2789aee39a3d341cbe6"
     ],
     "config/urls.py": [
       null,
@@ -180,7 +187,8 @@
       "4fc245170796f7eaa108cafcecc617b3fb565112774982332f344a8f27c8c032",
       "f4714a4af46b868f97fc32a28b9440d597b0cec0dcf94288995cabe41d496a58",
       "b35be89c0441f0603f4889fb1e6969f725f1a2af591d6c9bf41f56a312a4004e",
-      "87c49149f7c361c244ded6df1d61d1ad44f81a203a8eb768a640051a65920564"
+      "87c49149f7c361c244ded6df1d61d1ad44f81a203a8eb768a640051a65920564",
+      "ff7e59ae85399e1394855c7d7d3670841ba8e8307d7ae52c5d1c5a97905fae34"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -663,7 +671,8 @@
       null,
       "16c05c537d2e4f39204a47410c07a2e61465f9792d01e7ac96c032dc3f299934",
       "d6d2362cafc56d37f86d289decfe45af2b008bd72bbd6cc8c10b160b08820ac2",
-      "2352f3bd70028d6462f0855fd96b36f8021c8c7edab56b84d2ec9bcc3dcbbfaa"
+      "2352f3bd70028d6462f0855fd96b36f8021c8c7edab56b84d2ec9bcc3dcbbfaa",
+      "73688d0852456971ee4e6f03a1027573b82e20dcc2d67fed8c58439b7c164c67"
     ],
     "map/sso.py": [
       null,
@@ -1215,7 +1224,8 @@
       "9d5301005f814fe4c72c82fb53dcc0421493646a788ff69405c809b2e77584fb",
       "3604f76553d3f711d6ddadfa6c10c01b3aea4739826b49b13e45933b39835e5f",
       "7f094c68bd3a70c434f0ea49d6d9300af8647c6d828dc634239013a754e5211a",
-      "627e9024bf3e6fae97ee77b6432be2ae615ecc91cde0040ea5af710772a15dfb"
+      "627e9024bf3e6fae97ee77b6432be2ae615ecc91cde0040ea5af710772a15dfb",
+      "9e9065275e8c8707e2bf724fd2eba7c176158530ef9fe7aadcb43edb83ed894f"
     ],
     "static/map/rooms.js": [
       null,
@@ -1433,7 +1443,8 @@
       "d376db8ce500814a3ecac0a6a8431bf152ecf351d0edff3a1692ea290d008297",
       "dc82bc1b52bbc36a7ba065689eb236cccb0563f43c980f77d8580452c192b7ee",
       "e8059b4385f1feef61963ef1c7d1b985e1529c2a7691abbc259a608aea0c0ec3",
-      "0b3e5f623bc4919ab49fa9f20cba72f80eb06ffd84f1a04104cf7a3031a2c09c"
+      "0b3e5f623bc4919ab49fa9f20cba72f80eb06ffd84f1a04104cf7a3031a2c09c",
+      "18bbe44590217322296f6b7ab5c311679f4922c04a3b5e7cd32bb787d45098a2"
     ],
     "templates/map_ui/mail_template_state.html": [
       null,
@@ -1652,13 +1663,16 @@
       null
     ],
     "scripts/configure_brand.py": [
-      null
+      null,
+      "357d1315043af36b0e7d989480744be285bd6ea2fd9dce0f5f2e548489744b1d"
     ],
     "tools/test_brand_configuration.py": [
-      null
+      null,
+      "e46ac4708a3aa5cedd31ffc905ab681131a7e8f6c5f65ef775f620651936dec2"
     ],
     "docs/BRAND_HEADER_DE.md": [
-      null
+      null,
+      "ad10946bc2913bfeb3d68c0aed06d1d7ab8c49d8356d8c3e3fab17cf7f798d8f"
     ]
   }
 }

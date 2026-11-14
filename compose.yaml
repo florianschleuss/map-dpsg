@@ -85,7 +85,6 @@ services:
       SQLITE_TEST: "0"
       MAP_TRUSTED_PROXY_HOSTS: ""
       MAP_ORGANIZATION: Dein Pfadfinderstamm
-      MAP_BRAND_ORGANIZATION: ""
       MAP_IMPRINT_URL: ""
       MAP_MAIL_SENDER_NAME: Anmeldungsverwaltung
       MAP_LOGO_PATH: map/logo.svg
