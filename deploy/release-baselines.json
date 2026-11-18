@@ -70,7 +70,8 @@
       "9e77b146120c4d3260268eb7915356ed2ee6a27371544cbeeff2078360cb5934",
       "7a5921240fbee0fd1af955413ce84f743c385a2f8f664ece145bf5c06ed12e10",
       "ae3d9de6c7784748df01b511755711ba0ff51e9e1542f0cf6ae5053b04b21bad",
-      "957d029facd39fdac3e64e261429adc5ea00fcb05caa310d67d405195f3d41bd"
+      "957d029facd39fdac3e64e261429adc5ea00fcb05caa310d67d405195f3d41bd",
+      "b744e4f257a35714873200d03fcf70f21a0ee891b62ddd247401c222e5addab6"
     ],
     "README.md": [
       null,
@@ -188,7 +189,8 @@
       "f4714a4af46b868f97fc32a28b9440d597b0cec0dcf94288995cabe41d496a58",
       "b35be89c0441f0603f4889fb1e6969f725f1a2af591d6c9bf41f56a312a4004e",
       "87c49149f7c361c244ded6df1d61d1ad44f81a203a8eb768a640051a65920564",
-      "ff7e59ae85399e1394855c7d7d3670841ba8e8307d7ae52c5d1c5a97905fae34"
+      "ff7e59ae85399e1394855c7d7d3670841ba8e8307d7ae52c5d1c5a97905fae34",
+      "dc464e202e629d46ca008a07768a0d80067efffc3d45b18734551ce4af66fb87"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -697,7 +699,8 @@
     "map/sso_views.py": [
       null,
       "ada0eff931834a0905ace0d67169e1a4b43bf11acf7e02a294a4ebbc9f149954",
-      "e23fd74f42c83f966edd0cfeee9d1b7ba093f5f8ef95cd390bbd962eb80835d9"
+      "e23fd74f42c83f966edd0cfeee9d1b7ba093f5f8ef95cd390bbd962eb80835d9",
+      "9747734496c0a860d6bcdacd8d1ca7a95dc314a92e0fae52a5a5dfdf123502cb"
     ],
     "map/stage_roles.py": [
       null,
@@ -1673,6 +1676,12 @@
     "docs/BRAND_HEADER_DE.md": [
       null,
       "ad10946bc2913bfeb3d68c0aed06d1d7ab8c49d8356d8c3e3fab17cf7f798d8f"
+    ],
+    "map/tests/test_sso_shared_network.py": [
+      null
+    ],
+    "docs/SSO_SIGNIN_FIX_DE.md": [
+      null
     ]
   }
 }

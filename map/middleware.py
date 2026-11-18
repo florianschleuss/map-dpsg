@@ -18,4 +18,9 @@ class PrivacyHeadersMiddleware:
         response['Cache-Control'] = 'no-store'
         response['X-Robots-Tag'] = 'noindex, nofollow'
         response['Content-Security-Policy'] = "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; object-src 'none'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'"
+        # Some browsers apply form-action to a POST's redirect destination too.
+        # Permit only Microsoft's fixed authorization host, only on SSO entry views.
+        if request.path in ['/accounts/login/', '/admin/login/', '/accounts/microsoft/start/', '/verwaltung/microsoft/']:
+            response['Content-Security-Policy'] = response['Content-Security-Policy'].replace(
+                "form-action 'self'", "form-action 'self' https://login.microsoftonline.com")
         return response

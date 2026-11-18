@@ -22,7 +22,7 @@ class EntraSSOTests(TestCase):
         self.tenant=uuid.uuid4(); self.client_id=uuid.uuid4(); self.group=uuid.uuid4()
         self.config=SSOConfiguration.objects.create(pk=1, enabled=True, tenant_id=self.tenant, client_id=self.client_id,
             client_secret_encrypted=encrypt_password('sso-test-secret'), secret_expires_on=timezone.localdate()+timedelta(days=90), notification_email='admins@example.org')
-        self.stage=ScoutGroup.objects.create(name='Wölflinge')
+        self.stage=ScoutGroup.objects.create(name='WÃ¶lflinge')
         self.other=ScoutGroup.objects.create(name='Juffis')
         self.admin=get_user_model().objects.create_superuser('technical','technical@example.org','Strong-Password-12345')
         self.local=get_user_model().objects.create_user('local','same@example.org','Strong-Password-12345')
@@ -176,7 +176,7 @@ class EntraSSOTests(TestCase):
             app.return_value.initiate_auth_code_flow.return_value=flow
             response=self.client.post(reverse('sso_start'))
             self.assertEqual(response.status_code,302);self.assertTrue(response['Location'].startswith('https://login.microsoftonline.com/'))
-            self.assertTrue(throttle.call_args.args[0].startswith('sso-start:'))
+            self.assertTrue(throttle.call_args.args[0].startswith('sso-network-v2:'))
         self.assertIn('entra_flow',self.client.session)
 
     def test_missing_or_expired_config_has_clear_error(self):
