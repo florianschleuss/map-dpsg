@@ -71,7 +71,8 @@
       "7a5921240fbee0fd1af955413ce84f743c385a2f8f664ece145bf5c06ed12e10",
       "ae3d9de6c7784748df01b511755711ba0ff51e9e1542f0cf6ae5053b04b21bad",
       "957d029facd39fdac3e64e261429adc5ea00fcb05caa310d67d405195f3d41bd",
-      "b744e4f257a35714873200d03fcf70f21a0ee891b62ddd247401c222e5addab6"
+      "b744e4f257a35714873200d03fcf70f21a0ee891b62ddd247401c222e5addab6",
+      "c35e611fcd6ec1134737487962f83f68092d9950ce3a454a0ad2d1efe6abc268"
     ],
     "README.md": [
       null,
@@ -190,7 +191,8 @@
       "b35be89c0441f0603f4889fb1e6969f725f1a2af591d6c9bf41f56a312a4004e",
       "87c49149f7c361c244ded6df1d61d1ad44f81a203a8eb768a640051a65920564",
       "ff7e59ae85399e1394855c7d7d3670841ba8e8307d7ae52c5d1c5a97905fae34",
-      "dc464e202e629d46ca008a07768a0d80067efffc3d45b18734551ce4af66fb87"
+      "dc464e202e629d46ca008a07768a0d80067efffc3d45b18734551ce4af66fb87",
+      "5d1cc711e3953267798b7ee4a9e4c0a8d070a267448546b3026b67191dbd0191"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -700,7 +702,8 @@
       null,
       "ada0eff931834a0905ace0d67169e1a4b43bf11acf7e02a294a4ebbc9f149954",
       "e23fd74f42c83f966edd0cfeee9d1b7ba093f5f8ef95cd390bbd962eb80835d9",
-      "9747734496c0a860d6bcdacd8d1ca7a95dc314a92e0fae52a5a5dfdf123502cb"
+      "9747734496c0a860d6bcdacd8d1ca7a95dc314a92e0fae52a5a5dfdf123502cb",
+      "70e67fee38f55dfcf6558ea9533e0967167050f3f200ec2be79b448cf63b9bb6"
     ],
     "map/stage_roles.py": [
       null,
@@ -904,7 +907,8 @@
     "map/tests/test_sso.py": [
       null,
       "1b74a9f8a04ba3a309bf9c0d1b5b240662bd8f83a92dea9405eb93f297fd85fe",
-      "841b97dc7d727f41ee4ef66480bbd729de20555b91638797808c7d46e268e3bb"
+      "841b97dc7d727f41ee4ef66480bbd729de20555b91638797808c7d46e268e3bb",
+      "02a16a54df4cf14bf7f2a196b52ca066061bff56ee4a83558e2982cbc00dbb6d"
     ],
     "map/tests/test_unified_auth.py": [
       null,
@@ -1447,7 +1451,8 @@
       "dc82bc1b52bbc36a7ba065689eb236cccb0563f43c980f77d8580452c192b7ee",
       "e8059b4385f1feef61963ef1c7d1b985e1529c2a7691abbc259a608aea0c0ec3",
       "0b3e5f623bc4919ab49fa9f20cba72f80eb06ffd84f1a04104cf7a3031a2c09c",
-      "18bbe44590217322296f6b7ab5c311679f4922c04a3b5e7cd32bb787d45098a2"
+      "18bbe44590217322296f6b7ab5c311679f4922c04a3b5e7cd32bb787d45098a2",
+      "f3278d39a83dd1cd8efd86bf16a0995b2bc2373df2a6a9c3392ceb2c3850bf12"
     ],
     "templates/map_ui/mail_template_state.html": [
       null,
@@ -1682,6 +1687,14 @@
     ],
     "docs/SSO_SIGNIN_FIX_DE.md": [
       null
+    ],
+    "map/tests/test_room_only_navigation.py": [
+      null,
+      "d80777152e96e1f0ff0ff51dd97fc0f70947de06ecb121281ba670abb36401a2"
+    ],
+    "docs/ROOM_ONLY_ACCESS_DE.md": [
+      null,
+      "567431301af6bea4412f1ff9a18eabc7ab4923dc7e09dd241623c3c4e0a5921d"
     ]
   }
 }

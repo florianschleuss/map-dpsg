@@ -22,7 +22,7 @@ class EntraSSOTests(TestCase):
         self.tenant=uuid.uuid4(); self.client_id=uuid.uuid4(); self.group=uuid.uuid4()
         self.config=SSOConfiguration.objects.create(pk=1, enabled=True, tenant_id=self.tenant, client_id=self.client_id,
             client_secret_encrypted=encrypt_password('sso-test-secret'), secret_expires_on=timezone.localdate()+timedelta(days=90), notification_email='admins@example.org')
-        self.stage=ScoutGroup.objects.create(name='WÃ¶lflinge')
+        self.stage=ScoutGroup.objects.create(name='Wölflinge')
         self.other=ScoutGroup.objects.create(name='Juffis')
         self.admin=get_user_model().objects.create_superuser('technical','technical@example.org','Strong-Password-12345')
         self.local=get_user_model().objects.create_user('local','same@example.org','Strong-Password-12345')
@@ -165,6 +165,18 @@ class EntraSSOTests(TestCase):
         self.assertRedirects(self.client.get(reverse('dashboard')),reverse('login'))
         self.config.refresh_from_db();self.signin(identity);identity.blocked=True;identity.save()
         self.assertRedirects(self.client.get(reverse('dashboard')),reverse('login'))
+
+    def test_approved_room_only_sso_account_reaches_rooms(self):
+        from django.contrib.auth.models import Permission
+        self.local.user_permissions.add(Permission.objects.get(content_type__app_label='rooms',codename='add_roombooking'))
+        self.identity(user=self.local)
+        self.save_flow()
+        with patch('map.sso_views.client') as app, patch('map.sso_views.validate_token',return_value=self.claims):
+            app.return_value.acquire_token_by_auth_code_flow.return_value={'id_token':'test-token'}
+            response=self.callback()
+        response=self.client.get(response['Location'],follow=True)
+        self.assertEqual(response.request['PATH_INFO'],'/raeume/')
+        self.assertNotContains(response,'>Veranstaltungen</a>')
 
     def test_login_is_prominent_and_local_login_still_works(self):
         response=self.client.get(reverse('login'));self.assertContains(response,'Mit Microsoft anmelden');self.assertContains(response,'Lokale Anmeldung')

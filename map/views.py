@@ -103,7 +103,9 @@ def registration_editor(request, row, actor=None):
 
 @login_required
 def dashboard(request):
-    from .roles import visible_events
+    from .roles import visible_events, default_module
+    if default_module(request.user) == 'rooms:index':
+        return redirect('rooms:index')
     events=visible_events(request.user)
     from .sharing import registration_url
     events=list(events.order_by('starts_at'))

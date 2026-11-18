@@ -9,14 +9,16 @@ def breadcrumbs(request):
         crumbs[-1]['url']=''
         return crumbs
     from .models import Event
+    from .roles import default_module
+    landing=reverse(default_module(request.user))
     from .services import permitted
     name=match.url_name
     if match.namespace=='rooms':
         if name in ['settings','catalogue','templates','template_edit']:
             labels={'settings':'Raumeinstellungen','catalogue':'Räume verwalten','templates':'Mailvorlagen','template_edit':'Mailvorlage bearbeiten'}
-            return [{'label':'MAP','url':reverse('dashboard')},{'label':'Raumeinstellungen','url':reverse('rooms:settings')}]+([{'label':labels[name],'url':''}] if name!='settings' else [])
+            return [{'label':'MAP','url':landing},{'label':'Raumeinstellungen','url':reverse('rooms:settings')}]+([{'label':labels[name],'url':''}] if name!='settings' else [])
         labels={'index':'Buchungsübersicht','new':'Buchung anfragen','edit':'Buchung bearbeiten','detail':'Buchungsdetails','calendar':'Kalender','pending':'Offene Genehmigungen','settings':'Raumbuchungs-Einstellungen','templates':'Raumbuchungs-Mailvorlagen','template_edit':'Mailvorlage bearbeiten','notifications':'Benachrichtigungen'}
-        return [{'label':'MAP','url':reverse('dashboard')},{'label':'Raumbuchung','url':reverse('rooms:index')},{'label':labels.get(name,'Raumbuchung'),'url':''}]
+        return [{'label':'MAP','url':landing},{'label':'Raumbuchung','url':reverse('rooms:index')},{'label':labels.get(name,'Raumbuchung'),'url':''}]
     event=None
     if name in ['event_statistics','export_excel','event_admin','event_settings','event_qr','event_delete','publish_event','request_payments']:
         event=Event.objects.filter(pk=match.kwargs.get('pk')).first()

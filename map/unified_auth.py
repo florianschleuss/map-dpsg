@@ -39,7 +39,9 @@ class MapLoginView(LoginView):
         return context
 
     def get_default_redirect_url(self):
-        return '/dashboard/'
+        from django.urls import reverse
+        from .roles import default_module
+        return reverse(default_module(self.request.user))
 
 @require_GET
 def admin_login(request):

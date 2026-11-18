@@ -12,6 +12,8 @@ def portal_context(request):
     from .navigation import breadcrumbs
     from .access import can_users,can_roles,can_stages,can_queue,can_mail_settings,can_mail_templates
     user=request.user
+    from django.urls import reverse
+    event_access=can_use_events(user)
     from rooms.access import can_use,can_request,board,can_configure
     room_access=can_use(user)
     pending=getattr(request,'sso_waiting',False)
@@ -19,7 +21,7 @@ def portal_context(request):
     import secrets
     dummy=can_create_dummy(user) and not pending
     if dummy and not request.session.get('dummy_event_nonce'):request.session['dummy_event_nonce']=secrets.token_hex(16)
-    room_context={'room_can_use':room_access and not pending,'room_can_request':can_request(user),'room_is_board':board(user),'room_can_configure':can_configure(user),
+    room_context={'map_can_events':event_access,'map_start_url':reverse(default_module(user)),'room_can_use':room_access and not pending,'room_can_request':can_request(user),'room_is_board':board(user),'room_can_configure':can_configure(user),
                   'map_pending_access':pending,'map_can_dummy':dummy,'map_dummy_nonce':request.session.get('dummy_event_nonce',''),
                   'map_can_settings':not pending and any([is_admin(user),can_configure(user),can_users(user),can_roles(user),can_stages(user),can_mail_settings(user),can_mail_templates(user),can_queue(user)])}
     return {**room_context,'map_is_admin':is_admin(user),'map_can_manage':can_create_events(user),'map_breadcrumbs':breadcrumbs(request),
@@ -68,3 +70,18 @@ def can_delete_event(user,event):
     if event.eventpermission_set.filter(user=user,role='editor').exists():return True
     stages=event_stage_ids(event)
     return bool(stages and stages.issubset(stage_ids(user,'delete')))
+
+
+def can_use_events(user):
+    """Module visibility follows actual grants, including grants without events yet."""
+    if not user.is_authenticated or not user.is_active:
+        return False
+    from .access import stage_ids, can_templates
+    from .models import EventPermission
+    return bool(can_read_all(user) or can_create_events(user) or stage_ids(user, 'view')
+                or can_templates(user) or EventPermission.objects.filter(user=user).exists())
+
+
+def default_module(user):
+    from rooms.access import can_use
+    return 'rooms:index' if can_use(user) and not can_use_events(user) else 'dashboard'

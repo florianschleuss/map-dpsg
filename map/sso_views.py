@@ -38,14 +38,14 @@ def begin(request, mode='login'):
         config = require_config()
         flow = client(config).initiate_auth_code_flow(scopes=[], redirect_uri=callback_url(), prompt='select_account', response_mode='query')
         if not flow.get('auth_uri') or not flow.get('state') or not flow.get('nonce'):
-            raise SSOError('Microsoft konnte keine Anmeldung starten. Bitte die App-Konfiguration prÃ¼fen.')
+            raise SSOError('Microsoft konnte keine Anmeldung starten. Bitte die App-Konfiguration prüfen.')
         request.session['entra_flow'] = {'flow': flow, 'at': time.time(), 'revision': str(config.revision),
                                          'mode': mode, 'next': safe_next(request.POST.get('next')) if mode=='login' else '', 'user': request.user.pk if request.user.is_authenticated else None}
         return redirect(flow['auth_uri'])
     except SSOError as error: return failed(request, str(error))
     except Exception:
         # Provider exceptions can contain client secrets, tokens or personal claims.
-        return failed(request, 'Microsoft ist nicht erreichbar oder die App-Konfiguration ist ungÃ¼ltig. Bitte Tenant-ID, Client-ID, Geheimnis und Netzwerk prÃ¼fen. Die lokale Anmeldung bleibt verfÃ¼gbar.', 502)
+        return failed(request, 'Microsoft ist nicht erreichbar oder die App-Konfiguration ist ungültig. Bitte Tenant-ID, Client-ID, Geheimnis und Netzwerk prüfen. Die lokale Anmeldung bleibt verfügbar.', 502)
 
 
 @require_POST
@@ -62,33 +62,33 @@ def sso_callback(request):
         return failed(request, 'Die Microsoft-Anmeldung ist abgelaufen oder wurde bereits verwendet. Bitte neu starten.')
     flow = saved['flow']
     if not hmac.compare_digest(str(request.GET.get('state', '')), str(flow.get('state', ''))):
-        return failed(request, 'Die SicherheitsprÃ¼fung der Anmeldung ist fehlgeschlagen. Bitte neu starten.')
+        return failed(request, 'Die Sicherheitsprüfung der Anmeldung ist fehlgeschlagen. Bitte neu starten.')
     if request.GET.get('error'):
         return failed(request, 'Die Microsoft-Anmeldung wurde abgebrochen oder nicht genehmigt. Bitte erneut versuchen oder die Administration kontaktieren.')
     if not request.GET.get('code'): return failed(request, 'Microsoft hat keinen Anmeldecode geliefert. Bitte erneut anmelden.')
     try:
         config = require_config()
-        if saved['revision'] != str(config.revision): raise SSOError('Die Einstellungen wurden geÃ¤ndert. Bitte die Anmeldung neu starten.')
+        if saved['revision'] != str(config.revision): raise SSOError('Die Einstellungen wurden geändert. Bitte die Anmeldung neu starten.')
         mode = saved.get('mode', 'login')
         if mode == 'login' and request.user.is_authenticated:
             raise SSOError('Du bist inzwischen mit einem MAP-Konto angemeldet. Bitte zuerst abmelden und die Microsoft-Anmeldung neu starten.')
         if mode == 'test' and (not request.user.is_authenticated or request.user.pk != saved.get('user')):
-            raise SSOError('Das ursprÃ¼ngliche MAP-Konto ist nicht mehr angemeldet. Bitte den Vorgang dort erneut starten.')
-        if mode not in ['login','test']:raise SSOError('Dieser Anmeldevorgang wird nicht mehr unterstÃ¼tzt. Bitte die Anmeldung neu starten.')
+            raise SSOError('Das ursprüngliche MAP-Konto ist nicht mehr angemeldet. Bitte den Vorgang dort erneut starten.')
+        if mode not in ['login','test']:raise SSOError('Dieser Anmeldevorgang wird nicht mehr unterstützt. Bitte die Anmeldung neu starten.')
         if mode == 'test' and not is_admin(request.user): raise SSOError('Dieser Test erfordert Adminrechte.')
         result = client(config).acquire_token_by_auth_code_flow(flow, request.GET.dict())
         if not result.get('id_token'):
             if result.get('error') == 'invalid_client':
-                raise SSOError('Microsoft hat die App-Zugangsdaten abgelehnt. Client-ID und Wert/Ablaufdatum des Geheimnisses prÃ¼fen.')
+                raise SSOError('Microsoft hat die App-Zugangsdaten abgelehnt. Client-ID und Wert/Ablaufdatum des Geheimnisses prüfen.')
             if result.get('error') == 'invalid_grant':
-                raise SSOError('Der Microsoft-Anmeldecode ist ungÃ¼ltig oder abgelaufen. Bitte den Anmeldevorgang neu starten und die Web-Umleitungsadresse prÃ¼fen.')
-            raise SSOError('Microsoft hat die Anmeldung abgelehnt. Bitte App-Geheimnis, Web-Umleitungsadresse und Benutzerzustimmung prÃ¼fen. Es wurden keine Rechte vergeben.')
+                raise SSOError('Der Microsoft-Anmeldecode ist ungültig oder abgelaufen. Bitte den Anmeldevorgang neu starten und die Web-Umleitungsadresse prüfen.')
+            raise SSOError('Microsoft hat die Anmeldung abgelehnt. Bitte App-Geheimnis, Web-Umleitungsadresse und Benutzerzustimmung prüfen. Es wurden keine Rechte vergeben.')
         claims = validate_token(result['id_token'], config, flow)
         if mode == 'test':
             from .sso import groups_from
             groups, complete = groups_from(claims)
             request.session['entra_test'] = {'groups': groups, 'complete': complete, 'at': timezone.now().isoformat()}
-            messages.success(request, 'Microsoft-Anmeldung und TokenprÃ¼fung erfolgreich. Gruppeninformationen stehen unten. Dein MAP-Konto wurde nicht gewechselt.')
+            messages.success(request, 'Microsoft-Anmeldung und Tokenprüfung erfolgreich. Gruppeninformationen stehen unten. Dein MAP-Konto wurde nicht gewechselt.')
             return redirect('sso_settings')
         identity = resolve_identity(claims, config)
         login(request, identity.user, backend='map.auth_backend.RoleBackend')
@@ -96,9 +96,9 @@ def sso_callback(request):
         request.session.set_expiry(900)
         return redirect((safe_next(saved.get('next')) or 'dashboard') if can_enter(identity) else 'sso_waiting')
     except SSOError as error: return failed(request, str(error))
-    except IntegrityError: return failed(request, 'Das Microsoft-Konto wurde gleichzeitig angelegt oder geÃ¤ndert. Bitte erneut anmelden oder die Administration kontaktieren.')
+    except IntegrityError: return failed(request, 'Das Microsoft-Konto wurde gleichzeitig angelegt oder geändert. Bitte erneut anmelden oder die Administration kontaktieren.')
     except Exception:
-        return failed(request, 'Die Microsoft-Anmeldung konnte nicht sicher geprÃ¼ft werden. Bitte erneut versuchen; bei Wiederholung Tenant-ID, Client-ID, Geheimnis und Umleitungsadresse durch die Administration prÃ¼fen lassen. Es wurden keine neuen Rechte vergeben.', 502)
+        return failed(request, 'Die Microsoft-Anmeldung konnte nicht sicher geprüft werden. Bitte erneut versuchen; bei Wiederholung Tenant-ID, Client-ID, Geheimnis und Umleitungsadresse durch die Administration prüfen lassen. Es wurden keine neuen Rechte vergeben.', 502)
 
 
 @login_required
@@ -129,7 +129,7 @@ def sso_settings(request):
                     for identity in EntraIdentity.objects.all(): sync_stages(identity)
                     SSOAudit.objects.create(actor=request.user, action='Microsoft-Einstellungen und Stufenzuordnungen gespeichert')
                 request.session.pop('entra_test', None)
-                messages.success(request, 'Microsoft-Einstellungen gespeichert. Bestehende Microsoft-Sitzungen mÃ¼ssen sich erneut anmelden. Der Anmeldetest prÃ¼ft die tatsÃ¤chlichen Zugangsdaten.')
+                messages.success(request, 'Microsoft-Einstellungen gespeichert. Bestehende Microsoft-Sitzungen müssen sich erneut anmelden. Der Anmeldetest prüft die tatsächlichen Zugangsdaten.')
                 return redirect('sso_settings')
     elif action == 'identity':
         from .account_security import can_edit_person
@@ -146,8 +146,8 @@ def sso_settings(request):
                 profile, _ = LeaderProfile.objects.get_or_create(user=edited_identity.user)
                 profile.is_leader = bool(identity_form.cleaned_data['stages']); profile.save(update_fields=['is_leader'])
                 profile.stages.set(identity_form.cleaned_data['stages']); sync_stages(edited_identity)
-                SSOAudit.objects.create(actor=request.user, action='Microsoft-Freigabe fÃ¼r Konto ' + str(edited_identity.user_id) + ' geÃ¤ndert')
-            messages.success(request, 'Freigabe und manuelle Stufen gespeichert. Rollen und Adminrechte wurden nicht verÃ¤ndert.')
+                SSOAudit.objects.create(actor=request.user, action='Microsoft-Freigabe für Konto ' + str(edited_identity.user_id) + ' geändert')
+            messages.success(request, 'Freigabe und manuelle Stufen gespeichert. Rollen und Adminrechte wurden nicht verändert.')
             return redirect('sso_settings')
     identities = list(EntraIdentity.objects.select_related('user').prefetch_related('automatic_stages', 'user__leadership__stages').order_by('-created_at')[:200])
     from .account_security import can_edit_person
