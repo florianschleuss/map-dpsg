@@ -26,14 +26,24 @@ const requireThat=(ok,message)=>{if(!ok)throw Error(message);};
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));let roomTabsY=null,brandX=null;
   for(const item of pages){try{
    await page.goto('https://map.example.org/audit/'+item.name,{waitUntil:'load'});await page.waitForTimeout(100);
-   const m=await page.evaluate(()=>{const box=selector=>{const e=document.querySelector(selector);if(!e)return null;const r=e.getBoundingClientRect(),s=getComputedStyle(e);return{x:r.x,y:r.y,w:r.width,h:r.height,right:r.right,bg:s.backgroundColor,color:s.color};};return {brand:box('.map-brand'),header:box('.map-topbar'),module:box('.map-module-nav a'),crumb:box('.map-breadcrumbs ol'),footer:box('.map-footer'),tabs:box('.room-tabs'),wide:box('.room-data-wide'),filter:box('[data-room-filter-details]'),filterOpen:document.querySelector('[data-room-filter-details]')?.open,overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,cls:(window.layoutShifts||[]).reduce((a,b)=>a+b,0),active:[...document.querySelectorAll('.room-tabs a[aria-current],.map-settings-nav a[aria-current],.map-module-nav a[aria-current]')].map(e=>{const r=e.getBoundingClientRect(),n=e.parentNode.getBoundingClientRect(),s=getComputedStyle(e);return {x:r.x,right:r.right,parentX:n.x,parentRight:n.right,bg:s.backgroundColor,color:s.color};})};});
+   const m=await page.evaluate(()=>{const box=selector=>{const e=document.querySelector(selector);if(!e)return null;const r=e.getBoundingClientRect(),s=getComputedStyle(e);return{x:r.x,y:r.y,w:r.width,h:r.height,right:r.right,bg:s.backgroundColor,color:s.color};};return {brand:box('.map-brand'),header:box('.map-topbar'),module:box('.map-module-nav a'),crumb:box('.map-breadcrumbs ol'),footer:box('.map-footer'),tabs:box('.room-tabs'),wide:box('.room-data-wide'),filter:box('[data-room-filter-details]'),filterOpen:document.querySelector('[data-room-filter-details]')?.open,overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1,cls:(window.layoutShifts||[]).reduce((a,b)=>a+b,0),active:[...document.querySelectorAll('.room-tabs a[aria-current],.map-settings-nav a[aria-current],.map-module-nav a[aria-current]')].filter(e=>e.getClientRects().length).map(e=>{const r=e.getBoundingClientRect(),n=e.parentNode.getBoundingClientRect(),s=getComputedStyle(e);return {module:e.parentNode.matches('.map-module-nav'),x:r.x,right:r.right,parentX:n.x,parentRight:n.right,bg:s.backgroundColor,color:s.color};})};});
    requireThat(!m.overflow,'Whole page overflow');
    if(brandX===null)brandX=m.brand.x;
    requireThat(near(m.brand.x,brandX),'Logo moved between pages');
    if(m.module)requireThat(await page.locator('.map-topbar .map-module-nav').count()===1,'Module tabs outside header');
    if(m.crumb)requireThat(near(m.crumb.x,brandX),'Breadcrumb edge differs');
    requireThat(near(m.header.w,m.footer.w)&&near(m.header.x,m.footer.x),'Footer shell differs');
-   for(const a of m.active){requireThat(a.bg===(theme==='dark'?'rgb(56, 56, 56)':'rgb(233, 238, 235)')&&a.color===(theme==='dark'?'rgb(255, 255, 255)':'rgb(35, 63, 76)'),'Wrong active tab contrast/palette');requireThat(a.x>=a.parentX-1&&a.right<=a.parentRight+1,'Active tab outside visible rail');}
+   for(const a of m.active){requireThat(a.bg===(a.module?'rgb(35, 63, 76)':theme==='dark'?'rgb(56, 56, 56)':'rgb(233, 238, 235)')&&a.color===(a.module||theme==='dark'?'rgb(255, 255, 255)':'rgb(35, 63, 76)'),'Wrong active tab contrast/palette');requireThat(a.x>=a.parentX-1&&a.right<=a.parentRight+1,'Active tab outside visible rail');}
+   if(['events','bookings','admin-stages'].includes(item.name)){
+    const menu=page.locator('.map-mobile-modules');
+    requireThat(await menu.isVisible()===(width<=850),'Incorrect mobile module control');
+    if(width<=850){
+     await menu.locator('summary').click();
+     requireThat(await menu.getByRole('link',{name:'Veranstaltungen'}).isVisible()&&await menu.getByRole('link',{name:'Raumbuchung'}).isVisible(),'Module menu links missing');
+     await page.keyboard.press('Escape');
+     requireThat(!await menu.evaluate(e=>e.open),'Escape did not close module menu');
+    }
+   }
    if(['bookings','calendar','calendar-week','pending','groups'].includes(item.name)){if(roomTabsY===null)roomTabsY=m.tabs.y;requireThat(near(m.tabs.y,roomTabsY),'Room tab row moved');}
    if(m.filter){const expected=false;requireThat(m.filterOpen===expected,'Wrong initial filter state');requireThat(m.filter.w<=1361,'Filter expanded with the table');}
    if(['bookings','calendar','calendar-week','pending'].includes(item.name)){requireThat(m.wide&&near(m.wide.x,brandX)&&m.wide.w<=1361,'Room data outside shared canvas');}

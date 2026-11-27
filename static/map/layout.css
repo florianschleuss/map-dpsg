@@ -112,3 +112,26 @@ html[data-map-theme=dark] .room-export > div {background:#292929;border-color:#6
   .map-topbar .map-module-nav,
   .map-admin #header .map-topbar .map-module-nav {grid-column:1/-1;width:100%!important}
 }
+
+/* Module buttons share the header on desktop; phones use a single module menu. */
+.map-mobile-modules { display:none; }
+.map-topbar :is(.map-module-nav,.map-mobile-modules) svg {
+  width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;flex:none;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.map-topbar .map-module-nav a { gap:8px;border-radius:9px;border-bottom-width:1px; }
+html body .map-topbar .map-module-nav a[aria-current=page],
+html[data-map-theme] .map-admin #header .map-topbar .map-module-nav a[aria-current=page] {
+  background:#233f4c!important;color:white!important;border-color:#233f4c!important;
+}
+@media(max-width:850px) {
+  .map-topbar { grid-template-columns:minmax(0,1fr) auto auto; }
+  .map-topbar .map-module-nav,
+  .map-admin #header .map-topbar .map-module-nav { display:none; }
+  .map-topbar .map-profile { grid-column:3; }
+  .map-topbar .map-profile > summary { max-width:min(110px,30vw); }
+  .map-mobile-modules { display:block;position:relative;grid-column:2;grid-row:1; }
+  .map-mobile-modules > summary { padding-inline:8px!important;gap:6px; }
+  .map-mobile-modules .map-menu-panel { width:170px; }
+  .map-mobile-modules a[aria-current=page] { font-weight:750!important; }
+}
