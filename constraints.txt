@@ -6,7 +6,7 @@ cryptography==50.0.2
 Django==5.2.18
 gunicorn==26.2.0
 psycopg==3.3.6
-psycopg-binary==3.3.6
+psycopg-binary==3.3.8
 pycparser==3.12
 pypng==0.20220715.0
 qrcode==8.2
