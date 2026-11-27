@@ -148,3 +148,7 @@ html[data-map-theme] .map-admin #header .map-topbar .map-module-nav a[aria-curre
   .room-booking-toolbar .room-filter-disclosure[open] {grid-column:1/-1;grid-row:2}
   .room-booking-toolbar .room-filter-disclosure > summary span {display:none}
 }
+
+/* Reserve room for the widest visible control, independently of table width. */
+.room-table .room-col-actions-edit {width:72px}
+.room-table .room-col-actions-decision {width:126px}

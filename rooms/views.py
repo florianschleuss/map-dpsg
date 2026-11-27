@@ -64,6 +64,22 @@ def decorate_row(row,user):
     return row
 
 
+
+def decorate_page_actions(page, user):
+    """Size the column for the controls that are actually available."""
+    can_decide = board(user)
+    column = ''
+    for row in page.object_list:
+        decorate_row(row, user)
+        row.show_edit = row.can_edit and row.status != 'cancelled'
+        row.show_decision = can_decide and (row.status == 'pending' or bool(row.pending_change))
+        if row.show_decision:
+            column = 'decision'
+        elif row.show_edit and not column:
+            column = 'edit'
+    return column
+
+
 def entry_matches(item,criteria):
     if criteria.get('rooms') and not {r.pk for r in item.rooms.all()}&{r.pk for r in criteria['rooms']}:return False
     if criteria.get('grouping') and criteria['grouping'].casefold() not in item.grouping.casefold():return False
@@ -79,9 +95,9 @@ def entry_matches(item,criteria):
 @require_GET
 def index(request):
     form,rows=filtered(request);page=Paginator(rows,30).get_page(request.GET.get('page'))
-    for row in page.object_list:decorate_row(row,request.user)
+    actions = decorate_page_actions(page, request.user)
     query=request.GET.copy();query.pop('page',None)
-    return render(request,'rooms/index.html',{'filter_form':form,'page':page,'query':query.urlencode(),'room_board':board(request.user)})
+    return render(request,'rooms/index.html',{'filter_form':form,'page':page,'query':query.urlencode(),'action_column':actions})
 
 
 @login_required
@@ -91,8 +107,8 @@ def pending(request):
     from django.db.models import Q
     rows=RoomBooking.objects.filter(Q(status='pending')|Q(status='approved',changes__status='pending')).distinct().prefetch_related('rooms','changes__rooms').order_by('starts_at','pk')
     page=Paginator(rows,30).get_page(request.GET.get('page'))
-    for row in page.object_list:decorate_row(row,request.user)
-    return render(request,'rooms/index.html',{'page':page,'pending_only':True,'room_board':True})
+    actions = decorate_page_actions(page, request.user)
+    return render(request,'rooms/index.html',{'page':page,'pending_only':True,'action_column':actions})
 
 
 @login_required
