@@ -135,3 +135,16 @@ html[data-map-theme] .map-admin #header .map-topbar .map-module-nav a[aria-curre
   .map-mobile-modules .map-menu-panel { width:170px; }
   .map-mobile-modules a[aria-current=page] { font-weight:750!important; }
 }
+
+.room-booking-toolbar {
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  align-items:start;gap:10px;margin-bottom:8px;
+}
+.room-booking-toolbar .room-filter-disclosure {margin:0;min-width:0}
+.room-booking-toolbar .room-filter-disclosure[open] {grid-column:1; }
+.room-booking-toolbar .room-export {grid-column:2;grid-row:1;}
+.map-main > .room-booking-count {margin:0 0 6px;font-size:.82rem}
+@media(max-width:650px) {
+  .room-booking-toolbar .room-filter-disclosure[open] {grid-column:1/-1;grid-row:2}
+  .room-booking-toolbar .room-filter-disclosure > summary span {display:none}
+}
