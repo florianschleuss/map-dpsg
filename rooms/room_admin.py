@@ -6,7 +6,7 @@ from django.db import transaction
 from django.shortcuts import render,redirect,get_object_or_404
 from django.views.decorators.http import require_http_methods
 from map.roles import is_admin
-from .models import Room,RoomBooking,BookingChange
+from .models import Room,RoomBooking,BookingChange,GroupSession
 from .forms import RoomForm
 from .services import lock_schedule
 
@@ -31,12 +31,12 @@ def catalogue(request):
                 if action=='delete' and request.POST.get('confirm')!='yes':
                     messages.error(request,'Bitte das Löschen ausdrücklich bestätigen.')
                 elif action=='delete':
-                    if room.roombooking_entries.exists() or room.bookingchange_entries.exists():
+                    if room.roombooking_entries.exists() or room.bookingchange_entries.exists() or room.group_sessions.exists():
                         room.active=False;room.save(update_fields=['active']);messages.success(request,'Raum archiviert. Seine Buchungshistorie bleibt erhalten.')
                     else:room.delete();messages.success(request,'Raum gelöscht.')
             return redirect('rooms:catalogue')
     from django.db.models import Exists,OuterRef
-    rows=Room.objects.filter(active=True).annotate(has_bookings=Exists(RoomBooking.objects.filter(rooms=OuterRef('pk'))),has_changes=Exists(BookingChange.objects.filter(rooms=OuterRef('pk'))))
-    for room in rows:room.will_archive=room.has_bookings or room.has_changes
+    rows=Room.objects.filter(active=True).annotate(has_bookings=Exists(RoomBooking.objects.filter(rooms=OuterRef('pk'))),has_changes=Exists(BookingChange.objects.filter(rooms=OuterRef('pk'))),has_group_sessions=Exists(GroupSession.objects.filter(rooms=OuterRef('pk'))))
+    for room in rows:room.will_archive=room.has_bookings or room.has_changes or room.has_group_sessions
     archived=Room.objects.filter(active=False)
     return render(request,'rooms/catalogue.html',{'form':form,'rooms':rows,'editing':instance,'settings_area':'rooms','archived_rooms':archived})

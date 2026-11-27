@@ -1,0 +1,14 @@
+{% extends 'rooms/base.html' %}
+{% block room_title %}Gruppenstunden{% endblock %}
+{% block room_content %}
+<p class="map-lead">Wöchentliche Gruppenstunden werden nur als Konflikthinweis bei Raumanfragen angezeigt. Sie sind keine Buchungen und erscheinen nicht im Belegungskalender, in Exporten oder in der öffentlichen Belegungs-API.</p>
+<div class="map-access-layout">
+<section class="map-panel"><h2>Wöchentliche Gruppenstunden</h2>
+{% for session in sessions %}<article class="room-group-session">
+<div><h3>{{ session.group_name }}</h3><p>{{ session.get_weekday_display }} · {{ session.start_time|time:'H:i' }}–{{ session.end_time|time:'H:i' }} Uhr<br>{% for room in session.rooms.all %}{{ room.name }}{% if not room.active %} (archiviert){% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</p><small>Zuletzt geändert: {{ session.updated_at }}{% if session.updated_by %} · {{ session.updated_by }}{% endif %}</small></div>
+<div class="map-actions"><a class="map-button map-button-secondary map-button-small" href="{% url 'rooms:group_session_edit' session.pk %}">Bearbeiten</a><button type="button" class="map-button map-button-danger map-button-small" data-open-dialog="group-session-delete-{{ session.pk }}">Löschen</button></div>
+<dialog id="group-session-delete-{{ session.pk }}" class="map-dialog" aria-labelledby="group-session-delete-title-{{ session.pk }}"><h2 id="group-session-delete-title-{{ session.pk }}">Gruppenstunde löschen?</h2><p>„{{ session.group_name }}“ wird gelöscht und nicht mehr als Konflikthinweis berücksichtigt. Bestehende Raumbuchungen bleiben erhalten.</p><form method="post" action="{% url 'rooms:group_session_edit' session.pk %}">{% csrf_token %}<input type="hidden" name="action" value="delete"><input type="hidden" name="version" value="{{ session.version }}"><div class="map-actions"><button type="button" class="map-button map-button-secondary" data-close-dialog>Abbrechen</button><button class="map-button map-button-danger" name="confirm" value="yes">Endgültig löschen</button></div></form></dialog>
+</article>{% empty %}<p>Noch keine Gruppenstunden eingetragen.</p>{% endfor %}</section>
+<section class="map-panel"><h2>{% if editing %}Gruppenstunde bearbeiten{% else %}Gruppenstunde eintragen{% endif %}</h2><p class="map-muted">Jede Woche am ausgewählten Wochentag, zur lokalen Uhrzeit. Beginn und Ende müssen am selben Tag liegen. Die Regel gilt ohne Datumsbegrenzung, bis sie geändert oder gelöscht wird.</p><form method="post" data-unsaved-guard>{% csrf_token %}<input type="hidden" name="action" value="save">{% include 'map_ui/form_fields.html' %}<div class="map-actions"><button class="map-button">Speichern</button>{% if editing %}<a class="map-button map-button-secondary" href="{% url 'rooms:group_sessions' %}">Abbrechen</a>{% endif %}</div></form></section>
+</div>
+{% endblock %}

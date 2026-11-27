@@ -48,13 +48,18 @@ def filtered(request):
     return form,rows
 
 
+def conflict_identity(item):
+    if item.get('group_session'):return ('group_session',item['group_session'].pk)
+    return ('booking',item['booking'].pk,item['proposal'])
+
+
 def decorate_row(row,user):
     decorate(row);row.can_edit=can_edit(user,row)
     row.pending_change=next((c for c in row.changes.all() if c.status=='pending'),None)
     row.overlaps=conflicts([r.pk for r in row.rooms.all()],row.starts_at,row.ends_at,row.pk,recurring=row.recurring) if row.status in ['pending','approved'] else []
     if row.pending_change:
-        seen={(c['booking'].pk,c['proposal']) for c in row.overlaps}
-        row.overlaps += [c for c in conflicts([r.pk for r in row.pending_change.rooms.all()],row.pending_change.starts_at,row.pending_change.ends_at,row.pk,recurring=row.pending_change.recurring) if (c['booking'].pk,c['proposal']) not in seen]
+        seen={conflict_identity(c) for c in row.overlaps}
+        row.overlaps += [c for c in conflicts([r.pk for r in row.pending_change.rooms.all()],row.pending_change.starts_at,row.pending_change.ends_at,row.pk,recurring=row.pending_change.recurring) if conflict_identity(c) not in seen]
     row.decision_token=conflict_token(row.overlaps)
     return row
 
@@ -203,8 +208,11 @@ def calendar_view(request):
             for item in entries:
                 from .recurrence import intervals
                 if any(intervals(item['entry'],day_start,day_end)):
-                    copy=dict(item);copy['period']=period(item['entry']);items.append(copy)
-            days.append({'date':day,'items':items,'today':day==timezone.localdate(),'outside':day.month!=anchor.month})
+                    copy=dict(item);copy['period']=period(item['entry'])
+                    occurrence=next(intervals(item['entry'],day_start,day_end))
+                    copy['clock']='Ganztägig' if item['entry'].all_day else timezone.localtime(max(occurrence[0],day_start)).strftime('%H:%M')+'–'+('24:00' if occurrence[1]>=day_end else timezone.localtime(occurrence[1]).strftime('%H:%M'))
+                    items.append(copy)
+            days.append({'date':day,'items':items,'today':day==timezone.localdate(),'outside':day.month!=anchor.month,'visible_items':items[:1] if mode=='month' else items,'more_items':items[1:] if mode=='month' else []})
         cells.append(days)
     def link(day,view=mode):
         query=request.GET.copy();query['date']=day.isoformat();query['view']=view;return '?'+query.urlencode()

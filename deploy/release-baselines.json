@@ -72,7 +72,8 @@
       "ae3d9de6c7784748df01b511755711ba0ff51e9e1542f0cf6ae5053b04b21bad",
       "957d029facd39fdac3e64e261429adc5ea00fcb05caa310d67d405195f3d41bd",
       "b744e4f257a35714873200d03fcf70f21a0ee891b62ddd247401c222e5addab6",
-      "c35e611fcd6ec1134737487962f83f68092d9950ce3a454a0ad2d1efe6abc268"
+      "c35e611fcd6ec1134737487962f83f68092d9950ce3a454a0ad2d1efe6abc268",
+      "18e344ee59389675470b0ebf8bd883b47d91983775bdada6cbe860c6a5dc4e7e"
     ],
     "README.md": [
       null,
@@ -192,7 +193,8 @@
       "87c49149f7c361c244ded6df1d61d1ad44f81a203a8eb768a640051a65920564",
       "ff7e59ae85399e1394855c7d7d3670841ba8e8307d7ae52c5d1c5a97905fae34",
       "dc464e202e629d46ca008a07768a0d80067efffc3d45b18734551ce4af66fb87",
-      "5d1cc711e3953267798b7ee4a9e4c0a8d070a267448546b3026b67191dbd0191"
+      "5d1cc711e3953267798b7ee4a9e4c0a8d070a267448546b3026b67191dbd0191",
+      "f4dce827edd3cc542f5dc742c6f464184a05b941206ec6d1530e1df451356a44"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -591,7 +593,8 @@
       "51c78acc76647b0e561c8532e98fe1dd3149a046f516f4d251c4990e19b29933",
       "6940b33811c3ba59b8104f18221462d77f8ed4889183c90b03f76df93e825249",
       "b800611eaabafd3bd0a0e444d91df862cd58ce39420647f7f35327b805ce185e",
-      "ebb4f8fcc7e585dc282adeda3ccc9a7728ac7ddf18faa56d046e2a82c2d70aca"
+      "ebb4f8fcc7e585dc282adeda3ccc9a7728ac7ddf18faa56d046e2a82c2d70aca",
+      "da2a50e704493113773a43219edbfb0a748d7c0dea88b1cc73f52afd7e022d7f"
     ],
     "map/payment_rules.py": [
       null,
@@ -1018,7 +1021,8 @@
       "1fa34eba60618ffa0d2c885c15eb1a29239f9a51af654b719b4ffe566f9cd33c",
       "a9fed73c3f90a30266bc4d5b0e6db849b32dfc42eeff1be12c08e4fe5ab52dfa",
       "e5d2503e23c6e83466c8abb1f91e6541085302cba8b39fb5fa6f6e9bca9a02f6",
-      "0fafd5b89d9328ec4c9b16d9ab1e6ae13a778bf1d55cd8ebaf5dc614547d3fb2"
+      "0fafd5b89d9328ec4c9b16d9ab1e6ae13a778bf1d55cd8ebaf5dc614547d3fb2",
+      "8a4182996f16f33cda0c786fc49336a2ed473824181f571676fb16c2df5e5237"
     ],
     "rooms/notifications.py": [
       null,
@@ -1044,27 +1048,32 @@
       null,
       "575dcdffb47784c82ca9950e47a3a633d25b1b80f8f9b8c21981c3ad082da9d3",
       "c1a14a125fad92e5d77b904fcc65e19c1879901c4dcd54625c6b567e14294e9d",
-      "6ecc12bcf1cabb43a020a4f8d45873b07923158040d16d78a28d9f87edb19d70"
+      "6ecc12bcf1cabb43a020a4f8d45873b07923158040d16d78a28d9f87edb19d70",
+      "d8f292abf2e3b0d0aa2c1f44ae7f8289e250b0b2645ae0bdfcfa618d0e73bc16"
     ],
     "rooms/templates/rooms/base.html": [
       null,
       "2e3c76841d33684c2200a43f7e2676731874983884ca0d167659c67c5d980c0f",
-      "cff87da4eabcc436359c9f707ff0997a1637802699f2f74ef3315f9739055188"
+      "cff87da4eabcc436359c9f707ff0997a1637802699f2f74ef3315f9739055188",
+      "6d002a3514f86acbff4b43d1dad1c43ab8bec3e573883661b2a81c5c154d39c7"
     ],
     "rooms/templates/rooms/calendar.html": [
       null,
       "64f106aa5af1123732865b0a84670f7cb1e6b28d1808deaf96aebf143b07956f",
       "bd33cd033061821d13485423ac7c48945a2a941710c3a8b20f382d903eaa588d",
-      "c31e0e27c002574ebbce24ffa15aa015309df333025327e3472d05457c296e9b"
+      "c31e0e27c002574ebbce24ffa15aa015309df333025327e3472d05457c296e9b",
+      "448c4d0be4b4bc668d692ec055fda5a6a73c3ea426176a092c1e3de23fc52fa4"
     ],
     "rooms/templates/rooms/catalogue.html": [
       null,
       "49384c9f824bbd1b374a8d3105e5e886e4f0a02dc9883fa320b9acc953578ccd",
-      "61c7c1c2c12690c94a9d9e1059b54fdff9f08637ec1f05173d869f23326803c4"
+      "61c7c1c2c12690c94a9d9e1059b54fdff9f08637ec1f05173d869f23326803c4",
+      "e926faef227ed5641b2b45bacab550dd02d6bdaf27b08ddbe9a8b9a4b516b0f1"
     ],
     "rooms/templates/rooms/conflicts.html": [
       null,
-      "9382a4bfcea9c53d6f62275ee2ddb2a06488e15bef43d3542ceb372d1735b114"
+      "9382a4bfcea9c53d6f62275ee2ddb2a06488e15bef43d3542ceb372d1735b114",
+      "0e7e1b979994ba25eb25f0fb6a5a603db7c0fcef73b4f0638188fe41cceec498"
     ],
     "rooms/templates/rooms/detail.html": [
       null,
@@ -1082,7 +1091,8 @@
       "70c19eb8b08cfe1b975ed5bf751fe1ab8072773bf85410f5b927f3f33fdbc374",
       "e82878255ca9e479b1f58eafbc27624a28b4ae74a12f90d4477e40cf188dddaa",
       "9c03ff4ffb47765aca8bcc365f3c2e0998f380b8ba58652e4d721e30a3b9350e",
-      "0f99d86766a1809f134c4994abb6d34cdbc7cc77249d26c5f7e7c8c456308d5b"
+      "0f99d86766a1809f134c4994abb6d34cdbc7cc77249d26c5f7e7c8c456308d5b",
+      "367b6681730cdf584f345ea9d8fbefb3c38e5a2032561b8187fa17ae67c94827"
     ],
     "rooms/templates/rooms/index.html": [
       null,
@@ -1093,7 +1103,8 @@
     ],
     "rooms/templates/rooms/live_conflicts.html": [
       null,
-      "41dbb45ff0d71b439424e5922af7b949b6deca8763b6565355745bb4efc340fb"
+      "41dbb45ff0d71b439424e5922af7b949b6deca8763b6565355745bb4efc340fb",
+      "ec614042baee6c6b589cb74728a0339630a7d125cceacf3c6475590b8cac3f29"
     ],
     "rooms/templates/rooms/notifications.html": [
       null,
@@ -1156,7 +1167,8 @@
       "f1ef7cdba668965d280c4631e6e373b4f934cdd7490de07408b25b4046a719c7",
       "c1400016d861bdd113b108dad480f6cc8caecfd6e8d6288156f7a07c0c69726a",
       "1feefa160bf4f035abe29077aa7171d71a79a695741b974f3fb104679e221e3f",
-      "402969c1a5b279108120157b7dff22499d03b2cc67b8e8a351ab6ce308c992ea"
+      "402969c1a5b279108120157b7dff22499d03b2cc67b8e8a351ab6ce308c992ea",
+      "5a5e91b4f37a601dc489a2dc82d4238cb9fc2aa7854ebad42e61b06b6010c7f8"
     ],
     "scripts/apply_release.py": [
       null
@@ -1239,7 +1251,8 @@
       "b839fce308b0eee4db3ce67e1db210f30df9603204ddedc6c00f01731c3cd612",
       "c38703d3f2bf4d5795009e362521d90dd83e4dfa983c242c7c21e78b2a9bea67",
       "a04c85ee078e169277d8e7f2c5b3118fb5022c8903b8c1dbd21d9ffc7d1e658c",
-      "d59876a54f6ce62b11bb37a23b1a720a98d77a84d0810e266c1918f036acfb57"
+      "d59876a54f6ce62b11bb37a23b1a720a98d77a84d0810e266c1918f036acfb57",
+      "97927433cf2eed62488c2bf13b28e488342cf3d63eee49672b34f17c7b96c16f"
     ],
     "static/map/theme.css": [
       null,
@@ -1248,7 +1261,8 @@
       "ad0f0d0781accc5392fa3369a410d3bbc64810147573680aca212ac15fa98ecb",
       "b4b2f68c89740192d8d68a90cab046f7049848e9524d4fca43ca5b59c6284eea",
       "377abf26e5664b5f3e304ce33dabc1975cb019db9a6480cd59f6d19ddb0140bc",
-      "b75390e69b204c43151b55c1667f796e532f81c7b007f7149e31cbb145dec02d"
+      "b75390e69b204c43151b55c1667f796e532f81c7b007f7149e31cbb145dec02d",
+      "07d069fd30bfcb0a7e2ffd49e0a071b8d0fb87e3068a8ff228cb26cc514aaa78"
     ],
     "static/map/theme.js": [
       null,
@@ -1452,7 +1466,8 @@
       "e8059b4385f1feef61963ef1c7d1b985e1529c2a7691abbc259a608aea0c0ec3",
       "0b3e5f623bc4919ab49fa9f20cba72f80eb06ffd84f1a04104cf7a3031a2c09c",
       "18bbe44590217322296f6b7ab5c311679f4922c04a3b5e7cd32bb787d45098a2",
-      "f3278d39a83dd1cd8efd86bf16a0995b2bc2373df2a6a9c3392ceb2c3850bf12"
+      "f3278d39a83dd1cd8efd86bf16a0995b2bc2373df2a6a9c3392ceb2c3850bf12",
+      "ae69547569492ed7f9399aaedcb76e79524366f56fa677829384041ad96c7134"
     ],
     "templates/map_ui/mail_template_state.html": [
       null,
@@ -1695,6 +1710,27 @@
     "docs/ROOM_ONLY_ACCESS_DE.md": [
       null,
       "567431301af6bea4412f1ff9a18eabc7ab4923dc7e09dd241623c3c4e0a5921d"
+    ],
+    "rooms/group_sessions.py": [
+      null
+    ],
+    "rooms/migrations/0006_groupsession.py": [
+      null
+    ],
+    "rooms/templates/rooms/group_sessions.html": [
+      null
+    ],
+    "rooms/templates/rooms/conflict_entry.html": [
+      null
+    ],
+    "rooms/templates/rooms/calendar_entry.html": [
+      null
+    ],
+    "rooms/tests/test_group_sessions.py": [
+      null
+    ],
+    "docs/GROUP_SESSIONS_DE.md": [
+      null
     ]
   }
 }

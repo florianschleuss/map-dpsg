@@ -104,3 +104,12 @@ html[data-map-theme="dark"] .map-calendar button:focus-visible{outline:2px solid
 .map-datetime[data-date-only] .map-date-controls[hidden]{display:none!important}
 
 .map-mail-scheme-frame{display:block;width:100%;height:640px;border:1px solid #b9c4ca;border-radius:10px;background:#fff;box-sizing:border-box}[data-mail-scheme-preview][hidden]{display:none!important}
+
+html[data-map-theme="dark"] :is(.map-module-nav,.room-tabs){border-color:#626262!important}
+html[data-map-theme="dark"] :is(.map-module-nav,.room-tabs) a{background:#292929!important;border-color:#606060!important;color:#dedede!important}
+html[data-map-theme="dark"] :is(.map-module-nav,.room-tabs) a:hover{background:#414141!important;color:#fff!important;border-color:#aaa!important}
+html[data-map-theme="dark"] :is(.map-module-nav,.room-tabs) a[aria-current=page]{background:#515151!important;border-color:#bfbfbf!important;border-bottom-color:#fff!important;color:#fff!important}
+html[data-map-theme="dark"] .room-filter-disclosure{background:#232323;color:#eee;border-color:#555}
+html[data-map-theme="dark"] .room-filter-disclosure>summary{color:#eee;border-color:#555}
+html[data-map-theme="dark"] .room-filter-disclosure>summary span{color:#ccc}
+html[data-map-theme="dark"] .room-group-session{border-color:#555}

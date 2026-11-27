@@ -42,7 +42,8 @@ def conflicts(room_ids,start,end,exclude=None,recurring=False):
         result.append({'booking':change.booking,'entry':change,'proposal':True,'status':'pending','rooms':[r.name for r in change.rooms.all() if r.pk in ids]})
     from .presentation import period
     for item in result:item['period']=period(item['entry'])
-    return sorted(result,key=lambda c:(c['entry'].starts_at,c['booking'].pk,c['proposal']))
+    from .group_sessions import advisory_conflicts
+    return sorted(result,key=lambda c:(c['entry'].starts_at,c['booking'].pk,c['proposal']))+advisory_conflicts(ids,target)
 
 
 def conflict_token(rows):

@@ -88,3 +88,22 @@ class RoomEmailTemplate(models.Model):
     key=models.SlugField(max_length=40,unique=True)
     subject=models.CharField(max_length=200)
     body=models.TextField(max_length=20000)
+
+
+class GroupSession(models.Model):
+    """Weekly advisory schedule, deliberately independent of room occupancy."""
+    weekday=models.PositiveSmallIntegerField('Wochentag',choices=list(enumerate(['Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag','Sonntag'])))
+    start_time=models.TimeField('Uhrzeit von')
+    end_time=models.TimeField('Uhrzeit bis')
+    rooms=models.ManyToManyField(Room,related_name='group_sessions',verbose_name='Räume')
+    group_name=models.CharField('Gruppe',max_length=160)
+    version=models.PositiveIntegerField(default=1)
+    updated_by=models.ForeignKey(settings.AUTH_USER_MODEL,null=True,on_delete=models.SET_NULL,related_name='+')
+    updated_at=models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering=['weekday','start_time','group_name','pk']
+        default_permissions=()
+        constraints=[models.CheckConstraint(condition=Q(weekday__lte=6),name='group_session_weekday_valid'),models.CheckConstraint(condition=Q(end_time__gt=F('start_time')),name='group_session_positive_duration')]
+
+    def __str__(self):return self.group_name
