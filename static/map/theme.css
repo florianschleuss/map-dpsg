@@ -45,8 +45,6 @@ html[data-map-theme="dark"] #id_room_rights label{background:#303030!important;c
 html[data-map-theme="dark"] .map-profile .map-appearance-choice{background:transparent!important;color:#e7e7e7!important}html[data-map-theme="dark"] .map-menu-label{color:#bcbcbc!important}
 @media(max-width:800px){.map-sso-layout{grid-template-columns:minmax(0,1fr)!important}.map-profile>summary{max-width:180px}.map-profile .map-menu-panel{right:0;left:auto}}
 
-.map-settings-nav{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 22px;padding:10px 0;border-bottom:1px solid #c9d4da;font-size:.82rem}.map-settings-nav a{text-decoration:none}.map-settings-nav a:hover{text-decoration:underline}
-
 html[data-map-theme="dark"] .map-field-check{background:transparent!important}html[data-map-theme="dark"] .map-field-check .map-check-label{background:#303030!important;border:1px solid #606060!important;color:#eee!important;padding:10px!important;display:flex!important;align-items:center!important;gap:8px}html[data-map-theme="dark"] .map-field-check .map-check-label span{background:transparent!important;color:#eee!important}html[data-map-theme="dark"] .map-field-check input[type=checkbox]{width:18px!important;height:18px!important;margin:0!important;flex:none}
 
 .map-sso-layout .map-field-check{padding:0!important;border:0!important;box-shadow:none!important;background:transparent!important}.map-sso-layout .map-field-check .map-check-label{display:flex!important;align-items:center!important;gap:9px;padding:9px 10px!important}.map-sso-layout .map-field-check .map-check-label span{flex:1}.map-sso-mapping .map-field{margin:10px 0}.map-sso-mapping .map-field-check{margin-bottom:0}
@@ -97,7 +95,6 @@ html[data-map-theme="dark"] .map-calendar button:focus-visible{outline:2px solid
 .map-datetime[data-date-only] .map-time-column{display:none!important}
 
 .map-group-limit>div[hidden],.map-field[hidden],.form-row[hidden]{display:none!important}
-
 
 .map-datetime[data-date-only] .map-date-controls{display:flex!important;align-items:flex-start;gap:6px}.map-datetime[data-date-only] .map-date-column{flex:1;min-width:0;gap:4px}.map-datetime[data-date-only] .map-date-open{font-size:.85rem;min-height:40px;padding:9px 10px}.map-datetime[data-date-only] [data-time=now]{align-self:flex-start;font-size:.75rem;min-height:26px;padding:4px 8px}.map-date-clear{flex:0 0 30px!important;min-width:30px!important;min-height:30px!important;width:30px!important;height:30px;padding:0!important;line-height:1;font-size:20px!important;margin-top:5px}.map-date-clear[hidden]{display:none!important}
 

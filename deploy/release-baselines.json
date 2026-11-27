@@ -73,7 +73,8 @@
       "957d029facd39fdac3e64e261429adc5ea00fcb05caa310d67d405195f3d41bd",
       "b744e4f257a35714873200d03fcf70f21a0ee891b62ddd247401c222e5addab6",
       "c35e611fcd6ec1134737487962f83f68092d9950ce3a454a0ad2d1efe6abc268",
-      "18e344ee59389675470b0ebf8bd883b47d91983775bdada6cbe860c6a5dc4e7e"
+      "18e344ee59389675470b0ebf8bd883b47d91983775bdada6cbe860c6a5dc4e7e",
+      "6066f36d7ce70de1354b650b375dcb96e8e890a838c86e27b7dbd131db30eccc"
     ],
     "README.md": [
       null,
@@ -194,7 +195,8 @@
       "ff7e59ae85399e1394855c7d7d3670841ba8e8307d7ae52c5d1c5a97905fae34",
       "dc464e202e629d46ca008a07768a0d80067efffc3d45b18734551ce4af66fb87",
       "5d1cc711e3953267798b7ee4a9e4c0a8d070a267448546b3026b67191dbd0191",
-      "f4dce827edd3cc542f5dc742c6f464184a05b941206ec6d1530e1df451356a44"
+      "f4dce827edd3cc542f5dc742c6f464184a05b941206ec6d1530e1df451356a44",
+      "e16b19ed383957bab577300e815d1ae7286b7743a8aa8fe12b23419d8848e13d"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -1055,14 +1057,16 @@
       null,
       "2e3c76841d33684c2200a43f7e2676731874983884ca0d167659c67c5d980c0f",
       "cff87da4eabcc436359c9f707ff0997a1637802699f2f74ef3315f9739055188",
-      "6d002a3514f86acbff4b43d1dad1c43ab8bec3e573883661b2a81c5c154d39c7"
+      "6d002a3514f86acbff4b43d1dad1c43ab8bec3e573883661b2a81c5c154d39c7",
+      "162426e37db8a7b0b24d1167dee3ee388377006c3e1af69cb024f95ec95412a7"
     ],
     "rooms/templates/rooms/calendar.html": [
       null,
       "64f106aa5af1123732865b0a84670f7cb1e6b28d1808deaf96aebf143b07956f",
       "bd33cd033061821d13485423ac7c48945a2a941710c3a8b20f382d903eaa588d",
       "c31e0e27c002574ebbce24ffa15aa015309df333025327e3472d05457c296e9b",
-      "448c4d0be4b4bc668d692ec055fda5a6a73c3ea426176a092c1e3de23fc52fa4"
+      "448c4d0be4b4bc668d692ec055fda5a6a73c3ea426176a092c1e3de23fc52fa4",
+      "9cdffd6891215f68e3e0fa21599a26857e49b6b2e92e0817d90d9a20d6f61c87"
     ],
     "rooms/templates/rooms/catalogue.html": [
       null,
@@ -1092,14 +1096,16 @@
       "e82878255ca9e479b1f58eafbc27624a28b4ae74a12f90d4477e40cf188dddaa",
       "9c03ff4ffb47765aca8bcc365f3c2e0998f380b8ba58652e4d721e30a3b9350e",
       "0f99d86766a1809f134c4994abb6d34cdbc7cc77249d26c5f7e7c8c456308d5b",
-      "367b6681730cdf584f345ea9d8fbefb3c38e5a2032561b8187fa17ae67c94827"
+      "367b6681730cdf584f345ea9d8fbefb3c38e5a2032561b8187fa17ae67c94827",
+      "ced166f7ae448b19bc6b2259325c2c0ccca43b5bf533da8b37d97028539dd780"
     ],
     "rooms/templates/rooms/index.html": [
       null,
       "cb6df71fa3f4b88eb8b78b7de3a8c001be7bb2e558536c8b9e744088d99601fe",
       "8b4547a3c031e92dcc74883bdc9c51492a5c652be0fa3f421e5f914e31f969ee",
       "1c7ea2f3221058ab9e21b8292b33314e12ffaa9b820892a27da21d8e370c848c",
-      "c2e5246cdd97e9b2452e29e299ad5782d8a6d61439bcdf49ced1abce5c5ecaf5"
+      "c2e5246cdd97e9b2452e29e299ad5782d8a6d61439bcdf49ced1abce5c5ecaf5",
+      "f396a084f698c791030f6aebbb6f3902713ddcce49cee4746b6b6bf089959789"
     ],
     "rooms/templates/rooms/live_conflicts.html": [
       null,
@@ -1119,7 +1125,8 @@
       "1bf540b10d4498869358c633ea506bc168f2955a96729ff5dee55fcf16141a94",
       "3274261aadcfa0f057a81b3c39965bcf862dd1890fb1fbb4ce05316cd1609da6",
       "696b83146b63fc3587e4a22f49e9ef79b4cbf009e3d47d8c2eec2809bc22577e",
-      "72857d553444d4ae78a0f39011635c50583154cfff35221f6489bf7638043c6f"
+      "72857d553444d4ae78a0f39011635c50583154cfff35221f6489bf7638043c6f",
+      "8bca4e8accdf681566b123a8e7a4a7a8015afefb77fb8aa5844d8ecc389cd7a8"
     ],
     "rooms/templates/rooms/template_edit.html": [
       null,
@@ -1132,7 +1139,8 @@
       "0f31d56b7485a5f1f4b4dda2dd451ff7b63bef0ea997c5358170597a302326a8",
       "50ed05c8510be10c0a5662f8c2b03510c09f88a2673cc9d7b83d8762a7fd8310",
       "79a94bdfc285b7a869df45a146a84f6622629dbd509039c2d927364087e247df",
-      "ff212015fba9c9e77bb2dbda6ad08a8285c95cace034cde024e1611fe2a98d01"
+      "ff212015fba9c9e77bb2dbda6ad08a8285c95cace034cde024e1611fe2a98d01",
+      "37db0712c9870683cbb2c1c3a2cd6e5d3f13444f073c833bb3b6047a091310d4"
     ],
     "rooms/tests/__init__.py": [
       null,
@@ -1244,7 +1252,8 @@
       "3604f76553d3f711d6ddadfa6c10c01b3aea4739826b49b13e45933b39835e5f",
       "7f094c68bd3a70c434f0ea49d6d9300af8647c6d828dc634239013a754e5211a",
       "627e9024bf3e6fae97ee77b6432be2ae615ecc91cde0040ea5af710772a15dfb",
-      "9e9065275e8c8707e2bf724fd2eba7c176158530ef9fe7aadcb43edb83ed894f"
+      "9e9065275e8c8707e2bf724fd2eba7c176158530ef9fe7aadcb43edb83ed894f",
+      "a74c6e94c7a9daee339e7efa774bc53d0e28629349a8befeab13814188f49ff3"
     ],
     "static/map/rooms.js": [
       null,
@@ -1252,7 +1261,8 @@
       "c38703d3f2bf4d5795009e362521d90dd83e4dfa983c242c7c21e78b2a9bea67",
       "a04c85ee078e169277d8e7f2c5b3118fb5022c8903b8c1dbd21d9ffc7d1e658c",
       "d59876a54f6ce62b11bb37a23b1a720a98d77a84d0810e266c1918f036acfb57",
-      "97927433cf2eed62488c2bf13b28e488342cf3d63eee49672b34f17c7b96c16f"
+      "97927433cf2eed62488c2bf13b28e488342cf3d63eee49672b34f17c7b96c16f",
+      "0421fe23db50d7875363ec0f0b4c04556c49a8e9e11ba16830d9a3e5d6ebc02e"
     ],
     "static/map/theme.css": [
       null,
@@ -1262,7 +1272,8 @@
       "b4b2f68c89740192d8d68a90cab046f7049848e9524d4fca43ca5b59c6284eea",
       "377abf26e5664b5f3e304ce33dabc1975cb019db9a6480cd59f6d19ddb0140bc",
       "b75390e69b204c43151b55c1667f796e532f81c7b007f7149e31cbb145dec02d",
-      "07d069fd30bfcb0a7e2ffd49e0a071b8d0fb87e3068a8ff228cb26cc514aaa78"
+      "07d069fd30bfcb0a7e2ffd49e0a071b8d0fb87e3068a8ff228cb26cc514aaa78",
+      "593f2793f38c7e22bb19630875e97f5826d345f1535d4156350be3b4051ba6b0"
     ],
     "static/map/theme.js": [
       null,
@@ -1273,7 +1284,8 @@
       null,
       "0f6c8f13471e669ac3ba4df85e645518e7449bfbc05f53fb4168aba4180faabb",
       "1ba35dac9188673f9e936b117a08eeebb22aa5b10fcdba7fb7e9e9758250bb41",
-      "fffc11802316648c565853a8c31b4a57da7ac365e489ceb37c233d56a42d8586"
+      "fffc11802316648c565853a8c31b4a57da7ac365e489ceb37c233d56a42d8586",
+      "d6a611c461ea4989083bc028c5795b441a0474183cedbb33df5ca0c31343c507"
     ],
     "static/map/validation.js": [
       null,
@@ -1310,7 +1322,8 @@
       "35335600f03396af8cea89e56b0047be80c05bc075fc063b7b08e4ce4a448249",
       "58c9737708f12a9202c56d4d41e3c61f2bbf37229a2d7c704fced3b4e64198d4",
       "a52ab8e76a64884cdb1cc7c5c67b1ecab0725a5af2a421e859de550a154be0d1",
-      "afc6b867a044b3911b4cdbf132c9485b19e0ce8c2b4d48a1f4cc0a1510dc05dc"
+      "afc6b867a044b3911b4cdbf132c9485b19e0ce8c2b4d48a1f4cc0a1510dc05dc",
+      "290f399748299ba906f1497b099fe4c0d075c1a0a9b6857c8fe32a594e30dc03"
     ],
     "templates/admin/index.html": [
       null,
@@ -1343,7 +1356,8 @@
       "b2404910083a207eb2608f3dd2d2dacdbc79e875f79ae72cde76b72d7b5336b1",
       "f61fdcf09327a92d2332b233cffca2927df4f050faf7ebf265c47a6583ec1b14",
       "f87d53842de0dbb1cc803642600c3c646dda73bf7c0cee78d059982b53655849",
-      "ce6499c4153fc67be5d9043e2e9030465afe662b28f973f23ce5ff1ac585932e"
+      "ce6499c4153fc67be5d9043e2e9030465afe662b28f973f23ce5ff1ac585932e",
+      "c75e99912601b7965e5aebc513e688b99e267418e2bf0374bae01f094489aef6"
     ],
     "templates/confirm.html": [
       null,
@@ -1362,7 +1376,8 @@
       "65c77d45d1578a231bcc26fe81e8f6cd5c00e09dc3867287ed91590944e5d534",
       "bc9d03b405a0ad40b50a054915daa98629cdfc51f7998d545d577bd58bc6cf9f",
       "c500964b2669651d4b4256ae746c0b298e3402e4036e92f34933ef540728ea8f",
-      "89206e374ec23c4ca0d92ee942955b17d7e7e9dc136f519f8e48539c2ddc01e7"
+      "89206e374ec23c4ca0d92ee942955b17d7e7e9dc136f519f8e48539c2ddc01e7",
+      "a30663b3b4134a2f74ac46846030f955fcc77814a0ba6ccec915ea9a57fe2e20"
     ],
     "templates/email_templates.html": [
       null,
@@ -1370,7 +1385,8 @@
       "07f12a0ce4fedde22fdc5d557d0dbd01f2e1444af29f30d277f52147115775b2",
       "240c2d1f89a6522c45f05df998b45acd4eab086d79b48e1b7693ac7292a5810a",
       "ab367427b00997760bbe74ad212040b4b96f84672560f2a552f4dd97112a8add",
-      "eabd1f65e3dbcc65203e281a464633ed2ab9ee91de221c8b6c5ccfa690822cbc"
+      "eabd1f65e3dbcc65203e281a464633ed2ab9ee91de221c8b6c5ccfa690822cbc",
+      "8adfbc2cb2e8b6e6db6016b43b4bb468c79566f9988b2dfd16b087ed16f3a43d"
     ],
     "templates/event.html": [
       null,
@@ -1390,7 +1406,8 @@
     ],
     "templates/event_module_settings.html": [
       null,
-      "60a331728ad3466135931681989a3954232fadd5cf033b366e1af5cade825c59"
+      "60a331728ad3466135931681989a3954232fadd5cf033b366e1af5cade825c59",
+      "b23d591dc588d1ea36645566b88739417ec23bda6e277dbc07ca9e72ac187703"
     ],
     "templates/event_statistics.html": [
       null,
@@ -1507,7 +1524,8 @@
     "templates/map_ui/settings_nav.html": [
       null,
       "651a27b87521add3df9c905f90760ff6054d784b861bbd6f5c531ef1bc3656f3",
-      "9035095384298642463f30dbb3e45ee9d6817822c8a114953c827c9f7b4acb96"
+      "9035095384298642463f30dbb3e45ee9d6817822c8a114953c827c9f7b4acb96",
+      "45c8081a639401239576f7ffe1e958a739ff2bbaecefa8c20659b269a2d05709"
     ],
     "templates/map_ui/style.html": [
       null,
@@ -1574,7 +1592,8 @@
     ],
     "templates/settings_base.html": [
       null,
-      "46bc0dcd22353cca5440b3f1027bff0963b786e5c55d19739b694a40ad7d30fa"
+      "46bc0dcd22353cca5440b3f1027bff0963b786e5c55d19739b694a40ad7d30fa",
+      "a393626bcf6d473db6b84565d94ade738af65f7a7b41a3e3439300c99d12c692"
     ],
     "templates/sso_link.html": [
       null,
@@ -1730,6 +1749,18 @@
       null
     ],
     "docs/GROUP_SESSIONS_DE.md": [
+      null
+    ],
+    "docs/UI_LAYOUT_DE.md": [
+      null
+    ],
+    "static/map/layout.css": [
+      null
+    ],
+    "tools/check_ui_layout.cjs": [
+      null
+    ],
+    "tools/render_layout_fixtures.py": [
       null
     ]
   }

@@ -22,6 +22,6 @@
       const confirmation = form.querySelector('[name="confirm_existing_costs"]');
       show('confirm_existing_costs', paid && confirmation?.dataset.existingCosts === 'yes');
     };
-    mode.addEventListener('change',sync);method?.addEventListener('change',sync);sync();
+    mode.addEventListener('change',sync);method?.addEventListener('change',sync);sync();form.dataset.costsReady='true';
   });
 })();

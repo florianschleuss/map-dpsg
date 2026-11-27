@@ -1,7 +1,7 @@
 {% extends 'admin/base.html' %}{% load static %}
 {% block title %}MAP · {{ title }} · {{ map_site.organization }}{% endblock %}
 {% block bodyclass %}{{ block.super }} map-admin{% endblock %}
-{% block extrastyle %}{{ block.super }}{% include 'map_ui/style.html' %}<link rel="stylesheet" href="{% static 'map/rooms.css' %}"><link rel="stylesheet" href="{% static 'map/theme.css' %}">{% endblock %}
+{% block extrastyle %}{{ block.super }}{% include 'map_ui/style.html' %}<link rel="stylesheet" href="{% static 'map/rooms.css' %}"><link rel="stylesheet" href="{% static 'map/theme.css' %}"><link rel="stylesheet" href="{% static 'map/layout.css' %}">{% endblock %}
 {% block branding %}{% include 'map_ui/header.html' %}{% include 'map_ui/breadcrumbs.html' %}{% endblock %}
 {% block usertools %}{% endblock %}
 {% block nav-global %}{% endblock %}

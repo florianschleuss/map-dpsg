@@ -35,12 +35,25 @@
     };
     const close=()=>{calendar.hidden=true;open.setAttribute('aria-expanded','false');};
     const button=(text,label,action)=>{const b=el('button','',text);b.type='button';b.setAttribute('aria-label',label);b.addEventListener('click',action);return b;};
+    const positionCalendar=()=>{
+      if(calendar.hidden)return;
+      const v=window.visualViewport,margin=12,vx=v?.offsetLeft||0,vy=v?.offsetTop||0;
+      const vw=v?.width||document.documentElement.clientWidth,vh=v?.height||innerHeight;
+      const width=Math.min(320,vw-2*margin);
+      calendar.style.width=width+'px';calendar.style.maxHeight=Math.max(40,vh-2*margin)+'px';
+      const buttonRect=open.getBoundingClientRect(),height=calendar.getBoundingClientRect().height;
+      const below=vy+vh-margin-buttonRect.bottom-6,above=buttonRect.top-vy-margin-6;
+      let top=below>=height?buttonRect.bottom+6:above>=height?buttonRect.top-height-6:Math.min(buttonRect.bottom+6,vy+vh-margin-height);
+      top=Math.max(vy+margin,Math.min(top,vy+vh-margin-height));
+      calendar.style.left=Math.max(vx+margin,Math.min(buttonRect.left,vx+vw-margin-width))+'px';
+      calendar.style.top=top+'px';
+    };
     const draw=()=>{
       calendar.replaceChildren();
       const heading=el('div','map-calendar-heading');
-      heading.append(button('←','Vorheriger Monat',()=>{month--;if(month<0){month=11;year--;}draw();}));
+      heading.append(button('←','Vorheriger Monat',()=>{month--;if(month<0){month=11;year--;}draw();calendar.querySelector('.map-calendar-heading button:first-child')?.focus({preventScroll:true});}));
       heading.append(el('strong','',new Intl.DateTimeFormat('de-DE',{month:'long',year:'numeric'}).format(new Date(year,month,1))));
-      heading.append(button('→','Nächster Monat',()=>{month++;if(month>11){month=0;year++;}draw();}));
+      heading.append(button('→','Nächster Monat',()=>{month++;if(month>11){month=0;year++;}draw();calendar.querySelector('.map-calendar-heading button:last-child')?.focus({preventScroll:true});}));
       const grid=el('div','map-calendar-grid');
       ['Mo','Di','Mi','Do','Fr','Sa','So'].forEach(day=>grid.append(el('span','map-calendar-weekday',day)));
       const offset=(new Date(year,month,1).getDay()+6)%7;
@@ -53,11 +66,14 @@
         if(value===today)b.classList.add('is-today');
         grid.append(b);
       }
-      calendar.append(heading,grid);
+      calendar.append(heading,grid);positionCalendar();
 
     };
-    open.addEventListener('click',()=>{const show=calendar.hidden;calendar.hidden=!show;open.setAttribute('aria-expanded',String(show));if(show){draw();calendar.querySelector('.is-selected')?.focus();}});
+    open.addEventListener('click',()=>{const show=calendar.hidden;calendar.hidden=!show;open.setAttribute('aria-expanded',String(show));if(show){draw();positionCalendar();calendar.querySelector('.is-selected')?.focus({preventScroll:true});}});
     root.addEventListener('keydown',e=>{if(e.key==='Escape'){close();open.focus();}});
+    window.addEventListener('resize',positionCalendar);
+    window.visualViewport?.addEventListener('resize',positionCalendar);
+    document.addEventListener('scroll',event=>{if(event.target!==calendar&&!calendar.contains(event.target))positionCalendar();},true);
     root.mapCloseDate=close;
     root.mapSetDate=value=>{
       if(!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
@@ -69,8 +85,9 @@
     if(!source.required){const clear=button('×','Datum löschen',()=>{selected='';sync();close();open.focus();});clear.className='map-date-clear';clear.title='Datum löschen';controls.append(clear);}
     sync();
   });
-  };initDatePickers();
+  };initDatePickers();document.documentElement.dataset.mapControlsReady='true';
   document.addEventListener('click',event=>document.querySelectorAll('[data-map-datetime]').forEach(root=>{if(!event.composedPath().includes(root))root.mapCloseDate?.();}));
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')document.querySelectorAll('[data-map-datetime]').forEach(root=>{if(!root.querySelector('.map-calendar')?.hidden){root.mapCloseDate?.();root.querySelector('.map-date-open')?.focus({preventScroll:true});}});});
   new MutationObserver(records=>{if(records.some(record=>record.addedNodes.length))initDatePickers();}).observe(document.body,{childList:true,subtree:true});
   const rights=[...document.querySelectorAll('input[type="checkbox"][name="viewers"],input[type="checkbox"][name="editors"]')];
   const syncRights=()=>rights.forEach(box=>{

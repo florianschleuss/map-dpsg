@@ -1,0 +1,85 @@
+/* Shared page geometry. Content width never changes the surrounding application shell. */
+:root{--map-content-width:1132px;--map-page-gutter:24px;--map-accent:#47795c;--map-accent-hover:#365e47;--map-shell-border:#c8d3ce}
+html{overflow-y:scroll}
+body.map-public{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+.map-topbar{box-sizing:border-box;width:100%;max-width:none;margin:0;padding:20px max(var(--map-page-gutter),calc((100% - var(--map-content-width))/2))!important;display:flex;justify-content:space-between;align-items:center;gap:24px;position:relative;z-index:50;flex:none;overflow:visible!important;background:#fff!important;border-top:6px solid transparent;border-image:linear-gradient(90deg,#c95345 0% 20%,#e8b84d 20% 40%,#47795c 40% 60%,#246e9a 60% 80%,#94648b 80%) 1;box-shadow:0 3px 18px #233f4c0d}
+.map-main{box-sizing:border-box;width:100%;max-width:none;margin:0;padding:28px var(--map-page-gutter) 40px;min-width:0;min-height:0;flex:1 0 auto;display:grid;grid-template-columns:[full-start] minmax(0,1fr) [content-start] min(100%,var(--map-content-width)) [content-end] minmax(0,1fr) [full-end];grid-auto-rows:max-content;align-content:start}
+.map-main>*{grid-column:content-start/content-end;min-width:0}
+.map-main>.room-data-wide{grid-column:full-start/full-end;width:100%;max-width:none;min-width:0;box-sizing:border-box}
+.map-public .map-main h1,.map-admin #content h1{font-size:clamp(28px,2.5vw,36px);line-height:1.2;letter-spacing:-.035em;margin:0 0 16px;font-weight:750}
+.map-main>.map-section-head{margin:0 0 20px;min-width:0}
+.map-section-head>div{min-width:0}
+.map-section-head .map-kicker{margin:0 0 8px}
+.map-section-head h1{margin-bottom:0!important}
+.map-section-head>.map-button,.map-section-head>.map-actions{flex:0 0 auto;align-self:center}
+.map-main>.map-kicker{margin:0 0 8px}
+.room-page-head{align-items:center}
+.room-page-head .map-kicker{margin-bottom:8px}
+.room-page-head h1{margin-bottom:0!important}
+.room-head-actions{flex:0 0 auto}
+.room-head-actions .map-button{min-height:44px;box-sizing:border-box;white-space:nowrap}
+.map-breadcrumbs{box-sizing:border-box;width:100%;margin:0;padding:14px max(var(--map-page-gutter),calc((100% - var(--map-content-width))/2));background:#fff;border-bottom:1px solid #e2e8ea;color:#53656c}
+.map-breadcrumbs ol{list-style:none;display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:0;padding:0;font-size:13px;line-height:1.6}
+.map-breadcrumbs li{display:flex;align-items:center;gap:10px;min-width:0;overflow-wrap:anywhere}
+.map-breadcrumbs li+li::before{content:'›';color:#71838c}
+.map-breadcrumbs a{color:#246e9a!important;text-decoration:none}
+.map-breadcrumbs [aria-current]{font-weight:650;color:#233f4c}
+.map-footer{box-sizing:border-box;width:100%;max-width:none!important;margin:0!important;margin-top:auto!important;flex-shrink:0;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding:24px max(var(--map-page-gutter),calc((100% - var(--map-content-width))/2))!important;background:#243f49!important;color:#fff!important}
+.map-footer a{color:#fff!important}
+.map-admin #content{box-sizing:border-box;width:100%;max-width:calc(var(--map-content-width) + 2*var(--map-page-gutter));padding:28px var(--map-page-gutter) 40px!important;margin:0 auto!important}
+.map-admin #header .map-topbar,.map-admin #header .map-module-nav,.map-admin #header .map-breadcrumbs{width:100%!important;max-width:none!important}
+/* One tab component for module, room and settings navigation. */
+.map-module-nav,.room-tabs,.map-settings-nav{box-sizing:border-box;display:flex;align-items:stretch;justify-content:flex-start;flex-wrap:nowrap;gap:6px;border:0;border-bottom:2px solid var(--map-shell-border);overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;min-width:0;line-height:1.3}
+.map-module-nav{width:100%;max-width:none!important;margin:0;padding:12px max(var(--map-page-gutter),calc((100% - var(--map-content-width))/2)) 0}
+.room-tabs,.map-settings-nav{width:100%;margin:0 0 20px;padding:0}
+:is(.map-module-nav,.room-tabs,.map-settings-nav) a{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;min-height:44px;padding:10px 14px;border:1px solid #c2ccc5;border-bottom:3px solid transparent;border-radius:8px 8px 0 0;background:#edf1ee;color:#233f4c;font-size:14px;font-weight:700;line-height:1.3;white-space:nowrap;text-decoration:none}
+:is(.map-module-nav,.room-tabs,.map-settings-nav) a:hover{background:#dfe9e2;color:#203d2b;text-decoration:none}
+html body :is(.map-module-nav,.room-tabs,.map-settings-nav) a[aria-current=page]{background:var(--map-accent)!important;color:#fff!important;border-color:var(--map-accent)!important;border-bottom-color:#294b37!important}
+html body :is(.map-module-nav,.room-tabs,.map-settings-nav) a[aria-current=page]:hover{background:var(--map-accent-hover)!important;color:#fff!important}
+:is(.map-module-nav,.room-tabs,.map-settings-nav) a:focus-visible{outline:3px solid #aa7500;outline-offset:-3px}
+html[data-map-theme=dark] :is(.map-module-nav,.room-tabs,.map-settings-nav){border-color:#666}
+html[data-map-theme=dark] :is(.map-module-nav,.room-tabs,.map-settings-nav) a{background:#292929!important;color:#dedede!important;border-color:#626262!important}
+html[data-map-theme=dark] :is(.map-module-nav,.room-tabs,.map-settings-nav) a:hover{background:#393939!important;color:#fff!important}
+html[data-map-theme=dark] body :is(.map-module-nav,.room-tabs,.map-settings-nav) a[aria-current=page]{background:var(--map-accent)!important;color:#fff!important;border-color:var(--map-accent)!important;border-bottom-color:#b8d4c1!important}
+/* Keep only the room data surfaces wide; headings, filters and pagination stay aligned. */
+.room-data-wide .room-table{width:100%;min-width:1180px}
+.room-data-wide .room-calendar{width:100%;min-width:840px;table-layout:fixed}
+.room-data-wide .room-calendar th{padding:7px 6px;font-size:.75rem}
+.room-data-wide .room-calendar td{height:64px;padding:5px 7px;vertical-align:top}
+.room-data-wide .room-calendar-week td{height:110px}
+.room-data-wide .room-calendar-entry{font-size:.76rem;line-height:1.35;padding:5px 6px}
+.room-calendar-nav{align-items:center;gap:6px}
+.room-calendar-nav>a,.room-calendar-nav>a.map-button{box-sizing:border-box;height:44px;min-height:44px!important;padding:8px 12px!important;font-size:14px!important;line-height:1.3!important;margin:0!important;white-space:nowrap}
+.map-calendar{position:fixed!important;right:auto!important;bottom:auto!important;margin:0!important;max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px);overflow-y:auto;overscroll-behavior:contain;box-sizing:border-box;z-index:1500}
+/* Match the enhanced controls before deferred JavaScript runs; native controls remain without JS. */
+html.map-js [data-map-datetime]:not([data-date-ready])>input{display:none!important}
+html.map-js [data-map-datetime]:not([data-date-ready])>.map-date-controls[hidden]{display:flex!important}
+html.map-js [data-map-datetime][data-date-only] .map-time-column{display:none!important}
+html.map-js input[type=date]:not([data-map-datetime] input){min-height:70px;visibility:hidden}
+html.map-js [data-room-form]:not([data-room-ready]):not(:has([name=recurring]:checked)) .map-field:has([name=weekday]),html.map-js [data-room-form]:not([data-room-ready]):has([name=recurring]:checked) .map-field:has([name=all_day]),html.map-js [data-room-form]:not([data-room-ready]):has([name=all_day]:checked) .map-field:has([name=start_time],[name=end_time]){display:none}
+html.map-js form:has([name=cost_mode]):not([data-costs-ready]):not(:has([name=cost_mode] option[value=fixed]:checked)) .map-field:has([name=cost_amount]),html.map-js form:has([name=cost_mode]):not([data-costs-ready]):not(:has([name=cost_mode] option[value=custom]:checked)) .map-field:has([name=cost_text]){display:none}
+html.map-js form:has([name=cost_mode] option[value=free]:checked):not([data-costs-ready]) .map-field:has([name=payment_method],[name=payment_note],[name=payment_due],[name=bank_account_holder],[name=bank_iban],[name=bank_bic],[name=confirm_existing_costs]){display:none}
+html.map-js form:has([name=cost_mode]):not([data-costs-ready]):not(:has([name=payment_method] option[value=transfer]:checked,[name=payment_method] option[value=reminder]:checked)) .map-field:has([name=bank_account_holder],[name=bank_iban],[name=bank_bic],[name=payment_due]){display:none}
+html.map-js form:has([name=cost_mode]):not([data-costs-ready]) .map-field:has([name=confirm_existing_costs]:not([data-existing-costs=yes])){display:none}
+@media(max-width:760px){
+ :root{--map-page-gutter:16px}
+ .map-topbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding-block:16px!important}
+ .map-main{padding-top:24px;padding-bottom:32px}
+ .map-public .map-main h1,.map-admin #content h1{font-size:28px}
+ .room-page-head{display:flex;flex-direction:column;align-items:stretch;gap:16px}
+ .room-head-actions,.room-head-actions .map-button{width:100%}
+ .map-section-head>.map-button,.map-section-head>.map-actions{align-self:stretch}
+ :is(.map-module-nav,.room-tabs,.map-settings-nav) a{font-size:13px;padding-inline:12px}
+ .room-data-wide .room-calendar{min-width:760px}
+ .room-data-wide .room-calendar td{height:76px}
+ html.map-js [data-room-filter-details][open]:not([data-filter-ready]):not([data-filter-errors])>form{display:none}
+}
+
+/* Long headings must wrap within narrow phones rather than widening the page. */
+.map-main h1,.map-admin #content h1{overflow-wrap:anywhere;hyphens:auto}
+.map-main>.map-privacy{box-sizing:border-box;width:100%;max-width:100%;min-width:0}
+html[data-map-theme] .map-admin #header .map-module-nav a[aria-current=page]{color:#fff!important;background:var(--map-accent)!important}
+
+.map-admin #header .map-module-nav a:not([aria-current=page]){color:#233f4c!important}
+html[data-map-theme=dark] .map-admin #header .map-module-nav a:not([aria-current=page]){color:#dedede!important}
+html[data-map-theme] .map-admin #header .map-module-nav a[aria-current=page]:hover{color:#fff!important;background:var(--map-accent-hover)!important}
