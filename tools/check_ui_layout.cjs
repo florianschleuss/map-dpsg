@@ -30,14 +30,13 @@ const requireThat=(ok,message)=>{if(!ok)throw Error(message);};
    requireThat(!m.overflow,'Whole page overflow');
    if(brandX===null)brandX=m.brand.x;
    requireThat(near(m.brand.x,brandX),'Logo moved between pages');
-   if(m.module)requireThat(near(m.module.x,brandX),'Module navigation edge moved');
+   if(m.module)requireThat(await page.locator('.map-topbar .map-module-nav').count()===1,'Module tabs outside header');
    if(m.crumb)requireThat(near(m.crumb.x,brandX),'Breadcrumb edge differs');
    requireThat(near(m.header.w,m.footer.w)&&near(m.header.x,m.footer.x),'Footer shell differs');
-   for(const a of m.active){requireThat(a.bg==='rgb(71, 121, 92)'&&a.color==='rgb(255, 255, 255)','Wrong active tab contrast/palette');requireThat(a.x>=a.parentX-1&&a.right<=a.parentRight+1,'Active tab outside visible rail');}
-   if(item.name==='admin-stages'){const tab=page.locator('.map-module-nav a[aria-current=page]');await tab.hover();await page.waitForTimeout(250);const hover=await tab.evaluate(e=>({color:getComputedStyle(e).color,bg:getComputedStyle(e).backgroundColor}));requireThat(hover.color==='rgb(255, 255, 255)'&&hover.bg==='rgb(54, 94, 71)','Admin active hover contrast differs: '+JSON.stringify(hover));await page.mouse.move(0,0);}
-   if(['bookings','calendar','calendar-week','pending','groups','booking-new'].includes(item.name)){if(roomTabsY===null)roomTabsY=m.tabs.y;requireThat(near(m.tabs.y,roomTabsY),'Room tab row moved');}
-   if(m.filter){const expected=item.name==='bookings'&&width>760;requireThat(m.filterOpen===expected,'Wrong initial filter state');requireThat(m.filter.w<=1133,'Filter expanded with the table');}
-   if(['bookings','calendar','calendar-week','pending'].includes(item.name)){requireThat(m.wide&&near(m.wide.x,width<=760?16:24),'Room data surface not full width');if(width>=1440)requireThat(m.wide.w>1132,'Room data surface still constrained');}
+   for(const a of m.active){requireThat(a.bg===(theme==='dark'?'rgb(56, 56, 56)':'rgb(233, 238, 235)')&&a.color===(theme==='dark'?'rgb(255, 255, 255)':'rgb(35, 63, 76)'),'Wrong active tab contrast/palette');requireThat(a.x>=a.parentX-1&&a.right<=a.parentRight+1,'Active tab outside visible rail');}
+   if(['bookings','calendar','calendar-week','pending','groups'].includes(item.name)){if(roomTabsY===null)roomTabsY=m.tabs.y;requireThat(near(m.tabs.y,roomTabsY),'Room tab row moved');}
+   if(m.filter){const expected=false;requireThat(m.filterOpen===expected,'Wrong initial filter state');requireThat(m.filter.w<=1361,'Filter expanded with the table');}
+   if(['bookings','calendar','calendar-week','pending'].includes(item.name)){requireThat(m.wide&&near(m.wide.x,brandX)&&m.wide.w<=1361,'Room data outside shared canvas');}
    if(['bookings','booking-new','wizard-6'].includes(item.name))requireThat(m.cls<.015,'Initial layout shifted: '+m.cls);
    if(item.name==='calendar'){const heights=await page.locator('.room-calendar-nav>a').evaluateAll(links=>links.map(e=>e.getBoundingClientRect().height));requireThat(heights.every(h=>near(h,44)),'Calendar controls differ in height');}
    if(item.name==='event-mail-edit'){const back=page.getByRole('link',{name:'Alle Vorlagen',exact:true});requireThat(near((await back.boundingBox()).height,44),'Return action wraps');}

@@ -75,7 +75,8 @@
       "c35e611fcd6ec1134737487962f83f68092d9950ce3a454a0ad2d1efe6abc268",
       "18e344ee59389675470b0ebf8bd883b47d91983775bdada6cbe860c6a5dc4e7e",
       "6066f36d7ce70de1354b650b375dcb96e8e890a838c86e27b7dbd131db30eccc",
-      "8e46e0baf2cfb8be4bc3836279831840060ca7c3863df86483d4f39a0a220894"
+      "8e46e0baf2cfb8be4bc3836279831840060ca7c3863df86483d4f39a0a220894",
+      "8dc1ed9b5ecd84f36c41045179e079552f3e2aa26a3d1d3ae7d24a9536697047"
     ],
     "README.md": [
       null,
@@ -198,7 +199,8 @@
       "5d1cc711e3953267798b7ee4a9e4c0a8d070a267448546b3026b67191dbd0191",
       "f4dce827edd3cc542f5dc742c6f464184a05b941206ec6d1530e1df451356a44",
       "e16b19ed383957bab577300e815d1ae7286b7743a8aa8fe12b23419d8848e13d",
-      "f35aaf546bbdb2939bfe1d20a91130bc9ea6d60efa63f2d3f5ee8f3aac2ea0ba"
+      "f35aaf546bbdb2939bfe1d20a91130bc9ea6d60efa63f2d3f5ee8f3aac2ea0ba",
+      "5bed69ddc2b5d469b4c031d8a4200cc1f467d0c8cebb34e10d6f94c13cac666e"
     ],
     "deploy/systemd/map-backup.service": [
       null,
@@ -1468,7 +1470,8 @@
     ],
     "templates/map_ui/breadcrumbs.html": [
       null,
-      "f65fcf25b8d1f7e698a685ee1d2f88ea9381c22c43a5034addbf0afa07a6415b"
+      "f65fcf25b8d1f7e698a685ee1d2f88ea9381c22c43a5034addbf0afa07a6415b",
+      "8dd9f482ea6f2c39221ffbab2d203d78dc03fb10986b0f772c77c8df4492bd74"
     ],
     "templates/map_ui/error_summary.html": [
       null,
@@ -1503,7 +1506,8 @@
       "0b3e5f623bc4919ab49fa9f20cba72f80eb06ffd84f1a04104cf7a3031a2c09c",
       "18bbe44590217322296f6b7ab5c311679f4922c04a3b5e7cd32bb787d45098a2",
       "f3278d39a83dd1cd8efd86bf16a0995b2bc2373df2a6a9c3392ceb2c3850bf12",
-      "ae69547569492ed7f9399aaedcb76e79524366f56fa677829384041ad96c7134"
+      "ae69547569492ed7f9399aaedcb76e79524366f56fa677829384041ad96c7134",
+      "17b9dac545fd4cdb656aafc33b52ec682a5f986d2c81e1b12b171ed47f8f2940"
     ],
     "templates/map_ui/mail_template_state.html": [
       null,
